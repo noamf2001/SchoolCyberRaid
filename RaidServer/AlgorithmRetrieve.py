@@ -64,6 +64,23 @@ class AlgorithmRetrieve():
                 self.part_file[file_part_index1] = file_path
                 self.part_file[file_part_index2] = file_path
 
+    def is_finish(self):
+        return all(self.part_file_found)
+
+    def connect_file(self):
+        """
+            is_finish() = True
+            len(self.part_file) >= 1
+        """
+        file_part_path = self.part_file[0]
+        end_of_filename, [file_part_index1, file_part_index2] = get_file_info(file_part_path)
+        file_path = file_part_path[:end_of_filename + 1] + file_part_path[file_part_path.rfind("."):]
+        for file_part_path in self.part_file:
+            with open(file_part_path,"rb") as fr:
+                data = fr.read()
+            with open(file_path,"ab") as fw:
+                fw.write(data)
+
 
 def get_file_info(file_path):
     """
@@ -85,3 +102,4 @@ if __name__ == '__main__':
     print a.part_file
     a.add_file_path(r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename_0_-1.txt")
     print a.part_file
+    a._connect_file()
