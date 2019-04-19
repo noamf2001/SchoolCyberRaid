@@ -2,7 +2,7 @@ import os
 
 """
 part file name:
-filename_partnumber_if it is a parity file - the other part number, else -1
+filename_part number_if it is a parity file - the other part number, else -1
 """
 
 PART_FILE_LENGTH = 5
@@ -63,6 +63,22 @@ def split_file(file_path):
                 if len(file_part_data) < PART_FILE_LENGTH:
                     file_part.write(chr(0))
         return parts_num
+
+
+def divide_parts_to_ds(files_part_path):
+    """
+    Get from DB the ds current storage state and decide how to put the parts in the ds
+    :param files_path: [file part path]
+    """
+    pass
+
+
+def send_parts_to_ds(file_part_division):
+    """
+    According to the dividing send each part to it dst ds
+    :param file_part_division: {ds: file part}
+    """
+    pass
 
 if __name__ == '__main__':
     split_file(r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename.txt")
