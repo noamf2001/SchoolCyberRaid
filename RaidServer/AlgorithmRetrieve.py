@@ -1,5 +1,6 @@
 import socket
 import select
+from AlgorithmMain import get_file_info
 
 """
 part file name:
@@ -12,8 +13,8 @@ namg_2_4
 
 class AlgorithmRetrieve():
     def __init__(self, port, num_of_parts):
-        #self.server_socket = socket.socket()
-        #self.server_socket.bind(('0.0.0.0', port))
+        # self.server_socket = socket.socket()
+        # self.server_socket.bind(('0.0.0.0', port))
         self.open_client_sockets = []
         self.part_file = ["" for i in range(num_of_parts)]  # List[string] - the path of the files
         self.part_file_found = [False for i in range(num_of_parts)]  # List[bool]
@@ -76,30 +77,19 @@ class AlgorithmRetrieve():
         end_of_filename, [file_part_index1, file_part_index2] = get_file_info(file_part_path)
         file_path = file_part_path[:end_of_filename + 1] + file_part_path[file_part_path.rfind("."):]
         for file_part_path in self.part_file:
-            with open(file_part_path,"rb") as fr:
+            with open(file_part_path, "rb") as fr:
                 data = fr.read()
-            with open(file_path,"ab") as fw:
+            with open(file_path, "ab") as fw:
                 fw.write(data)
-
-
-def get_file_info(file_path):
-    """
-    :return: end_of_filename, [file_part_index1,file_part_index2]
-    """
-    start_of_filename = file_path.rfind("\\") + 1
-    end_of_filename = file_path.rfind("_", start_of_filename, file_path.rfind("_"))
-    file_part_index1 = int(file_path[end_of_filename + 1: file_path.find("_", end_of_filename + 1)])
-    file_part_index2 = int(file_path[file_path.find("_", end_of_filename + 1) + 1: file_path.rfind(".")])
-    return end_of_filename, [file_part_index1, file_part_index2]
 
 
 if __name__ == '__main__':
     get_file_info(r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename_0_-1.txt")
-    a = AlgorithmRetrieve(3,3)
+    a = AlgorithmRetrieve(3, 3)
     a.add_file_path(r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename_1_-1.txt")
     print a.part_file
     a.add_file_path(r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename_1_2.txt")
     print a.part_file
     a.add_file_path(r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename_0_-1.txt")
     print a.part_file
-    a._connect_file()
+    a.connect_file()

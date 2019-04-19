@@ -9,12 +9,10 @@ PART_FILE_LENGTH = 5
 
 
 def create_parity_file_part_path(file_path1, file_path2):
-    start_of_filename = file_path1.rfind("\\") + 1
-    end_of_filename = file_path1.rfind("_", start_of_filename, file_path1.rfind("_"))
-    file_part1_index = int(file_path1[end_of_filename + 1: file_path1.find("_", end_of_filename + 1)])
-    file_part2_index = int(file_path2[end_of_filename + 1: file_path2.find("_", end_of_filename + 1)])
-    parity_file_path = file_path1[:end_of_filename + 1] + str(min(file_part1_index, file_part2_index)) + "_" + \
-                       str(max(file_part1_index, file_part2_index)) + file_path1[file_path1.rfind("."):]
+    end_of_filename1, [file_part1_index1, file_part1_index2] = get_file_info(file_path1)
+    end_of_filename2, [file_part2_index1, file_part2_index2] = get_file_info(file_path2)
+    parity_file_path = file_path1[:end_of_filename1 + 1] + str(min(file_part1_index1, file_part2_index1)) + "_" + str(
+        max(file_part1_index1, file_part2_index1)) + file_path1[file_path1.rfind("."):]
     return parity_file_path
 
 
@@ -79,6 +77,18 @@ def send_parts_to_ds(file_part_division):
     :param file_part_division: {ds: file part}
     """
     pass
+
+
+def get_file_info(file_path):
+    """
+    :return: end_of_filename, [file_part_index1,file_part_index2]
+    """
+    start_of_filename = file_path.rfind("\\") + 1
+    end_of_filename = file_path.rfind("_", start_of_filename, file_path.rfind("_"))
+    file_part_index1 = int(file_path[end_of_filename + 1: file_path.find("_", end_of_filename + 1)])
+    file_part_index2 = int(file_path[file_path.find("_", end_of_filename + 1) + 1: file_path.rfind(".")])
+    return end_of_filename, [file_part_index1, file_part_index2]
+
 
 if __name__ == '__main__':
     split_file(r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename.txt")
