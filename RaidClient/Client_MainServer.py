@@ -15,15 +15,11 @@ class Client_MainServer():
         self.my_socket = socket.socket()
         self.my_socket.connect((SERVER_IP, PORT))
         self.FAIL = False
-        self.RSA_key = self.generate_asymmetric_key()
-        self.client_main_server_protocol = Client_MainServer_Protocol(self.my_socket, self.RSA_key)
+        self.client_main_server_protocol = Client_MainServer_Protocol(self.my_socket)
         self.client_command = client_command  # queue: [msg_type, msg_parameters]
         self.command_result = command_result  # queue: [msg_type, msg_parameters]
         self.AES_key = None
-        self.client_command.push([0,[self.RSA_key]])
-
-    def generate_asymmetric_key(self):
-        return "hi"
+        self.client_command.push([0,[]])
 
     def recv_msg(self, rlist):
         if self.my_socket in rlist:

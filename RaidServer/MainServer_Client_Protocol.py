@@ -1,3 +1,8 @@
+from Crypto.Cipher import AES
+import hashlib
+
+import string
+import random
 """
 msg type:
 0: key exchange,
@@ -8,7 +13,13 @@ msg type:
 
 class MainServer_Client_Protocol():
     def __init__(self):
-        self.key = None
+        password = ''.join(random.choice(string.digits + string.letters) for _ in range(32))
+        self.AES_key = hashlib.sha256(password).digest()
+        IV = 16 * '\x00'  # Initialization vector: discussed later
+        mode = AES.MODE_CBC
+        self.encrypter = AES.new(self.AES_key, mode, IV=IV)
+        self.decrypter = AES.new(self.AES_key, mode, IV=IV)
+        self.RSA_key = None
 
     def recv_msg(self, current_socket):
         connection_fail = False

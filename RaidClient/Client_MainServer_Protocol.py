@@ -1,3 +1,8 @@
+import Crypto
+from Crypto.PublicKey import RSA
+from Crypto import Random
+import ast
+
 """
 msg type:
 0: key exchange,
@@ -7,10 +12,14 @@ msg type:
 
 
 class Client_MainServer_Protocol():
-    def __init__(self, my_socket, RSA_key):
-        self.RSA_key = RSA_key
+    def __init__(self, my_socket):
+        random_generator = Random.new().read
+        self.RSA_key = RSA.generate(1024, random_generator)  # generate pub and priv key
         self.AES_key = None
         self.my_socket = my_socket
+
+    def export_RSA_public_key(self):
+        return self.RSA_key.publickey().exportKey('DER')
 
     def recv_msg(self):
         connection_fail = False

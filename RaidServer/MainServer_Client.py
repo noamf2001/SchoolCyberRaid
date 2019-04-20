@@ -19,6 +19,7 @@ class MainServer_Client():
         self.main_server_client_protocol = MainServer_Client_Protocol()
         self.client_command = client_command  # queue: [socket, [msg_type, msg_parameters]]
         self.command_result = command_result  # queue: [socket: [msg_type, msg_parameters]]
+        self.AES_key = self.main_server_client_protocol.AES_key
 
     def disconnect(self, current_socket):
         pass
