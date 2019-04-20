@@ -6,36 +6,38 @@ msg type:
 """
 
 
-class MainServer_Client_Protocol():
-    def __init__(self):
-        self.key = None
+class Client_MainServer_Protocol():
+    def __init__(self, my_socket, RSA_key):
+        self.RSA_key = RSA_key
+        self.AES_key = None
+        self.my_socket = my_socket
 
-    def recv_msg(self, current_socket):
+    def recv_msg(self):
         connection_fail = False
         # recv the msg length
         msg_len = ""
         try:
-            msg_len = current_socket.recv(1)
+            msg_len = self.my_socket.recv(1)
         except:
             connection_fail = True
         while msg_len[-1] != "$":
             try:
-                msg_len += current_socket.recv(1)
+                msg_len += self.my_socket.recv(1)
             except:
                 connection_fail = True
         msg_len = int(msg_len[:-1])
         msg = ""
         try:
-            msg = current_socket.recv(msg_len)
+            msg = self.my_socket.recv(msg_len)
         except:
             connection_fail = True
         msg_type, msg_parameters = self.disassemble(msg)
         return msg_type, msg_parameters, connection_fail
 
-    def send_msg(self, current_socket, msg):
+    def send_msg(self, msg):
         connection_fail = False
         try:
-            current_socket.send(msg)
+            self.my_socket.send(msg)
         except:
             connection_fail = True
         return connection_fail
