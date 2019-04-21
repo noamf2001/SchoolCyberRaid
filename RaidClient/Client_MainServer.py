@@ -23,13 +23,13 @@ class Client_MainServer():
 
     def recv_msg(self, rlist):
         if self.my_socket in rlist:
-            msg_type, msg_parameters, connection_fail = self.client_main_server_protocol.recv_msg()
+            msg_type, msg_parameters, connection_fail = self.client_main_server_protocol.recv_msg
             if connection_fail:
                 self.FAIL = True
             else:
                 if self.AES_key is None:
                     self.AES_key = msg_parameters[0]
-                    self.client_main_server_protocol.AES_key = self.AES_key
+                    self.client_main_server_protocol.create_AES_key(self.AES_key)
                 else:
                     self.command_result.put([msg_type, msg_parameters])
 

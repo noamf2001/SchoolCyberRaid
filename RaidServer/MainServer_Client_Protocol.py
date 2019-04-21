@@ -3,6 +3,7 @@ import hashlib
 
 import string
 import random
+
 """
 msg type:
 0: key exchange,
@@ -20,6 +21,10 @@ class MainServer_Client_Protocol():
         self.encrypter = AES.new(self.AES_key, mode, IV=IV)
         self.decrypter = AES.new(self.AES_key, mode, IV=IV)
         self.RSA_key = None
+        self.msg_type_disassemble = {
+            0: self.disassemble_0_key_exchange}  # msg type (int) : method that disassemble the msg parameters
+        self.msg_type_build = {
+            0: self.build_0_key_exchange}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def recv_msg(self, current_socket):
         connection_fail = False
@@ -51,17 +56,52 @@ class MainServer_Client_Protocol():
             connection_fail = True
         return connection_fail
 
+    def get_msg_type(self, msg):
+        """
+        :param msg: the raw full msg - string (without the len of the msg) (len > 0)
+        :return: msg type - int, msg msg without the msg_type part
+        """
+        end_of_msg_type = msg.find("$")
+        msg_type = int(msg[:end_of_msg_type])
+        msg = msg[end_of_msg_type + 1:]
+        return msg_type, msg
+
     def disassemble(self, msg):
         """
-        :param msg: the raw full msg - string
+        :param msg: the raw full msg - string (without the len of the msg) (len > 0)
         :return: msg type - int, msg parameters - array []
         """
-        return 0, []
+        msg_type, msg = self.get_msg_type(msg)
+        msg_parameters = self.msg_type_disassemble[msg_type](msg)
+        return msg_type, msg_parameters
 
-    def build(self, msg_type, parameter):
+    def disassemble_0_key_exchange(self, msg):
+        """
+        :param msg: the msg parameters
+        :return: msg parameters - in array []
+        """
+        return [msg]
+
+    def build(self, msg_type, msg_parameter):
         """
         :param msg_type: int - the msg type as above
-        :param parameter: array of the parameters
+        :param msg_parameter: array of the parameters
         :return: a string that will be send by the socket to the client
         """
-        return ""
+        msg = str(msg_type) + "$" + self.msg_type_build[msg_type](msg_parameter)
+        msg = str(len(msg)) + "$" + msg
+        return msg
+
+    def build_0_key_exchange(self, msg_parameters):
+        """
+        :param msg_parameters: [key]
+        :return: key
+        """
+        return msg_parameters[0]
+
+
+if __name__ == '__main__':
+    a = MainServer_Client_Protocol()
+    b = a.build(0, ["noamfluss"])
+    print b
+    print a.disassemble(b[b.find("$") + 1:])
