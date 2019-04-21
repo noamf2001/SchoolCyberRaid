@@ -12,24 +12,35 @@ SERVER_IP = "127.0.0.1"
 
 class Client_MainServer():
     def __init__(self, client_command, command_result):
+        """
+        :param client_command: empty queue
+        :param command_result: empty queue
+        """
         self.my_socket = socket.socket()
         self.my_socket.connect((SERVER_IP, PORT))
+        print "connected"
         self.FAIL = False
         self.client_main_server_protocol = Client_MainServer_Protocol(self.my_socket)
         self.client_command = client_command  # queue: [msg_type, msg_parameters]
         self.command_result = command_result  # queue: [msg_type, msg_parameters]
         self.AES_key = None
-        self.client_command.push([0,[]])
+        self.client_command.put([0, [self.client_main_server_protocol.export_RSA_public_key()]])
 
     def recv_msg(self, rlist):
         if self.my_socket in rlist:
-            msg_type, msg_parameters, connection_fail = self.client_main_server_protocol.recv_msg
+            print "start recv msg"
+            if self.client_main_server_protocol.AES_cipher is None:
+                msg_type, msg_parameters, connection_fail = self.client_main_server_protocol.recv_msg(True)
+            else:
+                msg_type, msg_parameters, connection_fail = self.client_main_server_protocol.recv_msg()
             if connection_fail:
+                print "connection fail"
                 self.FAIL = True
             else:
-                if self.AES_key is None:
-                    self.AES_key = msg_parameters[0]
-                    self.client_main_server_protocol.create_AES_key(self.AES_key)
+                print "msg type: " + str(msg_type)
+                print "msg parameter: " + str(msg_parameters)
+                if self.client_main_server_protocol.AES_cipher is None:
+                    self.client_main_server_protocol.create_AES_key(msg_parameters[0])
                 else:
                     self.command_result.put([msg_type, msg_parameters])
 
@@ -37,7 +48,7 @@ class Client_MainServer():
         if self.my_socket in wlist:
             if not self.client_command.empty():
                 msg_info = self.client_command.get()
-                msg_build = self.client_main_server_protocol.build(msg_info[1][0], msg_info[1][1])
+                msg_build = self.client_main_server_protocol.build(msg_info[0], msg_info[1])
                 connection_fail = self.client_main_server_protocol.send_msg(msg_build)
                 if connection_fail:
                     self.FAIL = True
@@ -47,3 +58,10 @@ class Client_MainServer():
             rlist, wlist, xlist = select.select([self.my_socket], [self.my_socket], [])
             self.recv_msg(rlist)
             self.send_waiting_messages(wlist)
+
+
+if __name__ == '__main__':
+    client_command = Queue.Queue()
+    command_result = Queue.Queue()
+    a = Client_MainServer(client_command, command_result)
+    a.main()

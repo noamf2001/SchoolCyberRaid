@@ -1,6 +1,7 @@
 import Crypto
 from Crypto.PublicKey import RSA
 from Crypto import Random
+from AESCipher import AESCipher
 import ast
 from Crypto.Cipher import AES
 import hashlib
@@ -27,7 +28,8 @@ class Client_MainServer_Protocol():
     def __init__(self, my_socket):
         random_generator = Random.new().read
         self.RSA_key = RSA.generate(1024, random_generator)  # generate pub and priv key
-        self.AES_key = None
+        print "RSA_key: " + self.export_RSA_public_key()
+        self.AES_cipher = None
         self.encrypter = None
         self.decrypter = None
         self.my_socket = my_socket
@@ -37,16 +39,12 @@ class Client_MainServer_Protocol():
             0: self.build_0_key_exchange}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_RSA_public_key(self):
-        return self.RSA_key.publickey().exportKey('DER')
+        return self.RSA_key.publickey().exportKey()
 
     def create_AES_key(self, password):
-        self.AES_key = hashlib.sha256(password).digest()
-        IV = 16 * '\x00'  # Initialization vector: discussed later
-        mode = AES.MODE_CBC
-        self.encrypter = AES.new(self.AES_key, mode, IV=IV)
-        self.decrypter = AES.new(self.AES_key, mode, IV=IV)
+        self.AES_cipher = AESCipher(password)
 
-    def recv_msg(self):
+    def recv_msg(self, first = False):
         connection_fail = False
         # recv the msg length
         msg_len = ""
@@ -65,7 +63,7 @@ class Client_MainServer_Protocol():
             msg = self.my_socket.recv(msg_len)
         except:
             connection_fail = True
-        msg_type, msg_parameters = self.disassemble(msg)
+        msg_type, msg_parameters = self.disassemble(msg, first)
         return msg_type, msg_parameters, connection_fail
 
     def send_msg(self, msg):
@@ -86,11 +84,17 @@ class Client_MainServer_Protocol():
         msg = msg[end_of_msg_type + 1:]
         return msg_type, msg
 
-    def disassemble(self, msg):
+    def disassemble(self, msg, first):
         """
+        :param first: if it is the first msg from MainServer
         :param msg: the raw full msg - string (without the len of the msg) (len > 0)
         :return: msg type - int, msg parameters - array []
         """
+        print "disassemble: " + msg
+        if first:
+            msg = self.RSA_key.decrypt(msg)
+        else:
+            msg = self.AES_cipher.decrypt(msg)
         msg_type, msg = self.get_msg_type(msg)
         msg_parameters = self.msg_type_disassemble[msg_type](msg)
         return msg_type, msg_parameters
@@ -109,8 +113,12 @@ class Client_MainServer_Protocol():
         :return: a string that will be send by the socket to the client
         """
         msg = str(msg_type) + "$" + self.msg_type_build[msg_type](msg_parameter)
-        msg = str(len(msg)) + "$" + msg
-        return msg
+        if msg_type != 0:
+            encrypted_msg = self.AES_cipher.encrypt(msg)
+        else:
+            encrypted_msg = msg
+        encrypted_msg = str(len(encrypted_msg)) + "$" + encrypted_msg
+        return encrypted_msg
 
     def build_0_key_exchange(self, msg_parameters):
         """
