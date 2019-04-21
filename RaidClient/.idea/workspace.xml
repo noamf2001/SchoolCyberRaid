@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="be51fe52-34f5-436e-bbd0-e3af52748f5f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/../RaidServer/SQL_connection.py" afterDir="false" />
+    <list default="true" id="be51fe52-34f5-436e-bbd0-e3af52748f5f" name="Default" comment="sign up - do not have sql part\checking legal username\password">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientCrypto.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ClientMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/ClientMain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientProtocol.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client_MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client_MainServer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client_MainServer_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client_MainServer_Protocol.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer_Client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer_Client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer_Client_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer_Client_Protocol.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidServer/SQL_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/SQL_connection.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,8 +22,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ClientMain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="34" column="10" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="10" />
+            <state relative-caret-position="211">
+              <caret line="41" column="20" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
               <folding>
                 <element signature="e#0#22#0" expanded="true" />
               </folding>
@@ -37,7 +34,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Client_MainServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
+            <state relative-caret-position="-232">
               <caret line="31" column="103" selection-start-line="31" selection-start-column="103" selection-end-line="31" selection-end-column="103" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -49,14 +46,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Client_MainServer_Protocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="160" column="68" selection-start-line="160" selection-start-column="68" selection-end-line="160" selection-end-column="68" />
+            <state relative-caret-position="213">
+              <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
               <folding>
                 <element signature="e#1#33#0" expanded="true" />
                 <element signature="e#2107#2262#0" />
                 <element signature="e#2305#2627#0" />
                 <element signature="e#3038#3159#0" />
-                <element signature="e#3504#3664#0" />
                 <element signature="e#3611#3717#0" />
               </folding>
             </state>
@@ -193,12 +189,20 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1553601442532</updated>
-      <workItem from="1555842470651" duration="10417000" />
+      <workItem from="1555842470651" duration="12691000" />
     </task>
+    <task id="LOCAL-00001" summary="sign up - do not have sql part\checking legal username\password">
+      <created>1555864126602</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1555864126602</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10417000" />
+    <option name="totallyTimeSpent" value="12691000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1295" height="695" extended-state="0" />
@@ -231,9 +235,13 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="sign up - do not have sql part\checking legal username\password" />
+    <option name="LAST_COMMIT_MESSAGE" value="sign up - do not have sql part\checking legal username\password" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/RaidClient$Client_MainServer.coverage" NAME="Client_MainServer Coverage Results" MODIFIED="1555845314142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/RaidClient$ClientMain.coverage" NAME="ClientMain Coverage Results" MODIFIED="1555863431713" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/RaidClient$ClientMain.coverage" NAME="ClientMain Coverage Results" MODIFIED="1555866828441" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/AESCipher.py">
@@ -291,7 +299,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Client_MainServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
+        <state relative-caret-position="-232">
           <caret line="31" column="103" selection-start-line="31" selection-start-column="103" selection-end-line="31" selection-end-column="103" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
@@ -301,14 +309,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Client_MainServer_Protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="160" column="68" selection-start-line="160" selection-start-column="68" selection-end-line="160" selection-end-column="68" />
+        <state relative-caret-position="213">
+          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
           <folding>
             <element signature="e#1#33#0" expanded="true" />
             <element signature="e#2107#2262#0" />
             <element signature="e#2305#2627#0" />
             <element signature="e#3038#3159#0" />
-            <element signature="e#3504#3664#0" />
             <element signature="e#3611#3717#0" />
           </folding>
         </state>
@@ -316,8 +323,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ClientMain.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="34" column="10" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="10" />
+        <state relative-caret-position="211">
+          <caret line="41" column="20" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
           </folding>

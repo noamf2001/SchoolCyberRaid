@@ -13,13 +13,32 @@ msg parameters
 msg parameters is organize by msg type
 
 msg type:
+-1: socket crash
 0:  key exchange,
         client to server: asymmetric key
         server to client: symmetric key
     msg parameters:
         just the key itself
+        
+        
 1:  sign up:
         client to server: username, password (after hash)
+        server to client: boolean if success
+    msg parameters:
+        client to server: 
+            len of username
+            $
+            username
+            
+            len of password
+            $
+            password
+        server to client:
+            0 - False
+            1 - True
+            
+2:  sign in:
+        client to server: username, password(after hash)
         server to client: boolean if success
     msg parameters:
         client to server: 
@@ -46,10 +65,12 @@ class Client_MainServer_Protocol():
         self.my_socket = my_socket
         self.msg_type_disassemble = {
             0: self.disassemble_0_key_exchange,
-            1: self.disassemble_1_sign_up}  # msg type (int) : method that disassemble the msg parameters
+            1: self.disassemble_1_sign_up,
+            2: self.disassemble_2_sign_in}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
             0: self.build_0_key_exchange,
-            1: self.build_1_sign_up}  # msg type (int) : method that build the msg to send, the msg parameters part
+            1: self.build_1_sign_up,
+            2: self.build_2_sign_in}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_RSA_public_key(self):
         return self.RSA_key.publickey().exportKey()
@@ -132,6 +153,13 @@ class Client_MainServer_Protocol():
         """
         return [bool(int(msg))]
 
+    def disassemble_2_sign_in(self, msg):
+        """
+        :param msg: the msg parameters - boolean: 0 - False, 1 - True
+        :return: msg parameters - in array []
+        """
+        return [bool(int(msg))]
+
     def build(self, msg_type, msg_parameter):
         """
         :param msg_type: int - the msg type as above
@@ -161,6 +189,13 @@ class Client_MainServer_Protocol():
         msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(msg_parameters[1])) + "$" + msg_parameters[1]
         return msg
 
+    def build_2_sign_in(self, msg_parameters):
+        """
+        :param msg_parameters: [username, password (after hash)]
+        :return: the msg to send
+        """
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(msg_parameters[1])) + "$" + msg_parameters[1]
+        return msg
 
 if __name__ == '__main__':
     a = Client_MainServer_Protocol("sock")

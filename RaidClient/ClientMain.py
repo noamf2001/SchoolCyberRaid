@@ -30,6 +30,13 @@ class ClientMain():
             pass
         return self.command_result.get()
 
+    def sign_in(self, username, password):
+        self.client_command.put([2, [username, self.hash_password(password)]])
+        while self.command_result.empty():
+            pass
+        return self.command_result.get()
+
+
 if __name__ == '__main__':
     a = ClientMain()
-    print a.sign_up("noam", "passwordofnoam")
+    print a.sign_in("noam", "passwordofnoam")

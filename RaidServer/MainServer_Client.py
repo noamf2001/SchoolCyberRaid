@@ -27,6 +27,7 @@ class MainServer_Client():
         self.open_client_sockets.remove(current_socket)
         if current_socket in self.msg_to_send.keys():
             del self.msg_to_send[current_socket]
+        self.client_command.put([current_socket,[-1,[]]])
 
     def recv_msg(self, current_socket, first=False):
         msg_type, msg_parameters, connection_fail = self.main_server_client_protocol.recv_msg(current_socket, first)
