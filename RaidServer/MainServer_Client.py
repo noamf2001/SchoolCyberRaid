@@ -20,7 +20,7 @@ class MainServer_Client():
         self.sent_AES_key = set()  # socket
         self.main_server_client_protocol = MainServer_Client_Protocol()
         self.client_command = client_command  # queue: [socket, [msg_type, msg_parameters]]
-        self.command_result = command_result  # queue: [socket: [msg_type, msg_parameters]]
+        self.command_result = command_result  # queue: [socket, [msg_type, msg_parameters]]
 
     def disconnect(self, current_socket):
         print "disconnect!!"
@@ -28,7 +28,7 @@ class MainServer_Client():
         if current_socket in self.msg_to_send.keys():
             del self.msg_to_send[current_socket]
 
-    def recv_msg(self, current_socket, first = False):
+    def recv_msg(self, current_socket, first=False):
         msg_type, msg_parameters, connection_fail = self.main_server_client_protocol.recv_msg(current_socket, first)
         if connection_fail:
             self.disconnect(current_socket)

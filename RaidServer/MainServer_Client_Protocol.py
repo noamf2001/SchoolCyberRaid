@@ -13,6 +13,17 @@ msg type:
     server to client: symmetric key
     msg parameters:
         just the key itself
+1:  sign up:
+        client to server: username, password (after hash)
+        server to client: boolean if success
+    msg parameters:
+        len of username
+        $
+        username
+        
+        len of password
+        $
+        password
 """
 
 
@@ -22,9 +33,11 @@ class MainServer_Client_Protocol():
         print "AES_key: " + self.AES_key
         self.AES_cipher = AESCipher(self.AES_key)
         self.msg_type_disassemble = {
-            0: self.disassemble_0_key_exchange}  # msg type (int) : method that disassemble the msg parameters
+            0: self.disassemble_0_key_exchange,
+            1: self.disassemble_1_sign_up}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
-            0: self.build_0_key_exchange}  # msg type (int) : method that build the msg to send, the msg parameters part
+            0: self.build_0_key_exchange,
+            1: self.build_1_sign_up}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_AES_key(self):
         return self.AES_key
@@ -37,17 +50,17 @@ class MainServer_Client_Protocol():
         try:
             msg_len = current_socket.recv(1)
         except:
-            return -1,[],True
+            return -1, [], True
         while msg_len[-1] != "$":
             try:
                 msg_len += current_socket.recv(1)
             except:
-                return -1,[],True
+                return -1, [], True
         msg_len = int(msg_len[:-1])
         try:
             msg = current_socket.recv(msg_len)
         except:
-            return -1,[],True
+            return -1, [], True
         msg_type, msg_parameters = self.disassemble(msg, first)
         return msg_type, msg_parameters, False
 
@@ -76,17 +89,32 @@ class MainServer_Client_Protocol():
         :return: msg type - int, msg parameters - array []
         """
         if not first:
-            self.AES_cipher.decrypt(msg)
+            msg =  self.AES_cipher.decrypt(msg)
         msg_type, msg = self.get_msg_type(msg)
         msg_parameters = self.msg_type_disassemble[msg_type](msg)
         return msg_type, msg_parameters
 
     def disassemble_0_key_exchange(self, msg):
         """
-        :param msg: the msg parameters
+        :param msg: the msg parameters - key
         :return: msg parameters - in array []
         """
         return [msg]
+
+    def disassemble_1_sign_up(self, msg):
+        """
+        :param msg: the msg parameters
+        :return: the msg parameters in array [username, password]
+        """
+
+        username_start = msg.find("$")
+        username_len = int(msg[:username_start])
+        username = msg[username_start + 1:username_start + 1 + username_len]
+        password_start = msg.find("$", username_start + 1 + username_len)
+        password_len = int(msg[username_start + 1 + username_len: password_start])
+        password = msg[password_start + 1:password_start + 1 + password_len]
+        print "disassemble sign up:  " + str([username, password])
+        return [username, password]
 
     def build(self, msg_type, msg_parameter, RSA_key=None):
         """
@@ -109,6 +137,13 @@ class MainServer_Client_Protocol():
         :return: key
         """
         return msg_parameters[0]
+
+    def build_1_sign_up(self, msg_parameters):
+        """
+        :param msg_parameters: [boolean]
+        :return: 1 if True, 0 if False
+        """
+        return str(int(msg_parameters[0]))
 
 
 if __name__ == '__main__':

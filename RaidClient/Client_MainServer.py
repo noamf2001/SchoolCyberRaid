@@ -1,10 +1,7 @@
 import socket
 import select
 from Client_MainServer_Protocol import Client_MainServer_Protocol
-from Crypto.PublicKey import RSA
 import Queue
-from Crypto import Random
-from Crypto.Cipher import AES
 
 PORT = 1234
 SERVER_IP = "127.0.0.1"
@@ -23,12 +20,12 @@ class Client_MainServer():
         self.client_main_server_protocol = Client_MainServer_Protocol(self.my_socket)
         self.client_command = client_command  # queue: [msg_type, msg_parameters]
         self.command_result = command_result  # queue: [msg_type, msg_parameters]
-        self.AES_key = None
         self.client_command.put([0, [self.client_main_server_protocol.export_RSA_public_key()]])
+        self.send_first_msg = False
 
     def recv_msg(self, rlist):
         if self.my_socket in rlist:
-            print "start recv msg"
+            print "start recv msg!!!"
             if self.client_main_server_protocol.AES_cipher is None:
                 msg_type, msg_parameters, connection_fail = self.client_main_server_protocol.recv_msg(True)
             else:
@@ -46,8 +43,13 @@ class Client_MainServer():
 
     def send_waiting_messages(self, wlist):
         if self.my_socket in wlist:
-            if not self.client_command.empty():
+            if not self.client_command.empty() and (
+                    not self.send_first_msg or self.client_main_server_protocol.AES_cipher is not None):
+                print "send_msg"
+                if not self.send_first_msg:
+                    self.send_first_msg = True
                 msg_info = self.client_command.get()
+                print "msg_info from queue: " + str(msg_info)
                 msg_build = self.client_main_server_protocol.build(msg_info[0], msg_info[1])
                 connection_fail = self.client_main_server_protocol.send_msg(msg_build)
                 if connection_fail:

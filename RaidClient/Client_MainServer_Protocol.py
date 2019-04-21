@@ -1,10 +1,7 @@
-import Crypto
 from Crypto.PublicKey import RSA
 from Crypto import Random
 from AESCipher import AESCipher
-import ast
-from Crypto.Cipher import AES
-import hashlib
+
 """
 msg:
 len of msg
@@ -21,6 +18,21 @@ msg type:
         server to client: symmetric key
     msg parameters:
         just the key itself
+1:  sign up:
+        client to server: username, password (after hash)
+        server to client: boolean if success
+    msg parameters:
+        client to server: 
+            len of username
+            $
+            username
+            
+            len of password
+            $
+            password
+        server to client:
+            0 - False
+            1 - True
 """
 
 
@@ -28,23 +40,26 @@ class Client_MainServer_Protocol():
     def __init__(self, my_socket):
         random_generator = Random.new().read
         self.RSA_key = RSA.generate(1024, random_generator)  # generate pub and priv key
-        print "RSA_key: " + self.export_RSA_public_key()
         self.AES_cipher = None
         self.encrypter = None
         self.decrypter = None
         self.my_socket = my_socket
         self.msg_type_disassemble = {
-            0: self.disassemble_0_key_exchange}  # msg type (int) : method that disassemble the msg parameters
+            0: self.disassemble_0_key_exchange,
+            1: self.disassemble_1_sign_up}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
-            0: self.build_0_key_exchange}  # msg type (int) : method that build the msg to send, the msg parameters part
+            0: self.build_0_key_exchange,
+            1: self.build_1_sign_up}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_RSA_public_key(self):
         return self.RSA_key.publickey().exportKey()
 
     def create_AES_key(self, password):
+        print "create AESCipher"
         self.AES_cipher = AESCipher(password)
 
-    def recv_msg(self, first = False):
+    def recv_msg(self, first=False):
+        print "continue start recv msg 1"
         connection_fail = False
         # recv the msg length
         msg_len = ""
@@ -63,7 +78,11 @@ class Client_MainServer_Protocol():
             msg = self.my_socket.recv(msg_len)
         except:
             connection_fail = True
+
+        print "continue start recv msg 2"
         msg_type, msg_parameters = self.disassemble(msg, first)
+
+        print "continue start recv msg 3"
         return msg_type, msg_parameters, connection_fail
 
     def send_msg(self, msg):
@@ -106,6 +125,13 @@ class Client_MainServer_Protocol():
         """
         return [msg]
 
+    def disassemble_1_sign_up(self, msg):
+        """
+        :param msg: the msg parameters - boolean: 0 - False, 1 - True
+        :return: msg parameters - in array []
+        """
+        return [bool(int(msg))]
+
     def build(self, msg_type, msg_parameter):
         """
         :param msg_type: int - the msg type as above
@@ -126,6 +152,14 @@ class Client_MainServer_Protocol():
         :return: key
         """
         return msg_parameters[0]
+
+    def build_1_sign_up(self, msg_parameters):
+        """
+        :param msg_parameters: [username, password (after hash)]
+        :return: the msg to send
+        """
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(msg_parameters[1])) + "$" + msg_parameters[1]
+        return msg
 
 
 if __name__ == '__main__':
