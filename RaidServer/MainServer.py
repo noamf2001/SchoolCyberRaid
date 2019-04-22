@@ -2,6 +2,11 @@ import Queue
 from MainServer_Client import MainServer_Client
 from SQL_connection import SQL_connection
 import thread
+import AlgorithmMain
+import os
+"""
+file name: username + $ + file original name
+"""
 
 
 class MainServer():
@@ -40,6 +45,21 @@ class MainServer():
         self.socket_username[current_socket] = username
         return [True]
 
+    def upload_file(self, current_socket, msg_parameters):
+        """
+        :param current_socket: the socket that getting it from
+        :param msg_parameters: [file name, file path]
+        """
+        print "main server: upload file:  " + str(msg_parameters)
+        #file_path = msg_parameters[1][:msg_parameters[1].rfind("\\") + 1] + self.socket_username[current_socket] + \
+        #            msg_parameters[0]
+        file_path = msg_parameters[1]
+        parts = AlgorithmMain.split_file(file_path)
+        file_len = os.path.getsize(file_path)
+        for i in range(len(parts) - 1):
+            AlgorithmMain.create_parity_file_part(parts[i], parts[i+1])
+
+
     def main(self):
         while True:
             while self.client_command.empty():
@@ -55,4 +75,4 @@ class MainServer():
 
 if __name__ == "__main__":
     a = MainServer()
-    a.main()
+    a.upload_file(None, ["noam",r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename.txt"])

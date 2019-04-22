@@ -14,13 +14,13 @@ class ClientMain():
         thread.start_new_thread(self.client_communication.main, ())
 
     def hash_password(self, password):
-        return password
+        return hashlib.sha256(password)
 
     def check_legal_username(self, username):
-        return True
+        return len(username) >= 4
 
     def check_legal_password(self, password):
-        return True
+        return len(password) >= 4
 
     def sign_up(self, username, password):
         if not self.check_legal_username(username) or not self.check_legal_password(password):
@@ -35,6 +35,10 @@ class ClientMain():
         while self.command_result.empty():
             pass
         return self.command_result.get()
+
+    def upload_file(self, file_path):
+        file_name = file_path[file_path.rfind("\\") + 1:]
+        self.client_command.put([3, [file_name,file_path]])
 
 
 if __name__ == '__main__':

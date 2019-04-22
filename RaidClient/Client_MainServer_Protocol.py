@@ -52,6 +52,21 @@ msg type:
         server to client:
             0 - False
             1 - True
+3:  upload file:
+        client to server: file name, file data
+        server to client: boolean if success
+    msg parameters:
+        client to server:
+            len of file
+            $
+            file name
+            
+            len of file data
+            $
+            file data
+        server to client:
+            0 - False
+            1 - True
 """
 
 
@@ -160,6 +175,13 @@ class Client_MainServer_Protocol():
         """
         return [bool(int(msg))]
 
+    def disassemble_3_upload_file(self, msg):
+        """
+        :param msg: the msg parameters - boolean: 0 - False, 1 - True
+        :return: msg parameters - in array []
+        """
+        return [bool(int(msg))]
+
     def build(self, msg_type, msg_parameter):
         """
         :param msg_type: int - the msg type as above
@@ -186,7 +208,8 @@ class Client_MainServer_Protocol():
         :param msg_parameters: [username, password (after hash)]
         :return: the msg to send
         """
-        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(msg_parameters[1])) + "$" + msg_parameters[1]
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(msg_parameters[1])) + "$" + \
+              msg_parameters[1]
         return msg
 
     def build_2_sign_in(self, msg_parameters):
@@ -194,8 +217,20 @@ class Client_MainServer_Protocol():
         :param msg_parameters: [username, password (after hash)]
         :return: the msg to send
         """
-        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(msg_parameters[1])) + "$" + msg_parameters[1]
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(msg_parameters[1])) + "$" + \
+              msg_parameters[1]
         return msg
+
+    def build_3_upload_file(self, msg_parameters):
+        """
+        :param msg_parameters: [file name, file path]
+        :return: the msg to send
+        """
+        with open(msg_parameters[1], "rb") as f:
+            file_data = f.read()
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(file_data)) + "$" + file_data
+        return msg
+
 
 if __name__ == '__main__':
     a = Client_MainServer_Protocol("sock")

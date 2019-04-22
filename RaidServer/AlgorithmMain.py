@@ -47,20 +47,22 @@ def split_file(file_path):
     :param file_path: the path of the file to split
     :return: the number of file parts created
     """
+    parts = []
+    parts_num = os.path.getsize(file_path) / PART_FILE_LENGTH
+
+    if os.path.getsize(file_path) % PART_FILE_LENGTH != 0:
+        parts_num += 1
     with open(file_path, "rb") as file:
-        parts_num = os.path.getsize(file_path) / PART_FILE_LENGTH
-        if len(file_path) % PART_FILE_LENGTH != 0:
-            parts_num += 1
         for i in range(parts_num):
             file_part_data = file.read(PART_FILE_LENGTH)
             file_part_name = file_path[:file_path.rfind(".")] + "_" + str(i) + "_" + "-1" + file_path[
                                                                                             file_path.rfind("."):]
+            parts.append(file_part_name)
             with open(file_part_name, "wb") as file_part:
                 file_part.write(file_part_data)
-                print len(file_part_data)
                 if len(file_part_data) < PART_FILE_LENGTH:
                     file_part.write(chr(0))
-        return parts_num
+    return parts
 
 
 def divide_parts_to_ds(files_part_path):

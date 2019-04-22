@@ -58,7 +58,7 @@ class MainServer_Client_Protocol():
             2: self.build_2_sign_in}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_AES_key(self):
-            return self.AES_key
+        return self.AES_key
 
     def create_RSA_public_key(self, key):
         return RSA.importKey(key)
