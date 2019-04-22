@@ -2,21 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be51fe52-34f5-436e-bbd0-e3af52748f5f" name="Default" comment="sign up - do not have sql part\checking legal username\password">
-      <change afterPath="$PROJECT_DIR$/../RaidDataServer/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../RaidDataServer/MainDataServer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../RaidServer/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../RaidServer/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../RaidServer/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RaidDataServer/DataServer_MainServer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RaidDataServer/DataServer_MainServer_Protocol.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RaidServer/MainServer_DataServer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RaidServer/MainServer_DataServer_Protocol.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClientMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/ClientMain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client_MainServer_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client_MainServer_Protocol.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidDataServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidDataServer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidServer/AlgorithmMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/AlgorithmMain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidServer/AlgorithmRetrieve.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/AlgorithmRetrieve.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer_Client_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer_Client_Protocol.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidServer/SQL_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/SQL_connection.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,8 +33,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Client_MainServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="13" lean-forward="true" selection-start-column="13" selection-end-column="13" />
+            <state relative-caret-position="483">
+              <caret line="69" selection-start-line="69" selection-end-line="69" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -51,7 +46,7 @@
         <entry file="file://$PROJECT_DIR$/Client_MainServer_Protocol.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="143">
-              <caret line="74" column="44" lean-forward="true" selection-start-line="74" selection-start-column="44" selection-end-line="74" selection-end-column="44" />
+              <caret line="74" column="44" lean-forward="true" selection-end-line="239" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -190,7 +185,7 @@
       <option name="presentableId" value="Default" />
       <updated>1553601442532</updated>
       <workItem from="1555842470651" duration="13896000" />
-      <workItem from="1555874178427" duration="4885000" />
+      <workItem from="1555874178427" duration="6829000" />
     </task>
     <task id="LOCAL-00001" summary="sign up - do not have sql part\checking legal username\password">
       <created>1555864126602</created>
@@ -203,7 +198,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18781000" />
+    <option name="totallyTimeSpent" value="20725000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="696" extended-state="0" />
@@ -292,13 +287,6 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/ClientProtocol.py" />
-    <entry file="file://$PROJECT_DIR$/Client_MainServer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="13" lean-forward="true" selection-start-column="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ClientMain.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="279">
@@ -309,10 +297,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Client_MainServer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="69" selection-start-line="69" selection-end-line="69" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Client_MainServer_Protocol.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="143">
-          <caret line="74" column="44" lean-forward="true" selection-start-line="74" selection-start-column="44" selection-end-line="74" selection-end-column="44" />
+          <caret line="74" column="44" lean-forward="true" selection-end-line="239" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
