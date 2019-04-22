@@ -5,9 +5,10 @@ client server protocol:
 
 
 msg:
+
 len of msg + $ + msg type + $ + msg parameters
 
-msg parameters is organize by msg type
+msg parameters is determine by msg type
 
 msg type
 
@@ -15,16 +16,18 @@ msg type
 	socket crash
 
 0:  
+
 	key exchange
-        	client to server: asymmetric key
-        	server to client: symmetric key
-    	msg parameters:
-        	key
+		client to server: asymmetric key
+		server to client: symmetric key
+	msg parameters:
+		key
         
         
 1:
+
 	sign in:
-        	client to server: username, password(after hash)
+		client to server: username, password(after hash)
         	server to client: boolean if success
 	msg parameters:
         	client to server: 
@@ -34,6 +37,7 @@ msg type
             		1 - True
 			
 2:
+
 	sign in:
         	client to server: username, password(after hash)
         	server to client: boolean if success
@@ -44,6 +48,7 @@ msg type
             		0 - False
             		1 - True
 3:
+
 	upload file:
         	client to server: file name, file data
         	server to client: boolean if success
