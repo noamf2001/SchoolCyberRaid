@@ -21,8 +21,8 @@ class MainServer_DataServer():
         self.msg_to_send = {}  # socket: msg to send
         self.sent_AES_key = set()  # socket
         self.main_server_data_server_protocol = MainServer_DataServer_Protocol()
-        self.command_result_data_server = data_server_command  # queue: [socket, [msg_type, msg_parameters]]
-        self.data_server_command = command_result_data_server  # queue: [socket, [msg_type, msg_parameters]]
+        self.data_server_command = data_server_command  # queue: [socket, [msg_type, msg_parameters]]
+        self.command_result_data_server = command_result_data_server  # queue: [socket, [msg_type, msg_parameters]]
 
     def disconnect(self, current_socket):
         print "disconnect!!"
@@ -64,28 +64,29 @@ class MainServer_DataServer():
             for current_socket in rlist:
                 if current_socket is self.server_socket:
                     (new_socket, address) = self.server_socket.accept()
-                    print "connect to data server: " + str(hexlify(new_socket.getsockname()[4]))
-                    if hexlify(new_socket.getsockname()[4]) in self.valid_data_server.keys():
+                    # mac_address = hexlify(new_socket.getsockname()[4])
+                    mac_address = "?"
+                    print "connect to data server: " + str(mac_address)
+                    if mac_address in self.valid_data_server.keys():
                         self.open_data_server_sockets.append(new_socket)
-                        self.valid_data_server[hexlify(new_socket.getsockname()[4])] = str(
-                            hexlify(new_socket.getsockname()[4]))
-                        self.command_result_data_server.put([current_socket, [1]])
+                        self.valid_data_server[mac_address] = new_socket
+                        self.command_result_data_server.put([new_socket, [1,[]]])
                     else:
                         new_socket.close()
                 else:
                     if current_socket not in self.sent_AES_key:
                         self.sent_AES_key.add(current_socket)
                         msg_type, msg_parameters, connection_fail = self.recv_msg(current_socket, True)
-                        print "msg type: " + str(msg_type)
-                        print "msg parameter: " + str(msg_parameters)
                         if connection_fail:
                             print "connection fail"
+                            self.disconnect(current_socket)
                             continue
                         self.msg_to_send[current_socket] = self.main_server_data_server_protocol.build(0, [
                             self.main_server_data_server_protocol.export_AES_key()], msg_parameters[0])
                     else:
                         msg_type, msg_parameters, connection_fail = self.recv_msg(current_socket)
                         if connection_fail:
+                            self.disconnect(current_socket)
                             continue
                         self.command_result_data_server.put([current_socket, [msg_type, msg_parameters]])
             self.get_msg_to_send()

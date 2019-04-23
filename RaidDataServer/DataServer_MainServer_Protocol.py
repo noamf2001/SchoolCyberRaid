@@ -1,6 +1,6 @@
 from Crypto.PublicKey import RSA
 from Crypto import Random
-
+from AESCipher import AESCipher
 """
 msg:
 len of msg
@@ -35,7 +35,8 @@ class DataServer_MainServer_Protocol():
         self.AES_cipher = None
         self.my_socket = my_socket
         self.msg_type_disassemble = {
-            0: self.disassemble_0_key_exchange}  # msg type (int) : method that disassemble the msg parameters
+            0: self.disassemble_0_key_exchange,
+            3: self.disassemble_3_upload_file}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
             0: self.build_0_key_exchange}  # msg type (int) : method that build the msg to send, the msg parameters part
 
@@ -43,11 +44,9 @@ class DataServer_MainServer_Protocol():
         return self.RSA_key.publickey().exportKey()
 
     def create_AES_key(self, password):
-        print "create AESCipher"
         self.AES_cipher = AESCipher(password)
 
     def recv_msg(self, first=False):
-        print "continue start recv msg 1"
         connection_fail = False
         # recv the msg length
         msg_len = ""
@@ -61,16 +60,13 @@ class DataServer_MainServer_Protocol():
             except:
                 return -1, [], True
         msg_len = int(msg_len[:-1])
-        msg = ""
         try:
             msg = self.my_socket.recv(msg_len)
         except:
             return -1, [], True
 
-        print "continue start recv msg 2"
         msg_type, msg_parameters = self.disassemble(msg, first)
 
-        print "continue start recv msg 3"
         return msg_type, msg_parameters, connection_fail
 
     def send_msg(self, msg):
@@ -97,7 +93,6 @@ class DataServer_MainServer_Protocol():
         :param msg: the raw full msg - string (without the len of the msg) (len > 0)
         :return: msg type - int, msg parameters - array []
         """
-        print "disassemble: " + msg
         if first:
             msg = self.RSA_key.decrypt(msg)
         else:
@@ -118,12 +113,13 @@ class DataServer_MainServer_Protocol():
         :param msg: the msg parameters
         :return: msg parameters - in array [name of file, file part path]
         """
+        print "last: " + msg
         name_len = int(msg[:msg.find("$")])
         name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
         msg = msg[msg.find("$") + 1 + name_len:]
         data_len = int(msg[:msg.find("$")])
         data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
-        file_part_path = self.saving_path + "\\" + + name
+        file_part_path = self.saving_path + "\\" + name
         with open(file_part_path, "wb") as f:
             f.write(data)
         return [name, file_part_path]

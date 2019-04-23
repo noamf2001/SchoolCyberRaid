@@ -20,12 +20,11 @@ class DataServer_MainServer():
         self.data_server_main_server_protocol = DataServer_MainServer_Protocol(self.my_socket, saving_path)
         self.data_server_command = data_server_command  # queue: [msg_type, msg_parameters]
         self.command_result = command_result  # queue: [msg_type, msg_parameters]
-        self.data_server_command.put([0, [self.data_server_main_server_protocol.export_RSA_public_key()]])
+        self.command_result.put([0, [self.data_server_main_server_protocol.export_RSA_public_key()]])
         self.send_first_msg = False
 
     def recv_msg(self, rlist):
         if self.my_socket in rlist:
-            print "start recv msg!!!"
             if self.data_server_main_server_protocol.AES_cipher is None:
                 msg_type, msg_parameters, connection_fail = self.data_server_main_server_protocol.recv_msg(True)
             else:
@@ -39,17 +38,15 @@ class DataServer_MainServer():
                 if self.data_server_main_server_protocol.AES_cipher is None:
                     self.data_server_main_server_protocol.create_AES_key(msg_parameters[0])
                 else:
-                    self.command_result.put([msg_type, msg_parameters])
+                    self.data_server_command.put([msg_type, msg_parameters])
 
     def send_waiting_messages(self, wlist):
         if self.my_socket in wlist:
-            if not self.data_server_command.empty() and (
+            if not self.command_result.empty() and (
                     not self.send_first_msg or self.data_server_main_server_protocol.AES_cipher is not None):
-                print "send_msg"
                 if not self.send_first_msg:
                     self.send_first_msg = True
-                msg_info = self.data_server_command.get()
-                print "msg_info from queue: " + str(msg_info)
+                msg_info = self.command_result.get()
                 msg_build = self.data_server_main_server_protocol.build(msg_info[0], msg_info[1])
                 connection_fail = self.data_server_main_server_protocol.send_msg(msg_build)
                 if connection_fail:

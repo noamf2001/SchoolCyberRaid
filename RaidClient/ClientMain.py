@@ -12,6 +12,7 @@ class ClientMain():
         self.command_result = Queue.Queue()  # queue: [msg_type, msg_parameters]
         self.client_communication = Client_MainServer(self.client_command, self.command_result)
         thread.start_new_thread(self.client_communication.main, ())
+        self.username = None
 
     def get_command_result(self):
         """
@@ -37,6 +38,7 @@ class ClientMain():
         return len(password) >= 4
 
     def sign_up(self, username, password):
+        self.username = username
         if not self.check_legal_username(username) or not self.check_legal_password(password):
             return False
         self.client_command.put([1, [username, self.hash_password(password)]])
@@ -45,6 +47,7 @@ class ClientMain():
         return self.command_result.get()
 
     def sign_in(self, username, password):
+        self.username = username
         self.client_command.put([2, [username, self.hash_password(password)]])
         while self.command_result.empty():
             pass
@@ -58,3 +61,6 @@ class ClientMain():
 if __name__ == '__main__':
     a = ClientMain()
     print a.sign_up("noam", "passwordofnoam")
+    print a.upload_file(r"C:\Users\Sharon\Documents\school\cyber\Project\somename.txt")
+    while not a.client_communication.FAIL:
+        pass

@@ -67,8 +67,6 @@ class MainServer_Client():
                     if current_socket not in self.sent_AES_key:
                         self.sent_AES_key.add(current_socket)
                         msg_type, msg_parameters, connection_fail = self.recv_msg(current_socket, True)
-                        print "msg type: " + str(msg_type)
-                        print "msg parameter: " + str(msg_parameters)
                         if connection_fail:
                             print "connection fail"
                             continue

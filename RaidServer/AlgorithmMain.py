@@ -37,7 +37,7 @@ def create_parity_file_part(file_path1, file_path2):
         parity_file_data[i] = file_data1[i] ^ file_data2[i]
     with open(parity_file_path, "wb") as parity_file:
         parity_file.write(parity_file_data)
-
+    return parity_file_path
 
 def create_parity_files(file_path):
     """
@@ -48,7 +48,9 @@ def create_parity_files(file_path):
     file_len = os.path.getsize(file_path)
     file_part_path = []
     for i in range(len(parts) - 1):
+        file_part_path.append(parts[i])
         file_part_path.append(create_parity_file_part(parts[i], parts[i + 1]))
+    file_part_path.append(parts[len(parts) - 1])
     return parts,file_len, file_part_path
 
 
@@ -86,7 +88,7 @@ def divide_parts_to_data_server(files_part_path, data_servers):
     :param data_servers: [(data_server_1,),....]
     :return [[data_server_1,[file_part,...]],[data_server2,[file_part,...]]....]
     """
-    result = [[data_server, []] for data_server in data_servers]
+    result = [[data_server[0], []] for data_server in data_servers]
     for i in range(len(files_part_path)):
         result[i % len(data_servers)][1].append(files_part_path[i])
     return result

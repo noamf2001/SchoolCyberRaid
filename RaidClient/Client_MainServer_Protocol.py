@@ -183,6 +183,7 @@ class Client_MainServer_Protocol():
         :param msg_parameter: array of the parameters
         :return: a string that will be send by the socket to the client
         """
+        print "build the msg with msg type: " + str(msg_type)
         msg = str(msg_type) + "$" + self.msg_type_build[msg_type](msg_parameter)
         if msg_type != 0:
             encrypted_msg = self.AES_cipher.encrypt(msg)

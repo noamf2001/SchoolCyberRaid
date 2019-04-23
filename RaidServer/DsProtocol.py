@@ -1,1 +1,0 @@
-def disassemble_part_sent()

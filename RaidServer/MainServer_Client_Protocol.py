@@ -67,7 +67,8 @@ class MainServer_Client_Protocol():
         self.msg_type_disassemble = {
             0: self.disassemble_0_key_exchange,
             1: self.disassemble_1_sign_up,
-            2: self.disassemble_2_sign_in}  # msg type (int) : method that disassemble the msg parameters
+            2: self.disassemble_2_sign_in,
+            3: self.disassemble_3_upload_file}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
             0: self.build_0_key_exchange,
             1: self.build_1_sign_up,
@@ -177,8 +178,7 @@ class MainServer_Client_Protocol():
         file_part_path = self.saving_path + "\\" + name
         while os.path.isfile(file_part_path):
             file_part_path = file_part_path[:file_part_path.rfind(".")] + str(random.randint(0, 100)) + file_part_path[
-                                                                                                        file_part_path.rfind(
-                                                                                                            "."):]
+                                                                                                        file_part_path.rfind("."):]
         with open(file_part_path, "wb") as f:
             f.write(data)
         return [name, file_part_path]

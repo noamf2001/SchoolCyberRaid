@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6db5d218-9187-4a7b-ba13-2f90a3e659ff" name="Default" comment="add create parity files function">
+    <list default="true" id="6db5d218-9187-4a7b-ba13-2f90a3e659ff" name="Default" comment="fix sql problem - checking if there is not any result incorrectly">
+      <change afterPath="$PROJECT_DIR$/../RaidDataServer/AESCipher.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidClient/ClientMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/ClientMain.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidClient/Client_MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/Client_MainServer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidClient/Client_MainServer_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/Client_MainServer_Protocol.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidDataServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidDataServer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidDataServer/DataServer_MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidDataServer/DataServer_MainServer.py" afterDir="false" />
@@ -11,11 +13,11 @@
       <change beforePath="$PROJECT_DIR$/../RaidDataServer/MainDataServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidDataServer/MainDataServer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AlgorithmMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/AlgorithmMain.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DsProtocol.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainServer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainServer_Client.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainServer_Client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainServer_Client_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainServer_Client_Protocol.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainServer_DataServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainServer_DataServer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainServer_DataServer_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainServer_DataServer_Protocol.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SQL_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/SQL_connection.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,11 +45,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MainServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="117" column="12" selection-start-line="117" selection-start-column="12" selection-end-line="117" selection-end-column="12" />
+            <state relative-caret-position="-491">
+              <caret line="50" column="53" selection-start-line="50" selection-start-column="53" selection-end-line="50" selection-end-column="53" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -56,10 +58,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MainServer_Client_Protocol.py">
+        <entry file="file://$PROJECT_DIR$/MainServer_DataServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="75" column="39" selection-start-line="75" selection-start-column="39" selection-end-line="75" selection-end-column="39" />
+            <state relative-caret-position="123">
+              <caret line="57" column="22" selection-start-line="57" selection-start-column="22" selection-end-line="57" selection-end-column="22" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/MainServer_DataServer_Protocol.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="123" column="11" selection-start-line="123" selection-start-column="11" selection-end-line="123" selection-end-column="11" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -68,13 +82,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MainServer_DataServer_Protocol.py">
+        <entry file="file://$PROJECT_DIR$/AlgorithmMain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="31" column="41" lean-forward="true" selection-start-line="31" selection-start-column="41" selection-end-line="31" selection-end-column="41" />
-              <folding>
-                <element signature="e#0#29#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="155">
+              <caret line="109" column="58" selection-start-line="109" selection-start-column="58" selection-end-line="109" selection-end-column="58" />
             </state>
           </provider>
         </entry>
@@ -90,7 +101,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>print</find>
       <find>AES_key</find>
       <find>msg_to_send</find>
       <find>mPv9lzKF0WiYQZJIAiNquTuG3K6xXzVA5n</find>
@@ -107,8 +117,17 @@
       <find>.execute</find>
       <find>create</find>
       <find>create_parity_file_part</find>
-      <find>mac</find>
       <find>data_server_command</find>
+      <find>disassemble sign up/in</find>
+      <find>co</find>
+      <find>len(self.c.fetchone()) &gt; 0</find>
+      <find>recv</find>
+      <find>main server: sign up data server:</find>
+      <find>\n</find>
+      <find>\n\</find>
+      <find>mac</find>
+      <find>the last</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -120,20 +139,21 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/1c6fdbaa-0544-4708-89a8-8ae88fdb097f/console.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/db92f847-c1c8-4afc-86f1-910f5c30127d/console.sql" />
         <option value="$PROJECT_DIR$/AlgorithmRetrieve.py" />
-        <option value="$PROJECT_DIR$/SQL_connection.py" />
-        <option value="$PROJECT_DIR$/AlgorithmMain.py" />
-        <option value="$PROJECT_DIR$/MainServer_DataServer.py" />
         <option value="$PROJECT_DIR$/MainServer_Client.py" />
-        <option value="$PROJECT_DIR$/MainServer_DataServer_Protocol.py" />
         <option value="$PROJECT_DIR$/MainServer_Client_Protocol.py" />
+        <option value="$PROJECT_DIR$/MainServer_DataServer.py" />
+        <option value="$PROJECT_DIR$/MainServer_DataServer_Protocol.py" />
+        <option value="$PROJECT_DIR$/AlgorithmMain.py" />
+        <option value="$PROJECT_DIR$/SQL_connection.py" />
         <option value="$PROJECT_DIR$/MainServer.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-11" />
-    <option name="width" value="1175" />
-    <option name="height" value="1031" />
+    <option name="x" value="-12" />
+    <option name="y" value="-12" />
+    <option name="width" value="1944" />
+    <option name="height" value="1044" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -160,7 +180,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../RaidClient" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="settings.editor.selected.configurable" value="database.main" />
   </component>
   <component name="RunDashboard">
@@ -340,7 +360,7 @@
       <workItem from="1555842486926" duration="19351000" />
       <workItem from="1555874205231" duration="28644000" />
       <workItem from="1556026964457" duration="2120000" />
-      <workItem from="1556029598077" duration="8396000" />
+      <workItem from="1556029598077" duration="17147000" />
     </task>
     <task id="LOCAL-00001" summary="sign in">
       <created>1555866971564</created>
@@ -412,11 +432,18 @@
       <option name="project" value="LOCAL" />
       <updated>1556027322343</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="fix sql problem - checking if there is not any result incorrectly">
+      <created>1556045606596</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1556045606596</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58511000" />
+    <option name="totallyTimeSpent" value="67262000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -427,14 +454,14 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3280142" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4995958" visible="true" weight="0.36879432" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4995958" visible="true" weight="0.36879432" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39893618" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5004042" side_tool="true" weight="0.32269505" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32978722" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5004042" side_tool="true" weight="0.32269505" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32978722" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32978722" />
       <window_info anchor="bottom" id="Database Console" order="11" weight="0.32978722" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
@@ -462,12 +489,13 @@
     <MESSAGE value="add delete data server from db" />
     <MESSAGE value="add get all data server" />
     <MESSAGE value="add divide parts to data server" />
-    <option name="LAST_COMMIT_MESSAGE" value="add divide parts to data server" />
+    <MESSAGE value="fix sql problem - checking if there is not any result incorrectly" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix sql problem - checking if there is not any result incorrectly" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/RaidServer$MainServer_Client.coverage" NAME="MainServer_Client Coverage Results" MODIFIED="1555845312734" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RaidServer$SQL_connection.coverage" NAME="SQL_connection Coverage Results" MODIFIED="1556026075283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/RaidServer$MainServer.coverage" NAME="MainServer Coverage Results" MODIFIED="1556044849036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/RaidServer$MainServer.coverage" NAME="MainServer Coverage Results" MODIFIED="1556052637767" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RaidServer$AlgorithmRetrieve.coverage" NAME="AlgorithmRetrieve Coverage Results" MODIFIED="1555934718728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
@@ -543,23 +571,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SQL_connection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2006">
-          <caret line="119" column="34" selection-start-line="119" selection-start-column="34" selection-end-line="119" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AlgorithmMain.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1360">
-          <caret line="80" column="31" selection-start-line="80" selection-start-column="31" selection-end-line="80" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AlgorithmRetrieve.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1105">
@@ -570,52 +581,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MainServer_DataServer.py">
+    <entry file="file://$PROJECT_DIR$/MainServer_Client_Protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="71" column="82" lean-forward="true" selection-start-line="71" selection-start-column="82" selection-end-line="71" selection-end-column="82" />
+        <state relative-caret-position="123">
+          <caret line="150" column="13" selection-start-line="150" selection-start-column="8" selection-end-line="150" selection-end-column="13" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MainServer_Client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="20" column="81" selection-start-line="20" selection-start-column="81" selection-end-line="20" selection-end-column="81" />
+        <state relative-caret-position="21">
+          <caret line="25" column="28" lean-forward="true" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MainServer_DataServer_Protocol.py">
+    <entry file="file://$PROJECT_DIR$/MainServer_DataServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="31" column="41" lean-forward="true" selection-start-line="31" selection-start-column="41" selection-end-line="31" selection-end-column="41" />
+        <state relative-caret-position="123">
+          <caret line="57" column="22" selection-start-line="57" selection-start-column="22" selection-end-line="57" selection-end-column="22" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MainServer_Client_Protocol.py">
+    <entry file="file://$PROJECT_DIR$/AlgorithmMain.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="75" column="39" selection-start-line="75" selection-start-column="39" selection-end-line="75" selection-end-column="39" />
+        <state relative-caret-position="155">
+          <caret line="109" column="58" selection-start-line="109" selection-start-column="58" selection-end-line="109" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DsProtocol.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SQL_connection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="863">
+          <caret line="82" column="43" selection-start-line="82" selection-start-column="43" selection-end-line="82" selection-end-column="43" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MainServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="117" column="12" selection-start-line="117" selection-start-column="12" selection-end-line="117" selection-end-column="12" />
+        <state relative-caret-position="-491">
+          <caret line="50" column="53" selection-start-line="50" selection-start-column="53" selection-end-line="50" selection-end-column="53" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MainServer_DataServer_Protocol.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="123" column="11" selection-start-line="123" selection-start-column="11" selection-end-line="123" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>

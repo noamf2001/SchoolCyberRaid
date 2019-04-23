@@ -25,7 +25,6 @@ class Client_MainServer():
 
     def recv_msg(self, rlist):
         if self.my_socket in rlist:
-            print "start recv msg!!!"
             if self.client_main_server_protocol.AES_cipher is None:
                 msg_type, msg_parameters, connection_fail = self.client_main_server_protocol.recv_msg(True)
             else:
@@ -34,8 +33,6 @@ class Client_MainServer():
                 print "connection fail"
                 self.FAIL = True
             else:
-                print "msg type: " + str(msg_type)
-                print "msg parameter: " + str(msg_parameters)
                 if self.client_main_server_protocol.AES_cipher is None:
                     self.client_main_server_protocol.create_AES_key(msg_parameters[0])
                 else:
@@ -45,11 +42,9 @@ class Client_MainServer():
         if self.my_socket in wlist:
             if not self.client_command.empty() and (
                     not self.send_first_msg or self.client_main_server_protocol.AES_cipher is not None):
-                print "send_msg"
                 if not self.send_first_msg:
                     self.send_first_msg = True
                 msg_info = self.client_command.get()
-                print "msg_info from queue: " + str(msg_info)
                 msg_build = self.client_main_server_protocol.build(msg_info[0], msg_info[1])
                 connection_fail = self.client_main_server_protocol.send_msg(msg_build)
                 if connection_fail:
@@ -60,6 +55,7 @@ class Client_MainServer():
             rlist, wlist, xlist = select.select([self.my_socket], [self.my_socket], [])
             self.recv_msg(rlist)
             self.send_waiting_messages(wlist)
+        print "FAIL!!!!!"
 
 
 if __name__ == '__main__':

@@ -1,10 +1,11 @@
 import sqlite3
 import re
-
+import os
 
 class SQL_connection():
     def __init__(self):
-        sqlite_file = "my_db.splite"
+        os.remove("my_db_try.splite")
+        sqlite_file = "my_db_try.splite"
         self.conn = sqlite3.connect(sqlite_file)
         self.conn.create_function("REGEXP", 2, self.regexp)
         self.c = self.conn.cursor()
@@ -28,7 +29,6 @@ class SQL_connection():
         self.conn.commit()
 
     def create_new_username(self, username, password):
-        print "create new username: " + username + "\t" + password
         self.c.execute('INSERT INTO ' + self.username_password_table + ' VALUES (?,?)', (username, password))
         self.conn.commit()
 
@@ -45,7 +45,6 @@ class SQL_connection():
         return self.c.fetchone() is not None
 
     def check_user_legal(self, username, password):
-        print "check user legal: " + username + "    " + password
         self.c.execute(
             'SELECT username FROM ' + self.username_password_table + ' WHERE username = (?) AND password = (?)',
             (username, password))
@@ -90,11 +89,8 @@ class SQL_connection():
         self.conn.commit()
 
     def regexp(self, expr, item):
-        print "regexp"
-        print item
-        print expr
+
         reg = re.compile(expr)
-        print reg.search(item) is not None
         return reg.search(item) is not None
 
     def delete_user_file(self, username, filename):
@@ -113,9 +109,10 @@ class SQL_connection():
 
     def get_all_data_server(self):
         self.c.execute('SELECT * FROM ' + self.data_server_table)
-        return self.c.fetchall()
+        result = self.c.fetchall()
+        return result
 
-
+"""
 if __name__ == '__main__':
     a = SQL_connection()
     a.add_data_server("hi everyone")
@@ -128,4 +125,4 @@ if __name__ == '__main__':
     a.add_data_server_file_part("some address", "noam$task_4_-1.txt")
     # a.delete_user_file("noam", "task.txt")
     print a.get_user_file_list("noam")
-    print a.get_all_data_server()
+    print a.get_all_data_server()"""
