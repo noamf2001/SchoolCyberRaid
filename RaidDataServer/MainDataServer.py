@@ -29,10 +29,10 @@ class DataServer():
     def upload_file(self, msg_parameters):
         """
         :param current_socket: the socket that getting it from
-        :param msg_parameters: [file name, file path]
+        :param msg_parameters: [file path]
         """
         print "main server: upload file:  " + str(msg_parameters)
-        self.files[msg_parameters[0]] = msg_parameters[1]
+        self.files[msg_parameters[0][msg_parameters[0].rfind("\\"):]] = msg_parameters[0]
         return None
 
     def main(self):

@@ -111,9 +111,9 @@ class DataServer_MainServer_Protocol():
     def disassemble_3_upload_file(self, msg):
         """
         :param msg: the msg parameters
-        :return: msg parameters - in array [name of file, file part path]
+        :return: msg parameters - in array [nfile part path]
         """
-        print "last: " + msg
+        # print "last: " + msg
         name_len = int(msg[:msg.find("$")])
         name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
         msg = msg[msg.find("$") + 1 + name_len:]
@@ -122,7 +122,7 @@ class DataServer_MainServer_Protocol():
         file_part_path = self.saving_path + "\\" + name
         with open(file_part_path, "wb") as f:
             f.write(data)
-        return [name, file_part_path]
+        return [file_part_path]
 
     def build(self, msg_type, msg_parameter):
         """

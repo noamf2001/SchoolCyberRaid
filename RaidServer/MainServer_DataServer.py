@@ -18,7 +18,7 @@ class MainServer_DataServer():
         self.server_socket.bind(('0.0.0.0', PORT))
         self.server_socket.listen(100)
         self.open_data_server_sockets = []
-        self.msg_to_send = {}  # socket: msg to send
+        self.msg_to_send = {}  # socket: [msg to send no 1, msg to send no 2,....]
         self.sent_AES_key = set()  # socket
         self.main_server_data_server_protocol = MainServer_DataServer_Protocol()
         self.data_server_command = data_server_command  # queue: [socket, [msg_type, msg_parameters]]
@@ -46,16 +46,20 @@ class MainServer_DataServer():
 
     def send_waiting_messages(self, wlist):
         for current_socket in wlist:
-            if current_socket in self.msg_to_send.keys():
-                connection_fail = self.send_msg(current_socket, self.msg_to_send[current_socket])
+            if current_socket in self.msg_to_send.keys() and len(self.msg_to_send[current_socket]) > 0:
+                msg = self.msg_to_send[current_socket][0]
+                print "send msg!!!!!! "
+                connection_fail = self.send_msg(current_socket, msg)
                 if connection_fail:
                     continue
-                del self.msg_to_send[current_socket]
+                self.msg_to_send[current_socket] = self.msg_to_send[current_socket][1:]
 
     def get_msg_to_send(self):
         while not self.data_server_command.empty():
             msg_info = self.data_server_command.get()
-            self.msg_to_send[msg_info[0]] = self.main_server_data_server_protocol.build(msg_info[1][0], msg_info[1][1])
+            print "add: " + str(msg_info)
+            self.msg_to_send[msg_info[0]].append(
+                self.main_server_data_server_protocol.build(msg_info[1][0], msg_info[1][1]))
 
     def main(self):
         while True:
@@ -70,7 +74,8 @@ class MainServer_DataServer():
                     if mac_address in self.valid_data_server.keys():
                         self.open_data_server_sockets.append(new_socket)
                         self.valid_data_server[mac_address] = new_socket
-                        self.command_result_data_server.put([new_socket, [1,[]]])
+                        self.command_result_data_server.put([new_socket, [1, []]])
+                        self.msg_to_send[new_socket] = []
                     else:
                         new_socket.close()
                 else:
@@ -81,8 +86,7 @@ class MainServer_DataServer():
                             print "connection fail"
                             self.disconnect(current_socket)
                             continue
-                        self.msg_to_send[current_socket] = self.main_server_data_server_protocol.build(0, [
-                            self.main_server_data_server_protocol.export_AES_key()], msg_parameters[0])
+                        self.msg_to_send[current_socket].append(self.main_server_data_server_protocol.build(0, [self.main_server_data_server_protocol.export_AES_key()], msg_parameters[0]))
                     else:
                         msg_type, msg_parameters, connection_fail = self.recv_msg(current_socket)
                         if connection_fail:

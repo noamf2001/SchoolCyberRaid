@@ -119,12 +119,13 @@ class MainServer_DataServer_Protocol():
 
     def build_3_upload_file(self, msg_parameters):
         """
-        :param msg_parameters: [file name, file path]
+        :param msg_parameters: [file path]
         :return: the msg to send
         """
-        with open(msg_parameters[1], "rb") as f:
+        name = msg_parameters[0][msg_parameters[0].rfind("\\") + 1:]
+        with open(msg_parameters[0], "rb") as f:
             file_data = f.read()
-        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(file_data)) + "$" + file_data
+        msg = str(len(name)) + "$" + name + str(len(file_data)) + "$" + file_data
         return msg
 
 

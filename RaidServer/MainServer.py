@@ -77,12 +77,12 @@ class MainServer():
     def upload_file(self, current_socket, msg_parameters):
         """
         :param current_socket: the socket that getting it from
-        :param msg_parameters: [file name, file path]
+        :param msg_parameters: [file path]
         """
         print "main server: upload file:  " + str(msg_parameters)
         # file_path = msg_parameters[1][:msg_parameters[1].rfind("\\") + 1] + self.socket_username[current_socket] + \
         #            msg_parameters[0]
-        file_path = msg_parameters[1]
+        file_path = msg_parameters[0]
         print "file path: " + file_path
 
         parts_num, file_len, files_part_path = AlgorithmMain.create_parity_files(file_path)
@@ -94,9 +94,7 @@ class MainServer():
         for i in range(len(division_part_data_server)):
             for j in range(len(division_part_data_server[i][1])):
                 self.data_server_command.put([self.valid_data_server[division_part_data_server[i][0]],
-                                              [3, [division_part_data_server[i][1][j][
-                                                   division_part_data_server[i][1][j].rfind("\\"):],
-                                                   division_part_data_server[i][1][j]]]])
+                                              [3, [division_part_data_server[i][1][j]]]])
         return [True]
 
     def main(self):

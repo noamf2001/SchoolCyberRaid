@@ -54,7 +54,7 @@ class ClientMain():
         return self.command_result.get()
 
     def upload_file(self, file_path):
-        file_name = file_path[file_path.rfind("\\") + 1:]
+        file_name = self.username + file_path[file_path.rfind("\\") + 1:]
         self.client_command.put([3, [file_name, file_path]])
 
 

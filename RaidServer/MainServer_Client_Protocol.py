@@ -168,7 +168,7 @@ class MainServer_Client_Protocol():
     def disassemble_3_upload_file(self, msg):
         """
         :param msg: the msg parameters
-        :return: msg parameters - in array []
+        :return: msg parameters - in array [path]
         """
         name_len = int(msg[:msg.find("$")])
         name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
@@ -176,12 +176,14 @@ class MainServer_Client_Protocol():
         data_len = int(msg[:msg.find("$")])
         data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
         file_part_path = self.saving_path + "\\" + name
-        while os.path.isfile(file_part_path):
-            file_part_path = file_part_path[:file_part_path.rfind(".")] + str(random.randint(0, 100)) + file_part_path[
-                                                                                                        file_part_path.rfind("."):]
+        #while os.path.isfile(file_part_path):
+        #    file_part_path = file_part_path[:file_part_path.rfind(".")] + str(random.randint(0, 100)) + file_part_path[
+        #                                                                                                file_part_path.rfind("."):]
+        if os.path.isfile(file_part_path):
+            os.remove(file_part_path)
         with open(file_part_path, "wb") as f:
             f.write(data)
-        return [name, file_part_path]
+        return [file_part_path]
 
     def build(self, msg_type, msg_parameter, RSA_key=None):
         """
