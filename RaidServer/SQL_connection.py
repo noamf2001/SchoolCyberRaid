@@ -8,41 +8,52 @@ class SQL_connection():
         self.conn = sqlite3.connect(sqlite_file)
         self.conn.create_function("REGEXP", 2, self.regexp)
         self.c = self.conn.cursor()
-        self.c.execute('CREATE TABLE IF NOT EXISTS usernamePassword (username VARCHAR(100) , password VARCHAR(100))')
-        self.c.execute('CREATE TABLE IF NOT EXISTS adminPassword (admin VARCHAR(100), password VARCHAR(100))')
+        self.username_password_table = "username_password"
+        self.admin_password_table = "admin_password"
+        self.user_files_table = "user_files"
+        self.data_server_table = "data_server"
+        self.data_server_files_table = "data_server_files"
         self.c.execute(
-            'CREATE TABLE IF NOT EXISTS userFiles (USERNAME VARCHAR(100), FILENAME VARCHARA(200), PARTS_NUM INT, FILE_LEN INT) ')
-        self.c.execute('CREATE TABLE IF NOT EXISTS dataServer (MAC VARCHAR(100))')
-        self.c.execute('CREATE TABLE IF NOT EXISTS dataServerFiles (MAC VARCHAR(100), FILE_PART_NAME VARCHAR(220))')
+            'CREATE TABLE IF NOT EXISTS ' + self.username_password_table + ' (username VARCHAR(100) , password VARCHAR(100))')
+        self.c.execute(
+            'CREATE TABLE IF NOT EXISTS ' + self.admin_password_table + ' (admin VARCHAR(100), password VARCHAR(100))')
+        self.c.execute(
+            'CREATE TABLE IF NOT EXISTS ' + self.user_files_table + ' (USERNAME VARCHAR(100), FILENAME VARCHARA(200), PARTS_NUM INT, FILE_LEN INT) ')
+        self.c.execute('CREATE TABLE IF NOT EXISTS ' + self.data_server_table + ' (MAC VARCHAR(100))')
+        self.c.execute(
+            'CREATE TABLE IF NOT EXISTS ' + self.data_server_files_table + ' (MAC VARCHAR(100), FILE_PART_NAME VARCHAR(220))')
         self.conn.commit()
 
     def create_new_username(self, username, password):
-        self.c.execute('INSERT INTO usernamePassword VALUES (?,?)', (username, password))
+        self.c.execute('INSERT INTO ' + self.username_password_table + ' VALUES (?,?)', (username, password))
         self.conn.commit()
 
-    def create_new_admin(self, andim, password):
-        self.c.execute('INSERT INTO adminPassword VALUES (?,?)', (andim, password))
+    def create_new_admin(self, admin, password):
+        self.c.execute('INSERT INTO ' + self.admin_password_table + ' VALUES (?,?)', (admin, password))
         self.conn.commit()
 
     def check_username_taken(self, username):
-        self.c.execute('SELECT username FROM usernamePassword WHERE username = (?)', (username,))
+        self.c.execute('SELECT username FROM ' + self.username_password_table + ' WHERE username = (?)', (username,))
         return len(self.c.fetchone()) > 0
 
     def check_admin_taken(self, admin):
-        self.c.execute('SELECT admin FROM adminPassword WHERE admin = (?)', (admin,))
+        self.c.execute('SELECT admin FROM ' + self.admin_password_table + ' WHERE admin = (?)', (admin,))
         return len(self.c.fetchone()) > 0
 
     def check_user_legal(self, username, password):
-        self.c.execute('SELECT username FROM usernamePassword WHERE username = (?) AND password = (?)',
-                       (username, password))
+        self.c.execute(
+            'SELECT username FROM ' + self.username_password_table + ' WHERE username = (?) AND password = (?)',
+            (username, password))
         return len(self.c.fetchone()) > 0
 
     def check_admin_legal(self, admin, password):
-        self.c.execute('SELECT admin FROM adminPassword WHERE admin = (?) AND password = (?)', (admin, password))
+        self.c.execute('SELECT admin FROM ' + self.admin_password_table + ' WHERE admin = (?) AND password = (?)',
+                       (admin, password))
         return len(self.c.fetchone()) > 0
 
     def save_user_file(self, username, filename, parts_num, file_len):
-        self.c.execute('INSERT INTO userFiles VALUES (?,?,?,?)', (username, filename, parts_num, file_len))
+        self.c.execute('INSERT INTO ' + self.user_files_table + ' VALUES (?,?,?,?)',
+                       (username, filename, parts_num, file_len))
         self.conn.commit()
 
     def get_user_file_info(self, username, filename):
@@ -51,8 +62,9 @@ class SQL_connection():
         :param filename:
         :return: (parts num, file len) if exists, otherwise: None
         """
-        self.c.execute('SELECT PARTS_NUM,FILE_LEN FROM userFiles WHERE USERNAME = (?) AND FILENAME = (?)',
-                       (username, filename,))
+        self.c.execute(
+            'SELECT PARTS_NUM,FILE_LEN FROM ' + self.user_files_table + ' WHERE USERNAME = (?) AND FILENAME = (?)',
+            (username, filename,))
         return self.c.fetchone()
 
     def get_user_file_list(self, username):
@@ -60,16 +72,16 @@ class SQL_connection():
         :param username:
         :return: [(filename1,),(filename2,),....]
         """
-        self.c.execute('SELECT FILENAME FROM userFiles WHERE USERNAME = (?)',
+        self.c.execute('SELECT FILENAME FROM ' + self.user_files_table + ' WHERE USERNAME = (?)',
                        (username,))
         return self.c.fetchall()
 
     def add_data_server(self, mac_address):
-        self.c.execute('INSERT INTO dataServer VALUES (?)', (mac_address,))
+        self.c.execute('INSERT INTO ' + self.data_server_table + ' VALUES (?)', (mac_address,))
         self.conn.commit()
 
     def add_data_server_file_part(self, mac_address, file_part_name):
-        self.c.execute('INSERT INTO dataServerFiles VALUES (?,?)', (mac_address, file_part_name))
+        self.c.execute('INSERT INTO ' + self.data_server_files_table + ' VALUES (?,?)', (mac_address, file_part_name))
         self.conn.commit()
 
     def regexp(self, expr, item):
@@ -81,11 +93,12 @@ class SQL_connection():
         return reg.search(item) is not None
 
     def delete_user_file(self, username, filename):
-        self.c.execute('DELETE FROM userFiles WHERE USERNAME = (?) AND FILENAME = (?)', (username, filename))
-        reg_part = username + r"[$]" + filename[:filename.rfind(".")]+ r"_(\d+)_(\d+)" + filename[filename.rfind("."):]
-        reg_xor = username + r"[$]" + filename[:filename.rfind(".")]+ r"_(\d+)_[-]1" + filename[filename.rfind("."):]
+        self.c.execute('DELETE FROM ' + self.user_files_table + ' WHERE USERNAME = (?) AND FILENAME = (?)',
+                       (username, filename))
+        reg_part = username + r"[$]" + filename[:filename.rfind(".")] + r"_(\d+)_(\d+)" + filename[filename.rfind("."):]
+        reg_xor = username + r"[$]" + filename[:filename.rfind(".")] + r"_(\d+)_[-]1" + filename[filename.rfind("."):]
         reg = reg_part + r"|" + reg_xor
-        self.c.execute('DELETE FROM dataServerFiles WHERE FILE_PART_NAME REGEXP ?', [reg])
+        self.c.execute('DELETE FROM ' + self.data_server_files_table + ' WHERE FILE_PART_NAME REGEXP ?', [reg])
         self.conn.commit()
 
 
@@ -97,5 +110,5 @@ if __name__ == '__main__':
     print a.get_user_file_list("noam")
     print a.get_user_file_list("noam1")
     a.add_data_server_file_part("some address", "noam$task_4_-1.txt")
-    #a.delete_user_file("noam", "task.txt")
+    # a.delete_user_file("noam", "task.txt")
     print a.get_user_file_list("noam")
