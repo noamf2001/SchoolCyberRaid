@@ -70,10 +70,9 @@ class MainServer():
         # file_path = msg_parameters[1][:msg_parameters[1].rfind("\\") + 1] + self.socket_username[current_socket] + \
         #            msg_parameters[0]
         file_path = msg_parameters[1]
-        parts = AlgorithmMain.split_file(file_path)
-        file_len = os.path.getsize(file_path)
-        for i in range(len(parts) - 1):
-            AlgorithmMain.create_parity_file_part(parts[i], parts[i + 1])
+        parts_num, file_len, file_part_path = AlgorithmMain.create_parity_files()
+
+
 
     def main(self):
         while True:
