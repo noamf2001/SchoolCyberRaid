@@ -1,8 +1,5 @@
 # SchoolCyberRaid
-Raid
-client server protocol:
-
-
+Raid protocol:
 
 msg:
 
@@ -22,7 +19,12 @@ msg type
 		server to client: symmetric key
 	msg parameters:
 		key
-        
+
+data server - main server protocol:
+
+
+
+client - main server protocol:
         
 1:
 
