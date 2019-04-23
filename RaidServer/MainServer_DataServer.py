@@ -2,16 +2,17 @@ import socket
 import select
 from MainServer_DataServer_Protocol import MainServer_DataServer_Protocol
 import Queue
-
-PORT = 1234
+from binascii import hexlify
+PORT = 1345
 
 
 class MainServer_DataServer():
-    def __init__(self, data_server_command, command_result):
+    def __init__(self, data_server_command, command_result, valid_data_server):
         """
         :param data_server_command: empty queue
         :param command_result: empty queue
         """
+        self.valid_data_server = valid_data_server
         self.server_socket = socket.socket()
         self.server_socket.bind(('0.0.0.0', PORT))
         self.server_socket.listen(100)
@@ -62,8 +63,11 @@ class MainServer_DataServer():
             for current_socket in rlist:
                 if current_socket is self.server_socket:
                     (new_socket, address) = self.server_socket.accept()
-                    self.open_data_server_sockets.append(new_socket)
                     print "connect to data server"
+                    if hexlify(new_socket.getsockname()[4]) in self.valid_data_server:
+                        self.open_data_server_sockets.append(new_socket)
+                    else:
+                        new_socket.close()
                 else:
                     if current_socket not in self.sent_AES_key:
                         self.sent_AES_key.add(current_socket)

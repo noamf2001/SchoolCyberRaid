@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="36932483-8d83-44d3-b101-5c8f8ad7940a" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/DataServer_MainServer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataServer_MainServer_Protocol.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../RaidServer/MainServer_DataServer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../RaidServer/MainServer_DataServer_Protocol.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidClient/ClientMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/ClientMain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataServer_MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataServer_MainServer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer_DataServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer_DataServer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidServer/SQL_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/SQL_connection.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,8 +22,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DataServer_MainServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="65" column="9" selection-start-line="65" selection-start-column="9" selection-end-line="65" selection-end-column="9" />
+            <state relative-caret-position="68">
+              <caret line="13" column="42" lean-forward="true" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -33,7 +34,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DataServer_MainServer_Protocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2323">
+            <state relative-caret-position="227">
               <caret line="30" column="29" lean-forward="true" selection-start-line="30" selection-start-column="29" selection-end-line="30" selection-end-column="29" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
@@ -68,11 +69,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-12" />
     <option name="y" value="-12" />
-    <option name="width" value="1943" />
-    <option name="height" value="1043" />
+    <option name="width" value="1944" />
+    <option name="height" value="1044" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -122,15 +123,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1553601459511</updated>
-      <workItem from="1555918386500" duration="2088000" />
+      <workItem from="1555918386500" duration="5182000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2088000" />
+    <option name="totallyTimeSpent" value="5182000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1295" height="695" extended-state="0" />
+    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.25383994" />
@@ -166,7 +167,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DataServer_MainServer_Protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2323">
+        <state relative-caret-position="227">
           <caret line="30" column="29" lean-forward="true" selection-start-line="30" selection-start-column="29" selection-end-line="30" selection-end-column="29" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
@@ -176,8 +177,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DataServer_MainServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="65" column="9" selection-start-line="65" selection-start-column="9" selection-end-line="65" selection-end-column="9" />
+        <state relative-caret-position="68">
+          <caret line="13" column="42" lean-forward="true" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

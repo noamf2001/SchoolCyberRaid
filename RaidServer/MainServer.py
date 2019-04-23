@@ -1,9 +1,11 @@
 import Queue
 from MainServer_Client import MainServer_Client
+from MainServer_DataServer import MainServer_DataServer
 from SQL_connection import SQL_connection
 import thread
 import AlgorithmMain
 import os
+
 """
 file name: username + $ + file original name
 """
@@ -12,17 +14,31 @@ file name: username + $ + file original name
 class MainServer():
     def __init__(self):
         self.client_command = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
-        self.command_result = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
-        self.client_communication = MainServer_Client(self.client_command, self.command_result)
+        self.command_result_client = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
+        self.client_communication = MainServer_Client(self.client_command, self.command_result_client)
         thread.start_new_thread(self.client_communication.main, ())
         self.client_command_def = {
-            -1: self.disconnect,
+            -1: self.disconnect_client,
             1: self.sign_up,
             2: self.sign_in}  # msg_type : method that take care of it, take as parameter: current socket, msg_parameter
         self.socket_username = {}  # socket:username
+
+        self.valid_data_server = set()
+        self.data_server_command = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
+        self.command_result_data_server = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
+        self.data_server_communication = MainServer_DataServer(self.data_server_command,
+                                                               self.command_result_data_server, self.valid_data_server)
+        thread.start_new_thread(self.data_server_communication.main, ())
+        self.data_server_command_def = {
+            -1: self.disconnect_data_server}  # msg_type : method that take care of it, take as parameter: current socket, msg_parameter
+
         self.sql_connection = SQL_connection()
 
-    def disconnect(self, current_socket, msg_parameter):
+    def disconnect_client(self, current_socket, msg_parameter):
+        if current_socket in self.socket_username.keys():
+            del self.socket_username[current_socket]
+
+    def disconnect_data_server(self, current_socket, msg_parameter):
         if current_socket in self.socket_username.keys():
             del self.socket_username[current_socket]
 
@@ -51,28 +67,35 @@ class MainServer():
         :param msg_parameters: [file name, file path]
         """
         print "main server: upload file:  " + str(msg_parameters)
-        #file_path = msg_parameters[1][:msg_parameters[1].rfind("\\") + 1] + self.socket_username[current_socket] + \
+        # file_path = msg_parameters[1][:msg_parameters[1].rfind("\\") + 1] + self.socket_username[current_socket] + \
         #            msg_parameters[0]
         file_path = msg_parameters[1]
         parts = AlgorithmMain.split_file(file_path)
         file_len = os.path.getsize(file_path)
         for i in range(len(parts) - 1):
-            AlgorithmMain.create_parity_file_part(parts[i], parts[i+1])
-
+            AlgorithmMain.create_parity_file_part(parts[i], parts[i + 1])
 
     def main(self):
         while True:
-            while self.client_command.empty():
-                pass
-            command = self.client_command.get()
-            print "command: " + str(command)
-            result = self.client_command_def[command[1][0]](command[0], command[1][1])
-            print "result: " + str(result)
-            print "\n"
-            if command[1][0] != -1:
-                self.command_result.put([command[0], [command[1][0], result]])
+            if not self.client_command.empty():
+                command_client = self.client_command.get()
+                print "command client: " + str(command_client)
+                result = self.client_command_def[command_client[1][0]](command_client[0], command_client[1][1])
+                print "result: " + str(result)
+                print "\n"
+                if command_client[1][0] != -1:
+                    self.command_result_client.put([command_client[0], [command_client[1][0], result]])
+            if not self.data_server_command.empty():
+                command_data_server = self.data_server_command.get()
+                print "command data_server: " + str(command_data_server)
+                result = self.data_server_command_def[command_data_server[1][0]](command_data_server[0],
+                                                                                 command_data_server[1][1])
+                print "result: " + str(result)
+                print "\n"
+                if command_data_server[1][0] != -1:
+                    self.command_result_client.put([command_data_server[0], [command_data_server[1][0], result]])
 
 
 if __name__ == "__main__":
     a = MainServer()
-    a.upload_file(None, ["noam",r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename.txt"])
+    a.upload_file(None, ["noam", r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename.txt"])

@@ -3,7 +3,7 @@ import select
 from DataServer_MainServer_Protocol import DataServer_MainServer_Protocol
 import Queue
 
-PORT = 1234
+PORT = 1345
 SERVER_IP = "127.0.0.1"
 
 
