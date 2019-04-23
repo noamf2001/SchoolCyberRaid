@@ -27,7 +27,8 @@ class ClientMain():
         :param password: string
         :return: str of length 64 - the hash
         """
-        return hashlib.sha256(password).hexdigest()
+        return password
+        #return hashlib.sha256(password).hexdigest()
 
     def check_legal_username(self, username):
         return len(username) >= 4 and len(username) <= 100
@@ -56,4 +57,4 @@ class ClientMain():
 
 if __name__ == '__main__':
     a = ClientMain()
-    print a.sign_in("noam", "passwordofnoam")
+    print a.sign_up("noam", "passwordofnoam")

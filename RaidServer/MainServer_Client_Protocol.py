@@ -62,7 +62,6 @@ msg type:
 class MainServer_Client_Protocol():
     def __init__(self, saving_path):
         self.AES_key = ''.join(random.choice(string.digits + string.letters) for _ in range(32))
-        print "AES_key: " + self.AES_key
         self.saving_path = saving_path
         self.AES_cipher = AESCipher(self.AES_key)
         self.msg_type_disassemble = {

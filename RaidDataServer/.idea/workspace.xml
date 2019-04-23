@@ -5,16 +5,10 @@
       <change beforePath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidClient/ClientMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/ClientMain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidClient/Client_MainServer_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/Client_MainServer_Protocol.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataServer_MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataServer_MainServer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DataServer_MainServer_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataServer_MainServer_Protocol.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainDataServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainDataServer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidServer/AlgorithmMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/AlgorithmMain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer_Client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer_Client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer_Client_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer_Client_Protocol.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer_DataServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer_DataServer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer_DataServer_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer_DataServer_Protocol.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/SQL_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/SQL_connection.py" afterDir="false" />
     </list>
@@ -26,10 +20,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DataServer_MainServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="397">
+            <state relative-caret-position="907">
               <caret line="68" column="12" lean-forward="true" selection-start-line="68" selection-start-column="12" selection-end-line="68" selection-end-column="12" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -38,11 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DataServer_MainServer_Protocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="25" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
+            <state relative-caret-position="357">
+              <caret line="60" column="19" lean-forward="true" selection-start-line="60" selection-start-column="19" selection-end-line="60" selection-end-column="19" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -143,12 +137,12 @@
       <updated>1553601459511</updated>
       <workItem from="1555918386500" duration="7759000" />
       <workItem from="1556026964710" duration="689000" />
-      <workItem from="1556029598194" duration="8387000" />
+      <workItem from="1556029598194" duration="9042000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16835000" />
+    <option name="totallyTimeSpent" value="17490000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -192,22 +186,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DataServer_MainServer_Protocol.py">
+    <entry file="file://$PROJECT_DIR$/DataServer_MainServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="25" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
+        <state relative-caret-position="907">
+          <caret line="68" column="12" lean-forward="true" selection-start-line="68" selection-start-column="12" selection-end-line="68" selection-end-column="12" />
           <folding>
-            <element signature="e#0#32#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DataServer_MainServer.py">
+    <entry file="file://$PROJECT_DIR$/DataServer_MainServer_Protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="68" column="12" lean-forward="true" selection-start-line="68" selection-start-column="12" selection-end-line="68" selection-end-column="12" />
+        <state relative-caret-position="357">
+          <caret line="60" column="19" lean-forward="true" selection-start-line="60" selection-start-column="19" selection-end-line="60" selection-end-column="19" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>

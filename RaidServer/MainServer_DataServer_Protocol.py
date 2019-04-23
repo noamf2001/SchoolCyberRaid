@@ -26,7 +26,6 @@ msg type:
 class MainServer_DataServer_Protocol():
     def __init__(self):
         self.AES_key = ''.join(random.choice(string.digits + string.letters) for _ in range(32))
-        print "AES_key: " + self.AES_key
         self.AES_cipher = AESCipher(self.AES_key)
         self.msg_type_disassemble = {
             0: self.disassemble_0_key_exchange}  # msg type (int) : method that disassemble the msg parameters

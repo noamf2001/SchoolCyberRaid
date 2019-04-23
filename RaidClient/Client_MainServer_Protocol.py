@@ -95,30 +95,26 @@ class Client_MainServer_Protocol():
         self.AES_cipher = AESCipher(password)
 
     def recv_msg(self, first=False):
-        print "continue start recv msg 1"
         connection_fail = False
         # recv the msg length
         msg_len = ""
         try:
             msg_len = self.my_socket.recv(1)
         except:
-            connection_fail = True
+            return -1, [], True
         while msg_len[-1] != "$":
             try:
                 msg_len += self.my_socket.recv(1)
             except:
-                connection_fail = True
+                return -1, [], True
         msg_len = int(msg_len[:-1])
         msg = ""
         try:
             msg = self.my_socket.recv(msg_len)
         except:
-            connection_fail = True
+            return -1, [], True
 
-        print "continue start recv msg 2"
         msg_type, msg_parameters = self.disassemble(msg, first)
-
-        print "continue start recv msg 3"
         return msg_type, msg_parameters, connection_fail
 
     def send_msg(self, msg):
@@ -145,7 +141,6 @@ class Client_MainServer_Protocol():
         :param msg: the raw full msg - string (without the len of the msg) (len > 0)
         :return: msg type - int, msg parameters - array []
         """
-        print "disassemble: " + msg
         if first:
             msg = self.RSA_key.decrypt(msg)
         else:

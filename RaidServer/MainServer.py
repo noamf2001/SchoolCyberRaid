@@ -52,6 +52,7 @@ class MainServer():
 
     def sign_up_client(self, current_socket, msg_parameter):
         print "main server: sign up client:  " + str(msg_parameter)
+        print "\n\n\n\n\n"
         username, password = msg_parameter
         if self.sql_connection.check_username_taken(username):
             return [False]

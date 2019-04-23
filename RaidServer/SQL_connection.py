@@ -28,6 +28,7 @@ class SQL_connection():
         self.conn.commit()
 
     def create_new_username(self, username, password):
+        print "create new username: " + username + "\t" + password
         self.c.execute('INSERT INTO ' + self.username_password_table + ' VALUES (?,?)', (username, password))
         self.conn.commit()
 
@@ -37,22 +38,23 @@ class SQL_connection():
 
     def check_username_taken(self, username):
         self.c.execute('SELECT username FROM ' + self.username_password_table + ' WHERE username = (?)', (username,))
-        return len(self.c.fetchone()) > 0
+        return self.c.fetchone() is not None
 
     def check_admin_taken(self, admin):
         self.c.execute('SELECT admin FROM ' + self.admin_password_table + ' WHERE admin = (?)', (admin,))
-        return len(self.c.fetchone()) > 0
+        return self.c.fetchone() is not None
 
     def check_user_legal(self, username, password):
+        print "check user legal: " + username + "    " + password
         self.c.execute(
             'SELECT username FROM ' + self.username_password_table + ' WHERE username = (?) AND password = (?)',
             (username, password))
-        return len(self.c.fetchone()) > 0
+        return self.c.fetchone() is not None
 
     def check_admin_legal(self, admin, password):
         self.c.execute('SELECT admin FROM ' + self.admin_password_table + ' WHERE admin = (?) AND password = (?)',
                        (admin, password))
-        return len(self.c.fetchone()) > 0
+        return self.c.fetchone() is not None
 
     def save_user_file(self, username, filename, parts_num, file_len):
         self.c.execute('INSERT INTO ' + self.user_files_table + ' VALUES (?,?,?,?)',
