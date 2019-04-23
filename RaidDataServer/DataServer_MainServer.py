@@ -8,7 +8,7 @@ SERVER_IP = "127.0.0.1"
 
 
 class DataServer_MainServer():
-    def __init__(self, data_server_command, command_result):
+    def __init__(self, data_server_command, command_result, saving_path):
         """
         :param data_server_command: empty queue
         :param command_result: empty queue
@@ -17,7 +17,7 @@ class DataServer_MainServer():
         self.my_socket.connect((SERVER_IP, PORT))
         print "connected"
         self.FAIL = False
-        self.data_server_main_server_protocol = DataServer_MainServer_Protocol(self.my_socket)
+        self.data_server_main_server_protocol = DataServer_MainServer_Protocol(self.my_socket, saving_path)
         self.data_server_command = data_server_command  # queue: [msg_type, msg_parameters]
         self.command_result = command_result  # queue: [msg_type, msg_parameters]
         self.data_server_command.put([0, [self.data_server_main_server_protocol.export_RSA_public_key()]])
@@ -65,5 +65,5 @@ class DataServer_MainServer():
 if __name__ == '__main__':
     data_server_command = Queue.Queue()
     command_result = Queue.Queue()
-    a = DataServer_MainServer(data_server_command, command_result)
+    a = DataServer_MainServer(data_server_command, command_result, "C")
     a.main()

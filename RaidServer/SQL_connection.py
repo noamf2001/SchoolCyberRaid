@@ -109,13 +109,15 @@ class SQL_connection():
         self.c.execute('DELETE FROM ' + self.data_server_files_table + 'WHERE MAX = (?)', (mac_address,))
         self.conn.commit()
 
-
     def get_all_data_server(self):
         self.c.execute('SELECT * FROM ' + self.data_server_table)
         return self.c.fetchall()
 
+
 if __name__ == '__main__':
     a = SQL_connection()
+    a.add_data_server("hi everyone")
+    a.add_data_server("hi again!")
     a.save_user_file("noam", "somename2", 5, 10)
     print a.get_user_file_info("noam", 'somename2')
     print a.get_user_file_info("noam", "otherfilename")

@@ -78,7 +78,7 @@ def split_file(file_path):
     return parts
 
 
-def divide_parts_to_ds(files_part_path, data_servers):
+def divide_parts_to_data_server(files_part_path, data_servers):
     """
     need better algorithm
     Get from DB the ds current storage state and decide how to put the parts in the ds

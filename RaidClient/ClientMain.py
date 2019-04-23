@@ -13,6 +13,15 @@ class ClientMain():
         self.client_communication = Client_MainServer(self.client_command, self.command_result)
         thread.start_new_thread(self.client_communication.main, ())
 
+    def get_command_result(self):
+        """
+        :return: [[msg_type,msg parameters],....]
+        """
+        result = []
+        while not self.command_result.empty():
+            result.append(self.command_result.get())
+        return result
+
     def hash_password(self, password):
         """
         :param password: string
@@ -42,7 +51,7 @@ class ClientMain():
 
     def upload_file(self, file_path):
         file_name = file_path[file_path.rfind("\\") + 1:]
-        self.client_command.put([3, [file_name,file_path]])
+        self.client_command.put([3, [file_name, file_path]])
 
 
 if __name__ == '__main__':

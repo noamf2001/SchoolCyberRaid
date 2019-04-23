@@ -1,6 +1,5 @@
 from Crypto.PublicKey import RSA
 from Crypto import Random
-from AESCipher import AESCipher
 
 """
 msg:
@@ -19,25 +18,26 @@ msg type:
         server to data server: symmetric key
     msg parameters:
         just the key itself
+3: upload file,
+    main server to data server: file name, file data
+    data server to main server: None
+    msg parameters:
+        file name
+        file data
 """
 
 
 class DataServer_MainServer_Protocol():
-    def __init__(self, my_socket):
+    def __init__(self, my_socket, saving_path):
+        self.saving_path = saving_path
         random_generator = Random.new().read
         self.RSA_key = RSA.generate(1024, random_generator)  # generate pub and priv key
         self.AES_cipher = None
-        self.encrypter = None
-        self.decrypter = None
         self.my_socket = my_socket
         self.msg_type_disassemble = {
-            0: self.disassemble_0_key_exchange,
-            1: self.disassemble_1_sign_up,
-            2: self.disassemble_2_sign_in}  # msg type (int) : method that disassemble the msg parameters
+            0: self.disassemble_0_key_exchange}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
-            0: self.build_0_key_exchange,
-            1: self.build_1_sign_up,
-            2: self.build_2_sign_in}  # msg type (int) : method that build the msg to send, the msg parameters part
+            0: self.build_0_key_exchange}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_RSA_public_key(self):
         return self.RSA_key.publickey().exportKey()
@@ -113,26 +113,20 @@ class DataServer_MainServer_Protocol():
         """
         return [msg]
 
-    def disassemble_1_sign_up(self, msg):
-        """
-        :param msg: the msg parameters - boolean: 0 - False, 1 - True
-        :return: msg parameters - in array []
-        """
-        return [bool(int(msg))]
-
-    def disassemble_2_sign_in(self, msg):
-        """
-        :param msg: the msg parameters - boolean: 0 - False, 1 - True
-        :return: msg parameters - in array []
-        """
-        return [bool(int(msg))]
-
     def disassemble_3_upload_file(self, msg):
         """
-        :param msg: the msg parameters - boolean: 0 - False, 1 - True
-        :return: msg parameters - in array []
+        :param msg: the msg parameters
+        :return: msg parameters - in array [name of file, file part path]
         """
-        return [bool(int(msg))]
+        name_len = int(msg[:msg.find("$")])
+        name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
+        msg = msg[msg.find("$") + 1 + name_len:]
+        data_len = int(msg[:msg.find("$")])
+        data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
+        file_part_path = self.saving_path + "\\" + + name
+        with open(file_part_path, "wb") as f:
+            f.write(data)
+        return [name, file_part_path]
 
     def build(self, msg_type, msg_parameter):
         """
@@ -154,34 +148,6 @@ class DataServer_MainServer_Protocol():
         :return: key
         """
         return msg_parameters[0]
-
-    def build_1_sign_up(self, msg_parameters):
-        """
-        :param msg_parameters: [username, password (after hash)]
-        :return: the msg to send
-        """
-        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(msg_parameters[1])) + "$" + \
-              msg_parameters[1]
-        return msg
-
-    def build_2_sign_in(self, msg_parameters):
-        """
-        :param msg_parameters: [username, password (after hash)]
-        :return: the msg to send
-        """
-        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(msg_parameters[1])) + "$" + \
-              msg_parameters[1]
-        return msg
-
-    def build_3_upload_file(self, msg_parameters):
-        """
-        :param msg_parameters: [file name, file path]
-        :return: the msg to send
-        """
-        with open(msg_parameters[1], "rb") as f:
-            file_data = f.read()
-        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(file_data)) + "$" + file_data
-        return msg
 
 
 if __name__ == '__main__':

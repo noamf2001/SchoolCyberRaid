@@ -7,7 +7,7 @@ PORT = 1234
 
 
 class MainServer_Client():
-    def __init__(self, client_command, command_result):
+    def __init__(self, client_command, command_result, saving_path):
         """
         :param client_command: empty queue
         :param command_result: empty queue
@@ -18,7 +18,7 @@ class MainServer_Client():
         self.open_client_sockets = []
         self.msg_to_send = {}  # socket: msg to send
         self.sent_AES_key = set()  # socket
-        self.main_server_client_protocol = MainServer_Client_Protocol()
+        self.main_server_client_protocol = MainServer_Client_Protocol(saving_path)
         self.client_command = client_command  # queue: [socket, [msg_type, msg_parameters]]
         self.command_result = command_result  # queue: [socket, [msg_type, msg_parameters]]
 

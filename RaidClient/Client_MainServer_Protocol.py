@@ -75,17 +75,17 @@ class Client_MainServer_Protocol():
         random_generator = Random.new().read
         self.RSA_key = RSA.generate(1024, random_generator)  # generate pub and priv key
         self.AES_cipher = None
-        self.encrypter = None
-        self.decrypter = None
         self.my_socket = my_socket
         self.msg_type_disassemble = {
             0: self.disassemble_0_key_exchange,
             1: self.disassemble_1_sign_up,
-            2: self.disassemble_2_sign_in}  # msg type (int) : method that disassemble the msg parameters
+            2: self.disassemble_2_sign_in,
+            3: self.disassemble_3_upload_file}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
             0: self.build_0_key_exchange,
             1: self.build_1_sign_up,
-            2: self.build_2_sign_in}  # msg type (int) : method that build the msg to send, the msg parameters part
+            2: self.build_2_sign_in,
+            3: self.build_3_upload_file}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_RSA_public_key(self):
         return self.RSA_key.publickey().exportKey()

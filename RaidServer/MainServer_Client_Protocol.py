@@ -5,6 +5,7 @@ from Crypto import Random
 from AESCipher import AESCipher
 import string
 import random
+import os
 
 """
 msg type:
@@ -40,13 +41,29 @@ msg type:
         server to client:
             0 - False
             1 - True
+3:  upload file:
+        client to server: file name, file data
+        server to client: boolean if success
+    msg parameters:
+        client to server:
+            len of file
+            $
+            file name
+            
+            len of file data
+            $
+            file data
+        server to client:
+            0 - False
+            1 - True
 """
 
 
 class MainServer_Client_Protocol():
-    def __init__(self):
+    def __init__(self, saving_path):
         self.AES_key = ''.join(random.choice(string.digits + string.letters) for _ in range(32))
         print "AES_key: " + self.AES_key
+        self.saving_path = saving_path
         self.AES_cipher = AESCipher(self.AES_key)
         self.msg_type_disassemble = {
             0: self.disassemble_0_key_exchange,
@@ -55,7 +72,8 @@ class MainServer_Client_Protocol():
         self.msg_type_build = {
             0: self.build_0_key_exchange,
             1: self.build_1_sign_up,
-            2: self.build_2_sign_in}  # msg type (int) : method that build the msg to send, the msg parameters part
+            2: self.build_2_sign_in,
+            3: self.build_3_upload_file}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_AES_key(self):
         return self.AES_key
@@ -107,7 +125,7 @@ class MainServer_Client_Protocol():
         :return: msg type - int, msg parameters - array []
         """
         if not first:
-            msg =  self.AES_cipher.decrypt(msg)
+            msg = self.AES_cipher.decrypt(msg)
         msg_type, msg = self.get_msg_type(msg)
         msg_parameters = self.msg_type_disassemble[msg_type](msg)
         return msg_type, msg_parameters
@@ -147,6 +165,25 @@ class MainServer_Client_Protocol():
         """
         return self.disassemble_username_password(msg)
 
+    def disassemble_3_upload_file(self, msg):
+        """
+        :param msg: the msg parameters
+        :return: msg parameters - in array []
+        """
+        name_len = int(msg[:msg.find("$")])
+        name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
+        msg = msg[msg.find("$") + 1 + name_len:]
+        data_len = int(msg[:msg.find("$")])
+        data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
+        file_part_path = self.saving_path + "\\" + name
+        while os.path.isfile(file_part_path):
+            file_part_path = file_part_path[:file_part_path.rfind(".")] + str(random.randint(0, 100)) + file_part_path[
+                                                                                                        file_part_path.rfind(
+                                                                                                            "."):]
+        with open(file_part_path, "wb") as f:
+            f.write(data)
+        return [name, file_part_path]
+
     def build(self, msg_type, msg_parameter, RSA_key=None):
         """
         :param RSA_key: if it is the filrst msg and need to encrypt with RSA
@@ -177,6 +214,13 @@ class MainServer_Client_Protocol():
         return str(int(msg_parameters[0]))
 
     def build_2_sign_in(self, msg_parameters):
+        """
+        :param msg_parameters: [boolean]
+        :return: 1 if True, 0 if False
+        """
+        return str(int(msg_parameters[0]))
+
+    def build_3_upload_file(self, msg_parameters):
         """
         :param msg_parameters: [boolean]
         :return: 1 if True, 0 if False

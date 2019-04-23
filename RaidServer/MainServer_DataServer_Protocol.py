@@ -14,6 +14,12 @@ msg type:
     main server to data server: symmetric key
     msg parameters:
         just the key itself
+3: upload file,
+    main server to data server: file name, file data
+    data server to main server: None
+    msg parameters:
+        file name
+        file data
 """
 
 
@@ -25,7 +31,8 @@ class MainServer_DataServer_Protocol():
         self.msg_type_disassemble = {
             0: self.disassemble_0_key_exchange}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
-            0: self.build_0_key_exchange}  # msg type (int) : method that build the msg to send, the msg parameters part
+            0: self.build_0_key_exchange,
+            3: self.build_3_upload_file}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_AES_key(self):
         return self.AES_key
@@ -111,6 +118,15 @@ class MainServer_DataServer_Protocol():
         """
         return msg_parameters[0]
 
+    def build_3_upload_file(self, msg_parameters):
+        """
+        :param msg_parameters: [file name, file path]
+        :return: the msg to send
+        """
+        with open(msg_parameters[1], "rb") as f:
+            file_data = f.read()
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(file_data)) + "$" + file_data
+        return msg
 
 
 if __name__ == '__main__':
