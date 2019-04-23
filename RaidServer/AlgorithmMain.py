@@ -78,20 +78,19 @@ def split_file(file_path):
     return parts
 
 
-def divide_parts_to_ds(files_part_path):
+def divide_parts_to_ds(files_part_path, data_servers):
     """
+    need better algorithm
     Get from DB the ds current storage state and decide how to put the parts in the ds
-    :param files_path: [file part path]
+    :param files_part_path: [file part path1,....]
+    :param data_servers: [(data_server_1,),....]
+    :return [[data_server_1,[file_part,...]],[data_server2,[file_part,...]]....]
     """
-    pass
+    result = [[data_server, []] for data_server in data_servers]
+    for i in range(len(files_part_path)):
+        result[i % len(data_servers)][1].append(files_part_path[i])
+    return result
 
-
-def send_parts_to_ds(file_part_division):
-    """
-    According to the dividing send each part to it dst ds
-    :param file_part_division: {ds: file part}
-    """
-    pass
 
 
 def get_file_info(file_path):
