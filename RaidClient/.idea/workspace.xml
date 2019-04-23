@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be51fe52-34f5-436e-bbd0-e3af52748f5f" name="Default" comment="sign up - do not have sql part\checking legal username\password">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidDataServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidDataServer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidServer/AlgorithmMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/AlgorithmMain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidServer/SQL_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/SQL_connection.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -182,7 +180,7 @@
       <option name="presentableId" value="Default" />
       <updated>1553601442532</updated>
       <workItem from="1555842470651" duration="13896000" />
-      <workItem from="1555874178427" duration="15919000" />
+      <workItem from="1555874178427" duration="16301000" />
     </task>
     <task id="LOCAL-00001" summary="sign up - do not have sql part\checking legal username\password">
       <created>1555864126602</created>
@@ -195,7 +193,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29815000" />
+    <option name="totallyTimeSpent" value="30197000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="733" height="687" extended-state="0" />

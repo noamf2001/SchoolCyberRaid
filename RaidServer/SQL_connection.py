@@ -107,7 +107,12 @@ class SQL_connection():
     def delete_data_server(self, mac_address):
         self.c.execute('DELETE FROM ' + self.data_server_table + ' WHERE MAC = (?)', (mac_address,))
         self.c.execute('DELETE FROM ' + self.data_server_files_table + 'WHERE MAX = (?)', (mac_address,))
+        self.conn.commit()
 
+
+    def get_all_data_server(self):
+        self.c.execute('SELECT * FROM ' + self.data_server_table)
+        return self.c.fetchall()
 
 if __name__ == '__main__':
     a = SQL_connection()
@@ -119,3 +124,4 @@ if __name__ == '__main__':
     a.add_data_server_file_part("some address", "noam$task_4_-1.txt")
     # a.delete_user_file("noam", "task.txt")
     print a.get_user_file_list("noam")
+    print a.get_all_data_server()

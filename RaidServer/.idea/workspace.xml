@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6db5d218-9187-4a7b-ba13-2f90a3e659ff" name="Default" comment="add sql naming by vars">
+    <list default="true" id="6db5d218-9187-4a7b-ba13-2f90a3e659ff" name="Default" comment="add create parity files function">
       <change beforePath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidDataServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidDataServer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AlgorithmMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/AlgorithmMain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainServer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SQL_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/SQL_connection.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,11 +33,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/SQL_connection.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="113" column="32" selection-start-line="113" selection-start-column="32" selection-end-line="113" selection-end-column="32" />
+              <folding>
+                <element signature="e#0#14#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MainServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="75" column="73" lean-forward="true" selection-start-line="72" selection-start-column="8" selection-end-line="75" selection-end-column="73" />
+            <state relative-caret-position="252">
+              <caret line="73" column="13" selection-start-line="73" selection-start-column="13" selection-end-line="73" selection-end-column="13" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -45,10 +57,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AlgorithmMain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="482">
+            <state relative-caret-position="788">
               <caret line="51" column="41" selection-start-line="51" selection-start-column="41" selection-end-line="51" selection-end-column="41" />
             </state>
           </provider>
@@ -94,6 +106,7 @@
       <find>.execute</find>
       <find>create</find>
       <find>create_parity_file_part</find>
+      <find>mac</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -109,9 +122,9 @@
         <option value="$PROJECT_DIR$/AlgorithmRetrieve.py" />
         <option value="$PROJECT_DIR$/MainServer_DataServer_Protocol.py" />
         <option value="$PROJECT_DIR$/MainServer_DataServer.py" />
-        <option value="$PROJECT_DIR$/SQL_connection.py" />
-        <option value="$PROJECT_DIR$/MainServer.py" />
         <option value="$PROJECT_DIR$/AlgorithmMain.py" />
+        <option value="$PROJECT_DIR$/MainServer.py" />
+        <option value="$PROJECT_DIR$/SQL_connection.py" />
       </list>
     </option>
   </component>
@@ -323,7 +336,7 @@
       <option name="presentableId" value="Default" />
       <updated>1553601375317</updated>
       <workItem from="1555842486926" duration="19351000" />
-      <workItem from="1555874205231" duration="27916000" />
+      <workItem from="1555874205231" duration="28530000" />
     </task>
     <task id="LOCAL-00001" summary="sign in">
       <created>1555866971564</created>
@@ -367,11 +380,25 @@
       <option name="project" value="LOCAL" />
       <updated>1556024487169</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="add create parity files function">
+      <created>1556025482789</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1556025482789</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add delete data server from db">
+      <created>1556025790106</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1556025790106</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47267000" />
+    <option name="totallyTimeSpent" value="47881000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -413,11 +440,13 @@
     <MESSAGE value="add mac checking&#10;add support data server in main server file" />
     <MESSAGE value="sql file complete" />
     <MESSAGE value="add sql naming by vars" />
-    <option name="LAST_COMMIT_MESSAGE" value="add sql naming by vars" />
+    <MESSAGE value="add create parity files function" />
+    <MESSAGE value="add delete data server from db" />
+    <option name="LAST_COMMIT_MESSAGE" value="add delete data server from db" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/RaidServer$MainServer_Client.coverage" NAME="MainServer_Client Coverage Results" MODIFIED="1555845312734" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/RaidServer$SQL_connection.coverage" NAME="SQL_connection Coverage Results" MODIFIED="1556016151818" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/RaidServer$SQL_connection.coverage" NAME="SQL_connection Coverage Results" MODIFIED="1556025948239" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RaidServer$MainServer.coverage" NAME="MainServer Coverage Results" MODIFIED="1555922642589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RaidServer$AlgorithmRetrieve.coverage" NAME="AlgorithmRetrieve Coverage Results" MODIFIED="1555934718728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
@@ -549,17 +578,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SQL_connection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="89" column="18" lean-forward="true" selection-start-line="89" selection-start-column="18" selection-end-line="89" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-            <element signature="e#2235#2321#1" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AlgorithmRetrieve.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-33">
@@ -570,20 +588,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/AlgorithmMain.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="788">
+          <caret line="51" column="41" selection-start-line="51" selection-start-column="41" selection-end-line="51" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/MainServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="75" column="73" lean-forward="true" selection-start-line="72" selection-start-column="8" selection-end-line="75" selection-end-column="73" />
+        <state relative-caret-position="252">
+          <caret line="73" column="13" selection-start-line="73" selection-start-column="13" selection-end-line="73" selection-end-column="13" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AlgorithmMain.py">
+    <entry file="file://$PROJECT_DIR$/SQL_connection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="51" column="41" selection-start-line="51" selection-start-column="41" selection-end-line="51" selection-end-column="41" />
+        <state relative-caret-position="168">
+          <caret line="113" column="32" selection-start-line="113" selection-start-column="32" selection-end-line="113" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
