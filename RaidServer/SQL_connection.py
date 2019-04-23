@@ -14,14 +14,17 @@ class SQL_connection():
         self.data_server_table = "data_server"
         self.data_server_files_table = "data_server_files"
         self.c.execute(
-            'CREATE TABLE IF NOT EXISTS ' + self.username_password_table + ' (username VARCHAR(100) , password VARCHAR(100))')
+            'CREATE TABLE IF NOT EXISTS ' + self.username_password_table + '(username VARCHAR(100) , password '
+                                                                           'VARCHAR(100))')
         self.c.execute(
             'CREATE TABLE IF NOT EXISTS ' + self.admin_password_table + ' (admin VARCHAR(100), password VARCHAR(100))')
         self.c.execute(
-            'CREATE TABLE IF NOT EXISTS ' + self.user_files_table + ' (USERNAME VARCHAR(100), FILENAME VARCHARA(200), PARTS_NUM INT, FILE_LEN INT) ')
+            'CREATE TABLE IF NOT EXISTS ' + self.user_files_table + '(USERNAME VARCHAR(100), FILENAME VARCHARA(200), '
+                                                                    'PARTS_NUM INT, FILE_LEN INT) ')
         self.c.execute('CREATE TABLE IF NOT EXISTS ' + self.data_server_table + ' (MAC VARCHAR(100))')
         self.c.execute(
-            'CREATE TABLE IF NOT EXISTS ' + self.data_server_files_table + ' (MAC VARCHAR(100), FILE_PART_NAME VARCHAR(220))')
+            'CREATE TABLE IF NOT EXISTS ' + self.data_server_files_table + '(MAC VARCHAR(100), FILE_PART_NAME '
+                                                                           'VARCHAR(220))')
         self.conn.commit()
 
     def create_new_username(self, username, password):
@@ -100,6 +103,10 @@ class SQL_connection():
         reg = reg_part + r"|" + reg_xor
         self.c.execute('DELETE FROM ' + self.data_server_files_table + ' WHERE FILE_PART_NAME REGEXP ?', [reg])
         self.conn.commit()
+
+    def delete_data_server(self, mac_address):
+        self.c.execute('DELETE FROM ' + self.data_server_table + ' WHERE MAC = (?)', (mac_address,))
+        self.c.execute('DELETE FROM ' + self.data_server_files_table + 'WHERE MAX = (?)', (mac_address,))
 
 
 if __name__ == '__main__':
