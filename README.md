@@ -21,7 +21,17 @@ msg type
 		key
 
 data server - main server protocol:
+3: 
 
+	upload file:
+    		main server to data server: file name, file data
+    		data server to main server: None
+    	msg parameters:
+		main server to data server:
+			file name
+			file data
+		data server to main server:
+			None
 
 
 client - main server protocol:
