@@ -3,17 +3,16 @@ import select
 from MainServer_Client_Protocol import MainServer_Client_Protocol
 import Queue
 
-PORT = 1234
-
 
 class MainServer_Client():
-    def __init__(self, client_command, command_result, saving_path):
+    def __init__(self, client_command, command_result, saving_path, port):
         """
         :param client_command: empty queue
         :param command_result: empty queue
         """
+
         self.server_socket = socket.socket()
-        self.server_socket.bind(('0.0.0.0', PORT))
+        self.server_socket.bind(('0.0.0.0', port))
         self.server_socket.listen(100)
         self.open_client_sockets = []
         self.msg_to_send = {}  # socket: msg to send
@@ -27,7 +26,7 @@ class MainServer_Client():
         self.open_client_sockets.remove(current_socket)
         if current_socket in self.msg_to_send.keys():
             del self.msg_to_send[current_socket]
-        self.client_command.put([current_socket,[-1,[]]])
+        self.client_command.put([current_socket, [-1, []]])
 
     def recv_msg(self, current_socket, first=False):
         msg_type, msg_parameters, connection_fail = self.main_server_client_protocol.recv_msg(current_socket, first)

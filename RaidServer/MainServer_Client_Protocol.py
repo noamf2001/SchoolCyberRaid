@@ -68,12 +68,14 @@ class MainServer_Client_Protocol():
             0: self.disassemble_0_key_exchange,
             1: self.disassemble_1_sign_up,
             2: self.disassemble_2_sign_in,
-            3: self.disassemble_3_upload_file}  # msg type (int) : method that disassemble the msg parameters
+            3: self.disassemble_3_upload_file,
+            4: self.disassemble_4_get_file}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
             0: self.build_0_key_exchange,
             1: self.build_1_sign_up,
             2: self.build_2_sign_in,
-            3: self.build_3_upload_file}  # msg type (int) : method that build the msg to send, the msg parameters part
+            3: self.build_3_upload_file,
+            4: self.build_4_get_file}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_AES_key(self):
         return self.AES_key
@@ -176,7 +178,7 @@ class MainServer_Client_Protocol():
         data_len = int(msg[:msg.find("$")])
         data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
         file_part_path = self.saving_path + "\\" + name
-        #while os.path.isfile(file_part_path):
+        # while os.path.isfile(file_part_path):
         #    file_part_path = file_part_path[:file_part_path.rfind(".")] + str(random.randint(0, 100)) + file_part_path[
         #                                                                                                file_part_path.rfind("."):]
         if os.path.isfile(file_part_path):
@@ -184,6 +186,15 @@ class MainServer_Client_Protocol():
         with open(file_part_path, "wb") as f:
             f.write(data)
         return [file_part_path]
+
+    def disassemble_4_get_file(self, msg):
+        """
+        :param msg: the msg parameters
+        :return: msg parameters - in array [file_name]
+        """
+        name_len = int(msg[:msg.find("$")])
+        name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
+        return [name]
 
     def build(self, msg_type, msg_parameter, RSA_key=None):
         """
@@ -227,6 +238,21 @@ class MainServer_Client_Protocol():
         :return: 1 if True, 0 if False
         """
         return str(int(msg_parameters[0]))
+
+    def build_4_get_file(self, msg_parameters):
+        """
+        :param msg_parameters: [file_name,file_path]
+        :return: file name and file data
+        """
+        print "build 4 get file!!!!"
+        file_name = msg_parameters[0]
+        if msg_parameters[1] != "":
+            with open(msg_parameters[1], "rb") as f:
+                file_data = f.read()
+        else:
+            file_data = ""
+        msg = str(len(file_name)) + "$" + file_name + str(len(file_data)) + "$" + file_data
+        return msg
 
 
 if __name__ == '__main__':

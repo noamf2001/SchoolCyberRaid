@@ -8,7 +8,7 @@ SERVER_IP = "127.0.0.1"
 
 
 class Client_MainServer():
-    def __init__(self, client_command, command_result):
+    def __init__(self, client_command, command_result, saving_path):
         """
         :param client_command: empty queue
         :param command_result: empty queue
@@ -17,7 +17,7 @@ class Client_MainServer():
         self.my_socket.connect((SERVER_IP, PORT))
         print "connected"
         self.FAIL = False
-        self.client_main_server_protocol = Client_MainServer_Protocol(self.my_socket)
+        self.client_main_server_protocol = Client_MainServer_Protocol(self.my_socket, saving_path)
         self.client_command = client_command  # queue: [msg_type, msg_parameters]
         self.command_result = command_result  # queue: [msg_type, msg_parameters]
         self.client_command.put([0, [self.client_main_server_protocol.export_RSA_public_key()]])
@@ -36,6 +36,8 @@ class Client_MainServer():
                 if self.client_main_server_protocol.AES_cipher is None:
                     self.client_main_server_protocol.create_AES_key(msg_parameters[0])
                 else:
+                    if msg_type == 4:
+                        print "!!!!"
                     self.command_result.put([msg_type, msg_parameters])
 
     def send_waiting_messages(self, wlist):

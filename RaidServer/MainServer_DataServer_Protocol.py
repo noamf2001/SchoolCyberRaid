@@ -5,7 +5,7 @@ from Crypto import Random
 from AESCipher import AESCipher
 import string
 import random
-
+import os
 """
 msg type:
 -1: socket crash
@@ -24,14 +24,17 @@ msg type:
 
 
 class MainServer_DataServer_Protocol():
-    def __init__(self):
+    def __init__(self, saving_path):
+        self.saving_path = saving_path
         self.AES_key = ''.join(random.choice(string.digits + string.letters) for _ in range(32))
         self.AES_cipher = AESCipher(self.AES_key)
         self.msg_type_disassemble = {
-            0: self.disassemble_0_key_exchange}  # msg type (int) : method that disassemble the msg parameters
+            0: self.disassemble_0_key_exchange,
+            4: self.disassemble_4_get_file}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
             0: self.build_0_key_exchange,
-            3: self.build_3_upload_file}  # msg type (int) : method that build the msg to send, the msg parameters part
+            3: self.build_3_upload_file,
+            4: self.build_4_get_file}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_AES_key(self):
         return self.AES_key
@@ -95,6 +98,26 @@ class MainServer_DataServer_Protocol():
         """
         return [msg]
 
+    def disassemble_4_get_file(self, msg):
+        """
+        :param msg: the msg parameters - file part name and data
+        :return: msg parameters - in array [file part path (after creating)]
+        """
+        name_len = int(msg[:msg.find("$")])
+        name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
+        msg = msg[msg.find("$") + 1 + name_len:]
+        data_len = int(msg[:msg.find("$")])
+        data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
+        file_part_path = self.saving_path + "\\" + name
+        # while os.path.isfile(file_part_path):
+        #    file_part_path = file_part_path[:file_part_path.rfind(".")] + str(random.randint(0, 100)) + file_part_path[
+        #                                                                                                file_part_path.rfind("."):]
+        if os.path.isfile(file_part_path):
+            os.remove(file_part_path)
+        with open(file_part_path, "wb") as f:
+            f.write(data)
+        return [file_part_path]
+
     def build(self, msg_type, msg_parameter, RSA_key=None):
         """
         :param RSA_key: if it is the filrst msg and need to encrypt with RSA
@@ -125,7 +148,16 @@ class MainServer_DataServer_Protocol():
         name = msg_parameters[0][msg_parameters[0].rfind("\\") + 1:]
         with open(msg_parameters[0], "rb") as f:
             file_data = f.read()
+        os.remove(msg_parameters[0])
         msg = str(len(name)) + "$" + name + str(len(file_data)) + "$" + file_data
+        return msg
+
+    def build_4_get_file(self, msg_parameters):
+        """
+        :param msg_parameters: [file name, port]
+        :return: the msg to send
+        """
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(msg_parameters[1])
         return msg
 
 

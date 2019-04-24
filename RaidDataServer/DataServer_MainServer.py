@@ -3,19 +3,17 @@ import select
 from DataServer_MainServer_Protocol import DataServer_MainServer_Protocol
 import Queue
 
-PORT = 1345
-SERVER_IP = "127.0.0.1"
-
 
 class DataServer_MainServer():
-    def __init__(self, data_server_command, command_result, saving_path):
+    def __init__(self, data_server_command, command_result, saving_path, SERVER_IP, PORT):
         """
         :param data_server_command: empty queue
         :param command_result: empty queue
         """
         self.my_socket = socket.socket()
+        self.port = PORT
         self.my_socket.connect((SERVER_IP, PORT))
-        print "connected"
+        print "connected with port: " + str(PORT)
         self.FAIL = False
         self.data_server_main_server_protocol = DataServer_MainServer_Protocol(self.my_socket, saving_path)
         self.data_server_command = data_server_command  # queue: [msg_type, msg_parameters]
@@ -33,8 +31,6 @@ class DataServer_MainServer():
                 print "connection fail"
                 self.FAIL = True
             else:
-                print "msg type: " + str(msg_type)
-                print "msg parameter: " + str(msg_parameters)
                 if self.data_server_main_server_protocol.AES_cipher is None:
                     self.data_server_main_server_protocol.create_AES_key(msg_parameters[0])
                 else:
@@ -47,6 +43,7 @@ class DataServer_MainServer():
                 if not self.send_first_msg:
                     self.send_first_msg = True
                 msg_info = self.command_result.get()
+                print "send in port: " + str(self.port) + "  as msg info: " + str(msg_info)
                 msg_build = self.data_server_main_server_protocol.build(msg_info[0], msg_info[1])
                 connection_fail = self.data_server_main_server_protocol.send_msg(msg_build)
                 if connection_fail:

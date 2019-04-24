@@ -8,19 +8,20 @@ PORT = 1345
 
 
 class MainServer_DataServer():
-    def __init__(self, data_server_command, command_result_data_server, valid_data_server):
+    def __init__(self, data_server_command, command_result_data_server, valid_data_server,saving_path = "", port = PORT):
         """
         :param data_server_command: empty queue: server -> data server
         :param command_result_data_server: empty queue: data server -> client
         """
+        print "user port: " + str(port)
         self.valid_data_server = valid_data_server
         self.server_socket = socket.socket()
-        self.server_socket.bind(('0.0.0.0', PORT))
+        self.server_socket.bind(('127.0.0.1', port))
         self.server_socket.listen(100)
         self.open_data_server_sockets = []
         self.msg_to_send = {}  # socket: [msg to send no 1, msg to send no 2,....]
         self.sent_AES_key = set()  # socket
-        self.main_server_data_server_protocol = MainServer_DataServer_Protocol()
+        self.main_server_data_server_protocol = MainServer_DataServer_Protocol(saving_path)
         self.data_server_command = data_server_command  # queue: [socket, [msg_type, msg_parameters]]
         self.command_result_data_server = command_result_data_server  # queue: [socket, [msg_type, msg_parameters]]
 
@@ -46,9 +47,8 @@ class MainServer_DataServer():
 
     def send_waiting_messages(self, wlist):
         for current_socket in wlist:
-            if current_socket in self.msg_to_send.keys() and len(self.msg_to_send[current_socket]) > 0:
+            if current_socket in self.msg_to_send.keys() and len(self.msg_to_send[current_socket]) > 0 and current_socket in self.sent_AES_key:
                 msg = self.msg_to_send[current_socket][0]
-                print "send msg!!!!!! "
                 connection_fail = self.send_msg(current_socket, msg)
                 if connection_fail:
                     continue
@@ -57,11 +57,10 @@ class MainServer_DataServer():
     def get_msg_to_send(self):
         while not self.data_server_command.empty():
             msg_info = self.data_server_command.get()
-            print "add: " + str(msg_info)
             self.msg_to_send[msg_info[0]].append(
                 self.main_server_data_server_protocol.build(msg_info[1][0], msg_info[1][1]))
 
-    def main(self):
+    def main(self, get_file = False):
         while True:
             rlist, wlist, xlist = select.select([self.server_socket] + self.open_data_server_sockets,
                                                 self.open_data_server_sockets, [])
@@ -74,7 +73,8 @@ class MainServer_DataServer():
                     if mac_address in self.valid_data_server.keys():
                         self.open_data_server_sockets.append(new_socket)
                         self.valid_data_server[mac_address] = new_socket
-                        self.command_result_data_server.put([new_socket, [1, []]])
+                        if not get_file:
+                            self.command_result_data_server.put([new_socket, [1, []]])
                         self.msg_to_send[new_socket] = []
                     else:
                         new_socket.close()
@@ -83,14 +83,11 @@ class MainServer_DataServer():
                         self.sent_AES_key.add(current_socket)
                         msg_type, msg_parameters, connection_fail = self.recv_msg(current_socket, True)
                         if connection_fail:
-                            print "connection fail"
-                            self.disconnect(current_socket)
                             continue
-                        self.msg_to_send[current_socket].append(self.main_server_data_server_protocol.build(0, [self.main_server_data_server_protocol.export_AES_key()], msg_parameters[0]))
+                        self.msg_to_send[current_socket].insert(0, self.main_server_data_server_protocol.build(0, [self.main_server_data_server_protocol.export_AES_key()], msg_parameters[0]))
                     else:
                         msg_type, msg_parameters, connection_fail = self.recv_msg(current_socket)
                         if connection_fail:
-                            self.disconnect(current_socket)
                             continue
                         self.command_result_data_server.put([current_socket, [msg_type, msg_parameters]])
             self.get_msg_to_send()

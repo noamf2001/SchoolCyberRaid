@@ -71,7 +71,8 @@ msg type:
 
 
 class Client_MainServer_Protocol():
-    def __init__(self, my_socket):
+    def __init__(self, my_socket, saving_path):
+        self.saving_path = saving_path
         random_generator = Random.new().read
         self.RSA_key = RSA.generate(1024, random_generator)  # generate pub and priv key
         self.AES_cipher = None
@@ -80,12 +81,14 @@ class Client_MainServer_Protocol():
             0: self.disassemble_0_key_exchange,
             1: self.disassemble_1_sign_up,
             2: self.disassemble_2_sign_in,
-            3: self.disassemble_3_upload_file}  # msg type (int) : method that disassemble the msg parameters
+            3: self.disassemble_3_upload_file,
+            4: self.disassemble_4_get_file}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
             0: self.build_0_key_exchange,
             1: self.build_1_sign_up,
             2: self.build_2_sign_in,
-            3: self.build_3_upload_file}  # msg type (int) : method that build the msg to send, the msg parameters part
+            3: self.build_3_upload_file,
+            4: self.build_4_get_file}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_RSA_public_key(self):
         return self.RSA_key.publickey().exportKey()
@@ -147,6 +150,8 @@ class Client_MainServer_Protocol():
             msg = self.AES_cipher.decrypt(msg)
         msg_type, msg = self.get_msg_type(msg)
         msg_parameters = self.msg_type_disassemble[msg_type](msg)
+        if msg_type == 4:
+            print "???"
         return msg_type, msg_parameters
 
     def disassemble_0_key_exchange(self, msg):
@@ -176,6 +181,28 @@ class Client_MainServer_Protocol():
         :return: msg parameters - in array []
         """
         return [bool(int(msg))]
+
+    def disassemble_4_get_file(self, msg):
+        """
+        :param msg: the msg parameters - file part name and data
+        :return: msg parameters - in array [file part path (after creating)]
+        """
+        print "disassemble 4 get file???!!!!"
+        name_len = int(msg[:msg.find("$")])
+        name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
+        msg = msg[msg.find("$") + 1 + name_len:]
+        data_len = int(msg[:msg.find("$")])
+        if data_len != 0:
+            data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
+            file_part_path = self.saving_path + "\\" + name
+            # while os.path.isfile(file_part_path):
+            #    file_part_path = file_part_path[:file_part_path.rfind(".")] + str(random.randint(0, 100)) + file_part_path[
+            #                                                                                                file_part_path.rfind("."):]
+            with open(file_part_path, "wb") as f:
+                f.write(data)
+        else:
+            file_part_path = ""
+        return [file_part_path]
 
     def build(self, msg_type, msg_parameter):
         """
@@ -227,6 +254,13 @@ class Client_MainServer_Protocol():
         msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(file_data)) + "$" + file_data
         return msg
 
+    def build_4_get_file(self, msg_parameters):
+        """
+        :param msg_parameters: [file name]
+        :return: the msg to send
+        """
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0]
+        return msg
 
 if __name__ == '__main__':
     a = Client_MainServer_Protocol("sock")

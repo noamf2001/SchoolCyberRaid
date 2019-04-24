@@ -7,10 +7,10 @@ import thread
 
 
 class ClientMain():
-    def __init__(self):
+    def __init__(self, saving_path):
         self.client_command = Queue.Queue()  # queue: [msg_type, msg_parameters]
         self.command_result = Queue.Queue()  # queue: [msg_type, msg_parameters]
-        self.client_communication = Client_MainServer(self.client_command, self.command_result)
+        self.client_communication = Client_MainServer(self.client_command, self.command_result, saving_path)
         thread.start_new_thread(self.client_communication.main, ())
         self.username = None
 
@@ -54,13 +54,22 @@ class ClientMain():
         return self.command_result.get()
 
     def upload_file(self, file_path):
-        file_name = self.username + file_path[file_path.rfind("\\") + 1:]
+        file_name = self.username + "$" + file_path[file_path.rfind("\\") + 1:]
         self.client_command.put([3, [file_name, file_path]])
+
+    def get_file(self, file_name):
+        file_name = self.username + "$"+file_name
+        self.client_command.put([4,[file_name]])
+        while self.command_result.empty():
+            pass
+        result = self.command_result.get()
+        return result
 
 
 if __name__ == '__main__':
-    a = ClientMain()
-    print a.sign_up("noam", "passwordofnoam")
-    print a.upload_file(r"C:\Users\Sharon\Documents\school\cyber\Project\somename.txt")
+    a = ClientMain(r"C:\Users\Sharon\Documents\school\cyber\Project\client")
+    print a.sign_up("sharon", "Sharon26370")
+    print a.upload_file(r"C:\Users\Sharon\Documents\school\cyber\Project\second try.txt")
+    print a.get_file(r"second try.txt")
     while not a.client_communication.FAIL:
         pass

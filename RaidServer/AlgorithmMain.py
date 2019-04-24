@@ -51,7 +51,7 @@ def create_parity_files(file_path):
         file_part_path.append(parts[i])
         file_part_path.append(create_parity_file_part(parts[i], parts[i + 1]))
     file_part_path.append(parts[len(parts) - 1])
-    return parts,file_len, file_part_path
+    return len(parts),file_len, file_part_path
 
 
 def split_file(file_path):

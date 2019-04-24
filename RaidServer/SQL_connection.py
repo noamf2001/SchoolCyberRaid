@@ -66,10 +66,13 @@ class SQL_connection():
         :param filename:
         :return: (parts num, file len) if exists, otherwise: None
         """
+        print "get user file info: " + username + " file name: " + filename
         self.c.execute(
             'SELECT PARTS_NUM,FILE_LEN FROM ' + self.user_files_table + ' WHERE USERNAME = (?) AND FILENAME = (?)',
             (username, filename,))
-        return self.c.fetchone()
+        result = self.c.fetchone()
+        print "and the result is: " + str(result)
+        return result
 
     def get_user_file_list(self, username):
         """
@@ -89,7 +92,6 @@ class SQL_connection():
         self.conn.commit()
 
     def regexp(self, expr, item):
-
         reg = re.compile(expr)
         return reg.search(item) is not None
 

@@ -36,9 +36,11 @@ class DataServer_MainServer_Protocol():
         self.my_socket = my_socket
         self.msg_type_disassemble = {
             0: self.disassemble_0_key_exchange,
-            3: self.disassemble_3_upload_file}  # msg type (int) : method that disassemble the msg parameters
+            3: self.disassemble_3_upload_file,
+            4: self.disassemble_4_get_file}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
-            0: self.build_0_key_exchange}  # msg type (int) : method that build the msg to send, the msg parameters part
+            0: self.build_0_key_exchange,
+            4: self.build_4_get_file}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_RSA_public_key(self):
         return self.RSA_key.publickey().exportKey()
@@ -111,7 +113,7 @@ class DataServer_MainServer_Protocol():
     def disassemble_3_upload_file(self, msg):
         """
         :param msg: the msg parameters
-        :return: msg parameters - in array [nfile part path]
+        :return: msg parameters - in array [file part path]
         """
         # print "last: " + msg
         name_len = int(msg[:msg.find("$")])
@@ -123,6 +125,17 @@ class DataServer_MainServer_Protocol():
         with open(file_part_path, "wb") as f:
             f.write(data)
         return [file_part_path]
+
+    def disassemble_4_get_file(self, msg):
+        """
+        :param msg: the msg parameters
+        :return: msg parameters - in array [file_name, port]
+        """
+        print "print disassemble get file: " + msg
+        name_len = int(msg[:msg.find("$")])
+        name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
+        port = int(msg[msg.find("$") + 1 + name_len:])
+        return [name, port]
 
     def build(self, msg_type, msg_parameter):
         """
@@ -144,6 +157,21 @@ class DataServer_MainServer_Protocol():
         :return: key
         """
         return msg_parameters[0]
+
+    def build_4_get_file(self, msg_parameters):
+        """
+        :param msg_parameters: [file_name,file_path]
+        :return: file name and file data
+        """
+
+        file_name = msg_parameters[0]
+        if msg_parameters[1] != "":
+            with open(msg_parameters[1], "rb") as f:
+                file_data = f.read()
+        else:
+            file_data = ""
+        msg = str(len(file_name)) + "$" + file_name + str(len(file_data)) + "$" + file_data
+        return msg
 
 
 if __name__ == '__main__':
