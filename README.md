@@ -49,10 +49,20 @@ data server - main server protocol:
 		data server to main server: file parts (do not send if it does not have\send a few parts)
 	msg parameters:
 		main server to data server:
-			len of file name + $ + file name + port (5 digits - max port 65535)
+			len of file name + $ + file name + port
 		data server to main server:
 			len of file part name + $ + file part name + file data (set size)
 
+5:
+
+	delete file:
+		main server to all data server: file name (with username at start)
+		data server to main server: None
+	msg parameters:
+		main server to data server:
+			len of file name + $ + file name
+		data server to main server:
+			None
 
 client - main server protocol:
         
@@ -101,3 +111,26 @@ client - main server protocol:
 			len of file name + $ + file name
 		server to client:
 			len of file data (could be 0) + $ + file data
+
+5:
+
+	delete file:
+		client to server: file name(with username at start)
+		server to client: None
+	msg parameters:
+		client to server:
+			len of file name + $ + file name
+		server to client:
+			None
+
+6:
+
+	get file list:
+		client to server: None
+		server to client: list of the files names
+	msg parameters:
+		client to server:
+			""
+		server to client:
+			len of file 1 name + $ + file 1 name + len of file 2 name + $ + file 2 name
+			
