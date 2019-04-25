@@ -34,7 +34,8 @@ class MainServer_DataServer_Protocol():
         self.msg_type_build = {
             0: self.build_0_key_exchange,
             3: self.build_3_upload_file,
-            4: self.build_4_get_file}  # msg type (int) : method that build the msg to send, the msg parameters part
+            4: self.build_4_get_file,
+            5: self.build_5_delete_file}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_AES_key(self):
         return self.AES_key
@@ -159,6 +160,15 @@ class MainServer_DataServer_Protocol():
         """
         msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(msg_parameters[1])
         return msg
+
+    def build_5_delete_file(self, msg_parameters):
+        """
+        :param msg_parameters: [file name]
+        :return: the msg to send
+        """
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0]
+        return msg
+
 
 
 if __name__ == '__main__':

@@ -69,13 +69,16 @@ class MainServer_Client_Protocol():
             1: self.disassemble_1_sign_up,
             2: self.disassemble_2_sign_in,
             3: self.disassemble_3_upload_file,
-            4: self.disassemble_4_get_file}  # msg type (int) : method that disassemble the msg parameters
+            4: self.disassemble_4_get_file,
+            5: self.disassemble_5_delete_file,
+            6: self.disassemble_6_get_file_list}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
             0: self.build_0_key_exchange,
             1: self.build_1_sign_up,
             2: self.build_2_sign_in,
             3: self.build_3_upload_file,
-            4: self.build_4_get_file}  # msg type (int) : method that build the msg to send, the msg parameters part
+            4: self.build_4_get_file,
+            6: self.build_6_get_file_list}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_AES_key(self):
         return self.AES_key
@@ -196,6 +199,22 @@ class MainServer_Client_Protocol():
         name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
         return [name]
 
+    def disassemble_5_delete_file(self, msg):
+        """
+        :param msg: the msg parameters
+        :return: msg parameters - in array [file_name]
+        """
+        name_len = int(msg[:msg.find("$")])
+        name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
+        return [name]
+
+    def disassemble_6_get_file_list(self, msg):
+        """
+        :param msg: the msg parameters
+        :return: msg parameters - in array []
+        """
+        return []
+
     def build(self, msg_type, msg_parameter, RSA_key=None):
         """
         :param RSA_key: if it is the filrst msg and need to encrypt with RSA
@@ -252,6 +271,16 @@ class MainServer_Client_Protocol():
         else:
             file_data = ""
         msg = str(len(file_name)) + "$" + file_name + str(len(file_data)) + "$" + file_data
+        return msg
+
+    def build_6_get_file_list(self,msg_parameters):
+        """
+        :param msg_parameters: [file 1 name, file 2 name,...]
+        :return: the msg combiend it lie always
+        """
+        msg = ""
+        for file_name in msg_parameters:
+            msg += str(len(file_name)) + "$" + file_name
         return msg
 
 

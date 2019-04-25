@@ -39,7 +39,9 @@ class MainServer():
             1: self.sign_up_client,
             2: self.sign_in,
             3: self.upload_file,
-            4: self.get_file}  # msg_type : method that take care of it, take as parameter: current socket, msg_parameter
+            4: self.get_file,
+            5: self.delete_file,
+            6: self.get_file_list}  # msg_type : method that take care of it, take as parameter: current socket, msg_parameter
 
         self.valid_data_server = {"?": None}  # mac address : data server socket
         self.data_server_command = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
@@ -140,9 +142,6 @@ class MainServer():
             for data_server_current_socket in self.data_server_communication.open_data_server_sockets:
                 self.data_server_command.put([data_server_current_socket,[4, [msg_parameters[0], port]]])
             time_stop = 0
-            while not finish:
-                finish = retrieve_file.is_finish()
-            print "!@#$!@#$!@#$!@#$!@#$!@#$!@$#132"
             while not finish and time_stop < 3:
                 time.sleep(4)
                 time_stop += 1
@@ -156,6 +155,28 @@ class MainServer():
             file_path = ""
         self.command_result_client.put([current_socket, [4, [msg_parameters[0],file_path]]])
         return None
+
+    def delete_file(self,current_socket, msg_parameters):
+        """
+        :param current_socket: the socket that getting it from
+        :param msg_parameters: [file name]
+        :return None
+        """
+        self.sql_connection.delete_user_file(self.socket_username[current_socket], msg_parameters[0])
+        for data_server_current_socket in self.data_server_communication.open_data_server_sockets:
+            self.data_server_command.put([data_server_current_socket, [5, [msg_parameters[0]]]])
+        return None
+
+    def get_file_list(self,current_socket, msg_parameters):
+        """
+        :param current_socket: the socket that getting it from
+        :param msg_parameters: []
+        :return None
+        """
+        username = self.socket_username[current_socket]
+        result = [file_name[0][file_name[0].find("$") + 1:] for file_name in self.sql_connection.get_user_file_list(username)]
+        return result
+
 
     def main(self):
         while True:

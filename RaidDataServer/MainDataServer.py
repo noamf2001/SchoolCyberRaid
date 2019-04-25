@@ -30,7 +30,8 @@ class DataServer():
         thread.start_new_thread(self.main_server_communication.main, ())
         self.data_server_command_def = {
             3: self.upload_file,
-            4: self.get_file}  # msg_type : method that take care of it, take as parameter: current
+            4: self.get_file,
+            5: self.delete_file}  # msg_type : method that take care of it, take as parameter: current
         # socket, msg_parameter
         self.files = {}  # name: path
 
@@ -43,15 +44,19 @@ class DataServer():
         self.files[msg_parameters[0][msg_parameters[0].rfind("\\") + 1:]] = msg_parameters[0]
         return [None]
 
-    def get_file(self, msg_parameters):
-        filename = msg_parameters[0][msg_parameters[0].find("$") + 1:]
-        username = msg_parameters[0][:msg_parameters[0].find("$")]
+    def get_regex_file_name(self, file_full_name):
+        filename = file_full_name[file_full_name.find("$") + 1:]
+        username = file_full_name[:file_full_name.find("$")]
 
         reg_part = username + r"[$]" + filename[:filename.rfind(".")] + r"_(\d+)_(\d+)" + filename[filename.rfind("."):]
         reg_xor = username + r"[$]" + filename[:filename.rfind(".")] + r"_(\d+)_[-]1" + filename[filename.rfind("."):]
         reg = reg_part + r"|" + reg_xor
 
         reg = re.compile(reg)
+        return reg
+
+    def get_file(self, msg_parameters):
+        reg = self.get_regex_file_name(msg_parameters[0])
         result_files = [file_part for file_part in self.files.keys() if reg.search(file_part) is not None]
         print "the result file len: " + str(len(result_files))
         if len(result_files) > 0:
@@ -65,6 +70,11 @@ class DataServer():
             while not send_file_parts.FAIL:
                 pass
 
+    def delete_file(self, msg_parameters):
+        reg = self.get_regex_file_name(msg_parameters[0])
+        for file_part in self.files.keys():
+            if reg.search(file_part) is not None:
+                del self.files[file_part]
 
     def main(self):
         while not self.main_server_communication.FAIL:

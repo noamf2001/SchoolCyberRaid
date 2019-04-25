@@ -82,13 +82,16 @@ class Client_MainServer_Protocol():
             1: self.disassemble_1_sign_up,
             2: self.disassemble_2_sign_in,
             3: self.disassemble_3_upload_file,
-            4: self.disassemble_4_get_file}  # msg type (int) : method that disassemble the msg parameters
+            4: self.disassemble_4_get_file,
+            6: self.disassemble_6_get_file_list}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
             0: self.build_0_key_exchange,
             1: self.build_1_sign_up,
             2: self.build_2_sign_in,
             3: self.build_3_upload_file,
-            4: self.build_4_get_file}  # msg type (int) : method that build the msg to send, the msg parameters part
+            4: self.build_4_get_file,
+            5: self.build_5_delete_file,
+            6: self.build_6_get_file_list}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_RSA_public_key(self):
         return self.RSA_key.publickey().exportKey()
@@ -204,6 +207,20 @@ class Client_MainServer_Protocol():
             file_part_path = ""
         return [file_part_path]
 
+    def disassemble_6_get_file_list(self, msg):
+        """
+        :param msg: the msg parameters all the files
+        :return: msg parameters - in array [file 1 name,....,]
+        """
+        current_index = 0
+        result_file = []
+        while current_index < len(msg):
+            name_len = int(msg[:msg.find("$", current_index)])
+            name = msg[msg.find("$", current_index) + 1: msg.find("$", current_index) + 1 + name_len]
+            result_file.append(name)
+            current_index = msg.find("$", current_index) + 1 + name_len
+        return result_file
+
     def build(self, msg_type, msg_parameter):
         """
         :param msg_type: int - the msg type as above
@@ -261,6 +278,21 @@ class Client_MainServer_Protocol():
         """
         msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0]
         return msg
+
+    def build_5_delete_file(self, msg_parameters):
+        """
+        :param msg_parameters: [file name]
+        :return: the msg to send
+        """
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0]
+        return msg
+
+    def build_6_get_file_list(self, msg_parameters):
+        """
+        :param msg_parameters: [""]
+        :return: the msg to send
+        """
+        return ""
 
 if __name__ == '__main__':
     a = Client_MainServer_Protocol("sock")

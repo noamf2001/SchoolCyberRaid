@@ -37,7 +37,8 @@ class DataServer_MainServer_Protocol():
         self.msg_type_disassemble = {
             0: self.disassemble_0_key_exchange,
             3: self.disassemble_3_upload_file,
-            4: self.disassemble_4_get_file}  # msg type (int) : method that disassemble the msg parameters
+            4: self.disassemble_4_get_file,
+            5: self.disassemble_5_delete_file}  # msg type (int) : method that disassemble the msg parameters
         self.msg_type_build = {
             0: self.build_0_key_exchange,
             4: self.build_4_get_file}  # msg type (int) : method that build the msg to send, the msg parameters part
@@ -137,6 +138,15 @@ class DataServer_MainServer_Protocol():
         port = int(msg[msg.find("$") + 1 + name_len:])
         return [name, port]
 
+    def disassemble_5_delete_file(self, msg):
+        """
+        :param msg: the msg parameters
+        :return: msg parameters - in array [file_name]
+        """
+        print "print disassemble get file: " + msg
+        name_len = int(msg[:msg.find("$")])
+        name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
+        return [name]
     def build(self, msg_type, msg_parameter):
         """
         :param msg_type: int - the msg type as above

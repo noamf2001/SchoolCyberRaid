@@ -65,6 +65,20 @@ class ClientMain():
         result = self.command_result.get()
         return result
 
+    def delete_file(self, file_name):
+        file_name = self.username + "$" + file_name
+        self.client_command.put([5, [file_name]])
+        while self.command_result.empty():
+            pass
+        result = self.command_result.get()
+        return result
+
+    def get_file_list(self):
+        self.client_command.put([6, []])
+        while self.command_result.empty():
+            pass
+        result = self.command_result.get()
+        return result
 
 if __name__ == '__main__':
     a = ClientMain(r"C:\Users\Sharon\Documents\school\cyber\Project\client")
