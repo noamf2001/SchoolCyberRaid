@@ -60,7 +60,7 @@ data server - main server protocol:
 		data server to main server: None
 	msg parameters:
 		main server to data server:
-			len of file name + $ + file name
+			file name
 		data server to main server:
 			None
 
