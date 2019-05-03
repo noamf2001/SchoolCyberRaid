@@ -66,59 +66,54 @@ class SignDialog(wx.Dialog):
         # pub.subscribe(self.signResult, "RESULT")
 
         self.SetSizer(main_sizer)
+        self.sign_result = ""
 
     # ----------------------------------------------------------------------
-
-    def signResult(self, res):
-        print res
-        if "NO" in res:
-            if len(res) == 2:
-                self.show_message("wrong username or password", (self.screenWidth / 2.35, self.screenHeight * 0.8))
-            elif "pHusH" in res:
-                # password is used
-                self.show_message("password is used. enter another one",
-                                  (self.screenWidth / 2.35, self.screenHeight * 0.8))
-            else:
-                # username is used
-                self.show_message("username is used. enter another one",
-                                  (self.screenWidth / 2.35, self.screenHeight * 0.8))
-        else:
-            self.Destroy()
 
     def onSignIn(self, event):
         """
         Check credentials and login
         """
-        self.show_message()
-        user_password = self.password_ctrl.GetValue()
+        password = self.password_ctrl.GetValue()
         username = self.username_ctrl.GetValue()
         print "sign in:"
         print "username: " + username
-        print "password: " + user_password
+        print "password: " + password
+        #if not self.client.sign_in(username, password)[0]:
+        if False:
+            self.show_message("wrong username/password", (100, 200))
+        else:
+            self.Destroy()
 
     def onSignUp(self, event):
         """
         Check credentials and login
         """
-        self.show_message()
-        user_password1 = self.password_ctrl.GetValue()
+        password = self.password_ctrl.GetValue()
         username = self.username_ctrl.GetValue()
         print "sign up:"
         print "username: " + username
-        print "password: " + user_password1
-
-    def show_message(self, message=None, pos=None):
-        font = wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
-        if message:
-            self.username_msg = wx.StaticText(self, label=message, pos=pos)
-            self.username_msg.SetForegroundColour(wx.BLACK)
-            self.username_msg.SetFont(font)
-
+        print "password: " + password
+        #if not self.client.check_legal_useraname(username):
+        if True:
+            self.show_message("username is not legal", (100, 200))
+        #elif not self.client.check_legal_password(password):
+        elif False:
+            self.show_message("password is not legal", (100, 200))
+        #elif not self.client.sign_up(username, password)[0]:
+        elif False:
+            self.show_message("username is taken", (100, 200))
         else:
-            try:
-                self.username_msg.Destroy()
-            except:
-                pass
+            self.Destroy()
+
+    def show_message(self, message, pos):
+        if self.sign_result != "":
+            self.sign_result.Destroy()
+        font = wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
+        self.sign_result = wx.StaticText(self, label=message, pos=pos)
+        self.sign_result.SetForegroundColour(wx.BLACK)
+        self.sign_result.SetFont(font)
+
 
     def _when_closed(self, event):
         sys.exit()

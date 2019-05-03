@@ -4,10 +4,11 @@ import hashlib
 from Client_MainServer import Client_MainServer
 import Queue
 import thread
+import os
 
 
 class ClientMain():
-    def __init__(self, saving_path):
+    def __init__(self, saving_path=os.getcwd()):
         self.client_command = Queue.Queue()  # queue: [msg_type, msg_parameters]
         self.command_result = Queue.Queue()  # queue: [msg_type, msg_parameters]
         self.client_communication = Client_MainServer(self.client_command, self.command_result, saving_path)
@@ -29,7 +30,7 @@ class ClientMain():
         :return: str of length 64 - the hash
         """
         return password
-        #return hashlib.sha256(password).hexdigest()
+        # return hashlib.sha256(password).hexdigest()
 
     def check_legal_username(self, username):
         return len(username) >= 4 and len(username) <= 100
@@ -58,8 +59,8 @@ class ClientMain():
         self.client_command.put([3, [file_name, file_path]])
 
     def get_file(self, file_name):
-        file_name = self.username + "$"+file_name
-        self.client_command.put([4,[file_name]])
+        file_name = self.username + "$" + file_name
+        self.client_command.put([4, [file_name]])
         while self.command_result.empty():
             pass
         result = self.command_result.get()
@@ -79,6 +80,7 @@ class ClientMain():
             pass
         result = self.command_result.get()
         return result
+
 
 if __name__ == '__main__':
     a = ClientMain(r"C:\Users\Sharon\Documents\school\cyber\Project\client")

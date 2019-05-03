@@ -2,7 +2,7 @@ import wx
 import os
 import sys
 from SignDialog import SignDialog
-
+from ClientMain import ClientMain
 
 class GUI(wx.Frame):
 
@@ -33,9 +33,9 @@ class GUI(wx.Frame):
 if __name__ == "__main__":
     app = wx.App(False)
 
-    com = "hi"  # client_com.client_com('127.0.0.1',1000, uuid.uuid4())
-
-    frame = GUI(parent=None, id=-1, title="Test", client=com, app=app)
+    #client = ClientMain()
+    client = ""
+    frame = GUI(parent=None, id=-1, title="Test", client=client, app=app)
     frame.Show()
 
     app.MainLoop()

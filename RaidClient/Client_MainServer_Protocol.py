@@ -153,8 +153,6 @@ class Client_MainServer_Protocol():
             msg = self.AES_cipher.decrypt(msg)
         msg_type, msg = self.get_msg_type(msg)
         msg_parameters = self.msg_type_disassemble[msg_type](msg)
-        if msg_type == 4:
-            print "???"
         return msg_type, msg_parameters
 
     def disassemble_0_key_exchange(self, msg):
