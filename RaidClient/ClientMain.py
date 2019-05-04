@@ -15,6 +15,9 @@ class ClientMain():
         thread.start_new_thread(self.client_communication.main, ())
         self.username = None
 
+    def set_saving_path(self, path):
+        self.client_communication.client_main_server_protocol.saving_path = path
+
     def get_command_result(self):
         """
         :return: [[msg_type,msg parameters],....]

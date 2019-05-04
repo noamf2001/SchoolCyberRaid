@@ -13,6 +13,5 @@ class SearchControl(wx.SearchCtrl):
         self.Show()
 
     def SearchHandler(self, event):
-        if event.GetString():
-            # file was searched
-            self.grandfather.create_new_panel(search=event.GetString())
+        #self.parent.parent.file_panel.DestroyChildren()
+        self.parent.parent.file_panel.show_files(event.GetString())

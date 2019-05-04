@@ -76,9 +76,6 @@ class SignDialog(wx.Dialog):
         """
         password = self.password_ctrl.GetValue()
         username = self.username_ctrl.GetValue()
-        print "sign in:"
-        print "username: " + username
-        print "password: " + password
         #if not self.client.sign_in(username, password)[0]:
         if False:
             self.show_message("wrong username/password", (100, 200))

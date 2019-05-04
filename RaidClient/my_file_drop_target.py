@@ -12,5 +12,6 @@ class MyFileDropTarget(wx.FileDropTarget):
         the file paths themselves
         """
         print "drop files: " + str(filenames)
+        self.window.parent.upload_files(filenames)
         ####msg2send = protocol.to_upload_file(str(filename))
         ####self.window.parent.ccom.proc_send_message(msg2send)
