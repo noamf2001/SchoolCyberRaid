@@ -6,21 +6,6 @@ from AESCipher import AESCipher
 import string
 import random
 import os
-"""
-msg type:
--1: socket crash
-0: key exchange,
-    data server to main server: asymmetric key
-    main server to data server: symmetric key
-    msg parameters:
-        just the key itself
-3: upload file,
-    main server to data server: file name, file data
-    data server to main server: None
-    msg parameters:
-        file name
-        file data
-"""
 
 
 class MainServer_DataServer_Protocol():
@@ -110,11 +95,6 @@ class MainServer_DataServer_Protocol():
         data_len = int(msg[:msg.find("$")])
         data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
         file_part_path = self.saving_path + "\\" + name
-        # while os.path.isfile(file_part_path):
-        #    file_part_path = file_part_path[:file_part_path.rfind(".")] + str(random.randint(0, 100)) + file_part_path[
-        #                                                                                                file_part_path.rfind("."):]
-        if os.path.isfile(file_part_path):
-            os.remove(file_part_path)
         with open(file_part_path, "wb") as f:
             f.write(data)
         return [file_part_path]
@@ -166,9 +146,8 @@ class MainServer_DataServer_Protocol():
         :param msg_parameters: [file name]
         :return: the msg to send
         """
-        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0]
+        msg = msg_parameters[0]
         return msg
-
 
 
 if __name__ == '__main__':

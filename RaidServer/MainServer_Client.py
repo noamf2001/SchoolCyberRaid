@@ -22,7 +22,6 @@ class MainServer_Client():
         self.command_result = command_result  # queue: [socket, [msg_type, msg_parameters]]
 
     def disconnect(self, current_socket):
-        print "disconnect!!"
         self.open_client_sockets.remove(current_socket)
         if current_socket in self.msg_to_send.keys():
             del self.msg_to_send[current_socket]
@@ -61,13 +60,12 @@ class MainServer_Client():
                 if current_socket is self.server_socket:
                     (new_socket, address) = self.server_socket.accept()
                     self.open_client_sockets.append(new_socket)
-                    print "connect to client"
+                    print "client socket: " + str(new_socket) + "  with address: " + str(address[0])
                 else:
                     if current_socket not in self.sent_AES_key:
                         self.sent_AES_key.add(current_socket)
                         msg_type, msg_parameters, connection_fail = self.recv_msg(current_socket, True)
                         if connection_fail:
-                            print "connection fail"
                             continue
                         self.msg_to_send[current_socket] = self.main_server_client_protocol.build(0, [
                             self.main_server_client_protocol.export_AES_key()], msg_parameters[0])

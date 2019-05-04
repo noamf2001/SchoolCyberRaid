@@ -7,56 +7,6 @@ import string
 import random
 import os
 
-"""
-msg type:
--1: socket crash
-0: key exchange,
-    client to server: asymmetric key
-    server to client: symmetric key
-    msg parameters:
-        just the key itself
-1:  sign up:
-        client to server: username, password (after hash)
-        server to client: boolean if success
-    msg parameters:
-        len of username
-        $
-        username
-        
-        len of password
-        $
-        password
-2:  sign in:
-        client to server: username, password(after hash)
-        server to client: boolean if success
-    msg parameters:
-        client to server: 
-            len of username
-            $
-            username
-            
-            len of password
-            $
-            password
-        server to client:
-            0 - False
-            1 - True
-3:  upload file:
-        client to server: file name, file data
-        server to client: boolean if success
-    msg parameters:
-        client to server:
-            len of file
-            $
-            file name
-            
-            len of file data
-            $
-            file data
-        server to client:
-            0 - False
-            1 - True
-"""
 
 
 class MainServer_Client_Protocol():
@@ -153,7 +103,6 @@ class MainServer_Client_Protocol():
         password_start = msg.find("$", username_start + 1 + username_len)
         password_len = int(msg[username_start + 1 + username_len: password_start])
         password = msg[password_start + 1:password_start + 1 + password_len]
-        print "disassemble sign up/in:  " + str([username, password])
         return [username, password]
 
     def disassemble_1_sign_up(self, msg):
@@ -263,11 +212,11 @@ class MainServer_Client_Protocol():
         :param msg_parameters: [file_name,file_path]
         :return: file name and file data
         """
-        print "build 4 get file!!!!"
-        file_name = msg_parameters[0]
+        file_name = msg_parameters[0][msg_parameters[0].find("$") + 1:]
         if msg_parameters[1] != "":
             with open(msg_parameters[1], "rb") as f:
                 file_data = f.read()
+            os.remove(msg_parameters[1])
         else:
             file_data = ""
         msg = str(len(file_name)) + "$" + file_name + str(len(file_data)) + "$" + file_data

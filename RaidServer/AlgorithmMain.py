@@ -44,8 +44,9 @@ def create_parity_files(file_path):
     :param file_path: the path of the file to save
     :return [parts_num, file_len,[file_part - 1 - path,....]
     """
-    parts = split_file(file_path)
+
     file_len = os.path.getsize(file_path)
+    parts = split_file(file_path)
     file_part_path = []
     for i in range(len(parts) - 1):
         file_part_path.append(parts[i])
@@ -60,7 +61,7 @@ def split_file(file_path):
     complete the part file that(if exists) is not at that length with 0 (the ascii char with ascii value 0)
     save the parts file as expected as above
     :param file_path: the path of the file to split
-    :return: the number of file parts created
+    :return: the number of file parts created, delete the file path
     """
     parts = []
     parts_num = os.path.getsize(file_path) / PART_FILE_LENGTH
@@ -75,8 +76,9 @@ def split_file(file_path):
             parts.append(file_part_name)
             with open(file_part_name, "wb") as file_part:
                 file_part.write(file_part_data)
-                if len(file_part_data) < PART_FILE_LENGTH:
+                for i in range(PART_FILE_LENGTH - len(file_part_data)):
                     file_part.write(chr(0))
+    os.remove(file_path)
     return parts
 
 

@@ -16,7 +16,8 @@ namg_2_4
 
 
 class AlgorithmRetrieve():
-    def __init__(self, port, num_of_parts, file_len, valid_data_server, saving_path):
+    def __init__(self, port, num_of_parts, file_len, valid_data_server, optional_data_server, saving_path):
+        self.stop_thread = False
         self.file_len = file_len
         self.open_client_sockets = []
         self.part_file = ["" for i in range(num_of_parts)]  # List[string] - the path of the files
@@ -24,12 +25,14 @@ class AlgorithmRetrieve():
             num_of_parts)]  # [set(xor parts that have connection to this part) for part i, 1<=i<= num_of_parts]
 
         self.valid_data_server = valid_data_server
+        #self.optional_data_server = optional_data_server
         self.data_server_command = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
         self.command_result_data_server = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
         self.data_server_communication = MainServer_DataServer(self.data_server_command,
                                                                self.command_result_data_server, self.valid_data_server,
+                                                               optional_data_server,
                                                                saving_path, port)
-        thread.start_new_thread(self.data_server_communication.main, (True,))
+        self.data_server_communication_thread_id = thread.start_new_thread(self.data_server_communication.main, (True,))
 
     def retrieve_file_part_generate_path(self, file_path1, file_path2):
         end_of_filename1, [file_part1_index1, file_part1_index2] = get_file_info(file_path1)
@@ -61,7 +64,6 @@ class AlgorithmRetrieve():
         self.part_file[file_index] = file_path
 
     def add_file_path(self, file_path):
-        print "got another file part: " + str(file_path)
         end_of_filename, [file_part_index1, file_part_index2] = get_file_info(file_path)
         if file_part_index2 == -1:
             self.part_file[file_part_index1] = file_path
@@ -91,37 +93,28 @@ class AlgorithmRetrieve():
         end_of_filename, [file_part_index1, file_part_index2] = get_file_info(file_part_path)
         file_path = file_part_path[:end_of_filename] + file_part_path[file_part_path.rfind("."):]
         current_len = 0
-        print "file path: " + str(file_path)
-        print "part files in connect: " + str(self.part_file)
         if os.path.isfile(file_path):
             os.remove(file_path)
         for file_part_path in self.part_file:
             with open(file_part_path, "rb") as fr:
                 data = fr.read()
-            print "file_part_path " + file_part_path
-            print "now read the data: " + data + "\n"
             if current_len + len(data) > self.file_len:
                 data = data[:self.file_len - current_len]
-                print ""
             else:
                 current_len += len(data)
             with open(file_path, "ab") as fw:
                 fw.write(data)
-            with open(file_path, "r") as fw:
-                print fw.read()
-        with open(file_path, "r") as fw:
-            print fw.read()
         return file_path
 
+
     def disconnect_data_server(self, current_socket):
-        pass
+        self.data_server_communication.stop_thread = True
+
 
     def main(self):
-        print "start!!!!"
-        while True:
+        while not self.stop_thread:
             if not self.command_result_data_server.empty():
                 result_data_server = self.command_result_data_server.get()
-                print "command algorithm data server: " + str(result_data_server)
                 if result_data_server[1][0] == -1:
                     self.disconnect_data_server(result_data_server[0])
                 else:

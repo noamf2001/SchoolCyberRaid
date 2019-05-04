@@ -2,10 +2,10 @@ import sqlite3
 import re
 import os
 
+
 class SQL_connection():
-    def __init__(self):
-        os.remove("my_db_try.splite")
-        sqlite_file = "my_db_try.splite"
+    def __init__(self, file_name):
+        sqlite_file = file_name
         self.conn = sqlite3.connect(sqlite_file)
         self.conn.create_function("REGEXP", 2, self.regexp)
         self.c = self.conn.cursor()
@@ -14,6 +14,9 @@ class SQL_connection():
         self.user_files_table = "user_files"
         self.data_server_table = "data_server"
         self.data_server_files_table = "data_server_files"
+        self.init_tables()
+
+    def init_tables(self):
         self.c.execute(
             'CREATE TABLE IF NOT EXISTS ' + self.username_password_table + '(username VARCHAR(100) , password '
                                                                            'VARCHAR(100))')
@@ -113,6 +116,10 @@ class SQL_connection():
         self.c.execute('SELECT * FROM ' + self.data_server_table)
         result = self.c.fetchall()
         return result
+
+    def close_sql(self):
+        self.conn.close()
+
 
 """
 if __name__ == '__main__':
