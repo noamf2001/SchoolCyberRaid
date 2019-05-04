@@ -3,6 +3,9 @@ import os
 import sys
 from SignDialog import SignDialog
 from ClientMain import ClientMain
+from MainPanel import MainPanel
+from files_panel import FilePanel
+
 
 class GUI(wx.Frame):
 
@@ -23,17 +26,38 @@ class GUI(wx.Frame):
         wx.Frame.__init__(self, parent, id, title, size=(self.screenWidth, self.screenHeight),
                           style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER, pos=(0, 0))
 
-        self.username = ""
-        self.dlg = SignDialog(self)
-        self.dlg.ShowModal()
+        self.init_files = []
 
-        #####
+        self.username = ""
+        self.sign()
+
+        #cSizer = wx.BoxSizer(wx.VERTICAL)
+
+        self.main_panel = MainPanel(self)
+
+
+        self.file_panel = FilePanel(self)
+
+        #pub.subscribe(self.handle_new_file_lst, "showfiles")
+
+
+        #pub.subscribe(self.myListener, "open_main_frame")
+        #pub.subscribe(self.myListener2, "filelist")
+        #pub.subscribe(self.myListener3, "files")
+        #pub.subscribe(self.download, "sentfile")
+
+        #self.SetSizer(cSizer)
+
+    def sign(self):
+        dlg = SignDialog(self)
+        dlg.ShowModal()
+        print "this working:"
 
 
 if __name__ == "__main__":
     app = wx.App(False)
 
-    #client = ClientMain()
+    # client = ClientMain()
     client = ""
     frame = GUI(parent=None, id=-1, title="Test", client=client, app=app)
     frame.Show()
