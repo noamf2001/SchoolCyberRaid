@@ -12,13 +12,13 @@ class SignDialog(wx.Dialog):
         """Constructor"""
         # pub.subscribe(self.myListener, "result")
         screenSize = wx.DisplaySize()
-        self.screenWidth = screenSize[0] * 0.8
-        self.screenHeight = (screenSize[1] * 187 / 192) * 0.5
+        self.screenWidth = screenSize[0] * 0.6
+        self.screenHeight = (screenSize[1]) * 0.6
 
         self.client = parent.client
-        wx.Dialog.__init__(self, parent, title="Network Raid", size=(self.screenWidth, self.screenHeight * 27 / 26),
+        wx.Dialog.__init__(self, parent, title="Network Raid", size=(self.screenWidth, self.screenHeight),
                            pos=(0, 0))
-        self.SetBackgroundColour(wx.Colour(255, 255, 255))
+        self.SetBackgroundColour(wx.Colour(0, 0, 0))
         self.Bind(wx.EVT_CLOSE, self._when_closed)
         self.parent = parent
 

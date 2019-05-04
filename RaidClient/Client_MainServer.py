@@ -4,7 +4,7 @@ from Client_MainServer_Protocol import Client_MainServer_Protocol
 import Queue
 
 PORT = 1234
-SERVER_IP = "127.0.0.1"
+SERVER_IP = "192.168.1.13"
 
 
 class Client_MainServer():

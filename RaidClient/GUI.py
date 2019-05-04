@@ -14,8 +14,11 @@ class GUI(wx.Frame):
         # First retrieve the screen size of the device
         self.app = app
         screen_size = wx.DisplaySize()
-        self.screenWidth = screen_size[0] * 0.8
-        self.screenHeight = (screen_size[1] - 40) * 0.8
+        self.screenWidth = screen_size[0] * 0.9
+        self.screenHeight = screen_size[1] * 0.8
+
+
+
         self.color = wx.Colour(117, 194, 229, 255)
 
         self.client = client
@@ -30,6 +33,8 @@ class GUI(wx.Frame):
         self.files = [r"try.jpg", r"another1.docs", r"fda.txt", r"anereother1.docs", r"fd545a.txt",
                       r"anothe3434r1.png", r"fda.tdf", r"fda.txt", r"fda.py", r"fda.txt", r"fda.ppt", r"fda.xlx",
                       r"fda.txt"]
+        for i in range(20):
+            self.files.append("num" + str(i) + ".txt")
 
         self.username = ""
         self.sign()

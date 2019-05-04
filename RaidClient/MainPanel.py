@@ -19,8 +19,8 @@ class MainPanel(wx.Panel):
                "All files (*.*)|*.*"
 
     def __init__(self, parent):
-        wx.Panel.__init__(self, parent, size=(parent.screenWidth * 0.82, parent.screenHeight * 0.06),
-                          pos=(parent.screenWidth * 0.179 - 4, 0),
+        wx.Panel.__init__(self, parent, size=(parent.screenWidth, parent.screenHeight * 0.1),
+                          pos=(0, 0),
                           style=wx.SIMPLE_BORDER)
         wx.Colour(117, 194, 229, 255)
 
@@ -28,26 +28,30 @@ class MainPanel(wx.Panel):
         self.parent = parent
         # sizer2 = wx.BoxSizer( wx.HORIZONTAL )
 
-        sc = SearchControl(self.parent, self, -1, "", (self.parent.screenWidth * 0.69, 0))
-        font = wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
-        self.show_message(message="My Files:", pos=(self.parent.screenWidth * 0.013, self.parent.screenWidth * 0.012))
-        # sizer2.Add(quote)
+        sc = SearchControl(self.parent, self, -1, "", size=(self.parent.screenWidth * 0.1, parent.screenHeight * 0.06),
+                           pos=(self.parent.screenWidth * 0.86, parent.screenHeight * 0.02))
+        self.show_message(msg="My Files:", pos=(self.parent.screenWidth * 0.02, self.parent.screenHeight * 0.027))
 
         upload_file_button = wx.Button(self, -1, "upload file",
-                                       (self.parent.screenWidth * 0.03, self.parent.screenWidth * 0.012))
+                                       size=(self.parent.screenWidth * 0.1, self.parent.screenHeight * 0.06),
+                                       pos=(self.parent.screenWidth * 0.15, self.parent.screenHeight * 0.02))
         self.Bind(wx.EVT_BUTTON, self.on_button_upload_file, upload_file_button)
 
         instruction_button = wx.Button(self, -1, "Instructions",
-                                       (self.parent.screenWidth * 0.07, self.parent.screenWidth * 0.01))
+                                       size=(self.parent.screenWidth * 0.1, self.parent.screenHeight * 0.06),
+                                       pos=(self.parent.screenWidth * 0.27, self.parent.screenHeight * 0.02))
         self.Bind(wx.EVT_BUTTON, self.on_button_instruction, instruction_button)
 
-        self.show_message(message="-Drag   Files   Below-", pos=(self.parent.screenWidth * 0.03, self.parent.screenWidth * 0.012))
+        self.show_message(msg="-Drag   Files   Below-",
+                          pos=(self.parent.screenWidth * 0.45, self.parent.screenHeight * 0.027))
+
 
     def on_button_instruction(self, evt):
         dlg = wx.lib.dialogs.ScrolledMessageDialog(self, INSTRUCTION,
                                                    'Raid instructions')
         dlg.ShowModal()
         dlg.Destroy()
+
 
     def on_button_upload_file(self, evt):
         dlg = wx.FileDialog(
@@ -64,19 +68,9 @@ class MainPanel(wx.Panel):
             self.parent.upload_files(paths)
         dlg.Destroy()
 
-    def show_message(self, message=None, pos=None):
-        try:
-            self.username_msg.Destroy()
-        except:
-            pass
-        font = wx.Font(15, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
-        if message:
-            self.username_msg = wx.StaticText(self, label=message, pos=pos)
-            self.username_msg.SetForegroundColour(wx.BLACK)
-            self.username_msg.SetFont(font)
 
-        else:
-            try:
-                self.username_msg.Destroy()
-            except:
-                pass
+    def show_message(self, msg, pos):
+        font = wx.Font(15, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
+        msg = wx.StaticText(self, label=msg, pos=pos)
+        msg.SetForegroundColour(wx.BLACK)
+        msg.SetFont(font)

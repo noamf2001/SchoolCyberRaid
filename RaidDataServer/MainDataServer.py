@@ -5,9 +5,7 @@ import os
 import socket
 import re
 
-"""
-file name: username + $ + file original name
-"""
+
 
 
 def get_key_by_value(dict, search_value):
@@ -16,16 +14,17 @@ def get_key_by_value(dict, search_value):
             return key
 
 
-SERVER_IP = "127.0.0.1"
+SERVER_IP = "192.168.1.13"
 PORT = 1345
 
 
 class DataServer():
     def __init__(self, saving_path=""):
+        self.saving_path = saving_path
         self.data_server_command = Queue.Queue()  # queue: [msg_type, msg_parameters]
         self.command_result_data_server = Queue.Queue()  # queue: [msg_type, msg_parameters]
         self.main_server_communication = DataServer_MainServer(self.data_server_command,
-                                                               self.command_result_data_server, saving_path, SERVER_IP,
+                                                               self.command_result_data_server, self.saving_path, SERVER_IP,
                                                                PORT)
         thread.start_new_thread(self.main_server_communication.main, ())
         self.data_server_command_def = {
@@ -71,10 +70,13 @@ class DataServer():
                 pass
 
     def delete_file(self, msg_parameters):
+        file_part_path = self.saving_path + "\\" +msg_parameters[0]
+        os.remove(file_part_path)
         reg = self.get_regex_file_name(msg_parameters[0])
         for file_part in self.files.keys():
             if reg.search(file_part) is not None:
                 del self.files[file_part]
+
 
     def main(self):
         while not self.main_server_communication.FAIL:
@@ -89,5 +91,5 @@ class DataServer():
 
 
 if __name__ == "__main__":
-    a = DataServer(r"C:\Users\Sharon\Documents\school\cyber\Project\data_server_try")
+    a = DataServer(r"C:\Users\User\Documents\SchoolCyberRaid-master\RaidDataServer")
     a.main()

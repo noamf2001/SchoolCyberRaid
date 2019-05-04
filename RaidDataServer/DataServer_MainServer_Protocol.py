@@ -1,30 +1,7 @@
 from Crypto.PublicKey import RSA
 from Crypto import Random
 from AESCipher import AESCipher
-"""
-msg:
-len of msg
-$
-msg type
-$
-msg parameters
 
-msg parameters is organize by msg type
-
-msg type:
--1: socket crash
-0:  key exchange,
-        data server to server: asymmetric key
-        server to data server: symmetric key
-    msg parameters:
-        just the key itself
-3: upload file,
-    main server to data server: file name, file data
-    data server to main server: None
-    msg parameters:
-        file name
-        file data
-"""
 
 
 class DataServer_MainServer_Protocol():
@@ -140,13 +117,11 @@ class DataServer_MainServer_Protocol():
 
     def disassemble_5_delete_file(self, msg):
         """
-        :param msg: the msg parameters
+        :param msg: the msg parameters - just the name
         :return: msg parameters - in array [file_name]
         """
         print "print disassemble get file: " + msg
-        name_len = int(msg[:msg.find("$")])
-        name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
-        return [name]
+        return [msg]
     def build(self, msg_type, msg_parameter):
         """
         :param msg_type: int - the msg type as above

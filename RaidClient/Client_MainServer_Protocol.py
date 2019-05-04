@@ -2,72 +2,7 @@ from Crypto.PublicKey import RSA
 from Crypto import Random
 from AESCipher import AESCipher
 
-"""
-msg:
-len of msg
-$
-msg type
-$
-msg parameters
 
-msg parameters is organize by msg type
-
-msg type:
--1: socket crash
-0:  key exchange,
-        client to server: asymmetric key
-        server to client: symmetric key
-    msg parameters:
-        just the key itself
-        
-        
-1:  sign up:
-        client to server: username, password (after hash)
-        server to client: boolean if success
-    msg parameters:
-        client to server: 
-            len of username
-            $
-            username
-            
-            len of password
-            $
-            password
-        server to client:
-            0 - False
-            1 - True
-            
-2:  sign in:
-        client to server: username, password(after hash)
-        server to client: boolean if success
-    msg parameters:
-        client to server: 
-            len of username
-            $
-            username
-            
-            len of password
-            $
-            password
-        server to client:
-            0 - False
-            1 - True
-3:  upload file:
-        client to server: file name, file data
-        server to client: boolean if success
-    msg parameters:
-        client to server:
-            len of file
-            $
-            file name
-            
-            len of file data
-            $
-            file data
-        server to client:
-            0 - False
-            1 - True
-"""
 
 
 class Client_MainServer_Protocol():
@@ -153,6 +88,8 @@ class Client_MainServer_Protocol():
             msg = self.AES_cipher.decrypt(msg)
         msg_type, msg = self.get_msg_type(msg)
         msg_parameters = self.msg_type_disassemble[msg_type](msg)
+        if msg_type == 4:
+            print "???"
         return msg_type, msg_parameters
 
     def disassemble_0_key_exchange(self, msg):
@@ -195,28 +132,33 @@ class Client_MainServer_Protocol():
         data_len = int(msg[:msg.find("$")])
         if data_len != 0:
             data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
-            file_part_path = self.saving_path + "\\" + name
+            file_path = self.saving_path + "\\" + name
+            print "save in file part path: " + file_path
             # while os.path.isfile(file_part_path):
             #    file_part_path = file_part_path[:file_part_path.rfind(".")] + str(random.randint(0, 100)) + file_part_path[
             #                                                                                                file_part_path.rfind("."):]
-            with open(file_part_path, "wb") as f:
+            with open(file_path, "wb") as f:
                 f.write(data)
         else:
-            file_part_path = ""
-        return [file_part_path]
+            file_path = ""
+            print "data is \"\""
+        return [file_path]
 
     def disassemble_6_get_file_list(self, msg):
         """
         :param msg: the msg parameters all the files
         :return: msg parameters - in array [file 1 name,....,]
         """
+        print "disassemble_6_get_file_list: " + msg
         current_index = 0
         result_file = []
+
         while current_index < len(msg):
-            name_len = int(msg[:msg.find("$", current_index)])
-            name = msg[msg.find("$", current_index) + 1: msg.find("$", current_index) + 1 + name_len]
+            print current_index
+            name_len = int(msg[current_index:msg.find(r"$", current_index)])
+            name = msg[msg.find(r"$", current_index) + 1: msg.find(r"$", current_index) + 1 + name_len]
             result_file.append(name)
-            current_index = msg.find("$", current_index) + 1 + name_len
+            current_index = msg.find(r"$", current_index) + name_len + 1
         return result_file
 
     def build(self, msg_type, msg_parameter):
