@@ -4,6 +4,8 @@ Raid protocol:
 file name: 
 	
 	username + $ + filename
+	in server + data sesrver:
+		filename = filename without ending + _ + ending + .gz
 	
 file part:
 	
