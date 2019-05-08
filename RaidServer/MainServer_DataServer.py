@@ -9,7 +9,7 @@ PORT = 1345
 
 class MainServer_DataServer():
     def __init__(self, data_server_command, command_result_data_server, valid_data_server, optional_data_server,
-                 saving_path="", port=PORT):
+                 saving_path, port=PORT):
         """
         :param data_server_command: empty queue: server -> data server
         :param command_result_data_server: empty queue: data server -> client
@@ -33,6 +33,7 @@ class MainServer_DataServer():
         if current_socket in self.msg_to_send.keys():
             del self.msg_to_send[current_socket]
         self.command_result_data_server.put([current_socket, [-1, []]])
+
 
     def recv_msg(self, current_socket, first=False):
         msg_type, msg_parameters, connection_fail = self.main_server_data_server_protocol.recv_msg(current_socket,

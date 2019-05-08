@@ -39,6 +39,7 @@ def create_parity_file_part(file_path1, file_path2):
         parity_file.write(parity_file_data)
     return parity_file_path
 
+
 def create_parity_files(file_path):
     """
     :param file_path: the path of the file to save
@@ -52,7 +53,7 @@ def create_parity_files(file_path):
         file_part_path.append(parts[i])
         file_part_path.append(create_parity_file_part(parts[i], parts[i + 1]))
     file_part_path.append(parts[len(parts) - 1])
-    return len(parts),file_len, file_part_path
+    return len(parts), file_len, file_part_path
 
 
 def split_file(file_path):
@@ -94,7 +95,6 @@ def divide_parts_to_data_server(files_part_path, data_servers):
     for i in range(len(files_part_path)):
         result[i % len(data_servers)][1].append(files_part_path[i])
     return result
-
 
 
 def get_file_info(file_path):

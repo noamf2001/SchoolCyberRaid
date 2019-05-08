@@ -1,4 +1,3 @@
-from my_file_drop_target import MyFileDropTarget
 import wx
 import os
 import sys
@@ -29,14 +28,13 @@ class FilePanel(wx.lib.scrolledpanel.ScrolledPanel):
                                                     pos=(0, parent.screenHeight * 0.11),
                                                     style=wx.SIMPLE_BORDER)
         self.parent = parent
+
         self.PIC_SIZE = self.parent.screenHeight
-        self.screen_width = self.parent.screenWidth
+
         self.SetupScrolling()
         self.SetBackgroundColour(wx.Colour(117, 194, 229, 255))
         self.Refresh()
 
-        dt = MyFileDropTarget(self)
-        self.SetDropTarget(dt)
         self.set_ending_bmp()
 
     def set_ending_bmp(self):

@@ -1,9 +1,8 @@
 from Crypto.PublicKey import RSA
 from Crypto import Random
 from AESCipher import AESCipher
-
-
-
+import gzip
+import shutil
 
 class Client_MainServer_Protocol():
     def __init__(self, my_socket, saving_path):
@@ -120,6 +119,14 @@ class Client_MainServer_Protocol():
         """
         return [bool(int(msg))]
 
+    def decompress_file(self, file_path):
+        file_path_new = file_path[:file_path.rfind("_")] + "." + file_path[
+                                                                 file_path.rfind("_") + 1:file_path.rfind(".")]
+        with gzip.open(file_path, 'rb') as f_in:
+            with open(file_path_new, 'wb') as f_out:
+                shutil.copyfileobj(f_in, f_out)
+        return file_path_new
+
     def disassemble_4_get_file(self, msg):
         """
         :param msg: the msg parameters - file part name and data
@@ -142,6 +149,8 @@ class Client_MainServer_Protocol():
         else:
             file_path = ""
             print "data is \"\""
+        if file_path != "":
+            file_path = self.decompress_file(file_path)
         return [file_path]
 
     def disassemble_6_get_file_list(self, msg):
@@ -201,14 +210,24 @@ class Client_MainServer_Protocol():
               msg_parameters[1]
         return msg
 
+    def compress_file(self, file_name, file_path):
+        file_name_new = file_name[:file_name.rfind(".")] + "_" + file_name[file_name.rfind(".") + 1:] + '.gz'
+        f_in = open(file_path)
+        f_out = gzip.open(file_name_new, 'wb')
+        f_out.writelines(f_in)
+        f_out.close()
+        f_in.close()
+        return file_name_new
+
     def build_3_upload_file(self, msg_parameters):
         """
         :param msg_parameters: [file name, file path]
         :return: the msg to send
         """
-        with open(msg_parameters[1], "rb") as f:
+        file_name = self.compress_file(msg_parameters[0], msg_parameters[1])
+        with open(file_name, "rb") as f:
             file_data = f.read()
-        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(file_data)) + "$" + file_data
+        msg = str(len(file_name)) + "$" + file_name + str(len(file_data)) + "$" + file_data
         return msg
 
     def build_4_get_file(self, msg_parameters):
@@ -233,6 +252,7 @@ class Client_MainServer_Protocol():
         :return: the msg to send
         """
         return ""
+
 
 if __name__ == '__main__':
     a = Client_MainServer_Protocol("sock")

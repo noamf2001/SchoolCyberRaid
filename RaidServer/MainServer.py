@@ -23,8 +23,9 @@ def get_key_by_value(dict, search_value):
 PORT_DATA_SERVER = 1345
 PORT_CLIENT = 1234
 
+
 class MainServer():
-    def __init__(self, sql_file_name,saving_path=""):
+    def __init__(self, sql_file_name,saving_path=os.getcwd()):
         self.sql_file_name = sql_file_name
         self.saving_path = saving_path
         self.ports_taken = set()
@@ -67,6 +68,7 @@ class MainServer():
     def disconnect_data_server(self, current_socket, msg_parameter):
         if current_socket in self.socket_username.keys():
             del self.socket_username[current_socket]
+        self.sql_connection.delete_data_server(get_key_by_value(self.valid_data_server, current_socket))
         return None
 
     def sign_up_client(self, current_socket, msg_parameter):
