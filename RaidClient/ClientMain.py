@@ -23,13 +23,6 @@ class ClientMain():
             result.append(self.command_result.get())
         return result
 
-    def hash_password(self, password):
-        """
-        :param password: string
-        :return: str of length 64 - the hash
-        """
-        return password
-        #return hashlib.sha256(password).hexdigest()
 
     def check_legal_username(self, username):
         return len(username) >= 4 and len(username) <= 100
@@ -41,14 +34,14 @@ class ClientMain():
         self.username = username
         if not self.check_legal_username(username) or not self.check_legal_password(password):
             return False
-        self.client_command.put([1, [username, self.hash_password(password)]])
+        self.client_command.put([1, [username, password]])
         while self.command_result.empty():
             pass
         return self.command_result.get()
 
     def sign_in(self, username, password):
         self.username = username
-        self.client_command.put([2, [username, self.hash_password(password)]])
+        self.client_command.put([2, [username, password]])
         while self.command_result.empty():
             pass
         return self.command_result.get()

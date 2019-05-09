@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6db5d218-9187-4a7b-ba13-2f90a3e659ff" name="Default" comment="add mac checking">
-      <change afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data_server_panel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/files_panel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my_popup_menu.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/search_control.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AlgorithmMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/AlgorithmMain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainServer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainServer_DataServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainServer_DataServer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidClient/ClientMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/ClientMain.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidClient/Client_MainServer_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/Client_MainServer_Protocol.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,7 +33,20 @@
     <favorites_list name="RaidServer" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/MainServer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="511">
+              <caret line="50" selection-start-line="50" selection-end-line="50" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -106,9 +112,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-11" />
-    <option name="width" value="980" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1015" />
+    <option name="width" value="914" />
     <option name="height" value="1031" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -136,7 +142,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../RaidClient" />
     <property name="settings.editor.selected.configurable" value="database.main" />
   </component>
   <component name="RecentsManager">
@@ -329,6 +335,7 @@
       <workItem from="1556129604113" duration="8522000" />
       <workItem from="1556375924632" duration="682000" />
       <workItem from="1557000141417" duration="6044000" />
+      <workItem from="1557392906764" duration="798000" />
     </task>
     <task id="LOCAL-00001" summary="sign in">
       <created>1555866971564</created>
@@ -432,13 +439,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107483000" />
+    <option name="totallyTimeSpent" value="108281000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
+    <frame x="677" y="0" width="609" height="687" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.41471303" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.8621849" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32983023" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -741,22 +748,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MainServer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="70" column="104" lean-forward="true" selection-start-line="70" selection-start-column="104" selection-end-line="70" selection-end-column="104" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SQL_connection.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="214">
           <caret line="106" column="46" selection-start-line="106" selection-start-column="46" selection-end-line="106" selection-end-column="46" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MainServer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="511">
+          <caret line="50" selection-start-line="50" selection-end-line="50" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>

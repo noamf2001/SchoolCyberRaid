@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="be51fe52-34f5-436e-bbd0-e3af52748f5f" name="Default" comment="add mac checking&#10;fix bags&#10;fix GUI-client placement - with out file naming fix">
-      <change afterPath="$PROJECT_DIR$/../RaidServer/GUI.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../RaidServer/data_server_panel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../RaidServer/files_panel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../RaidServer/my_popup_menu.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../RaidServer/search_control.py" afterDir="false" />
+    <list default="true" id="be51fe52-34f5-436e-bbd0-e3af52748f5f" name="Default" comment="add file compress + decomress - not checked">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClientMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/ClientMain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client_MainServer_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client_MainServer_Protocol.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Files_Panel.py" beforeDir="false" afterPath="$PROJECT_DIR$/Files_Panel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidServer/AlgorithmMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/AlgorithmMain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer_DataServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer_DataServer.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,19 +16,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GUI.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-663">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Client_MainServer_Protocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+            <state relative-caret-position="323">
+              <caret line="214" column="11" lean-forward="true" selection-start-line="214" selection-start-column="11" selection-end-line="214" selection-end-column="11" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -45,37 +28,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gzip_try.py">
+        <entry file="file://$PROJECT_DIR$/Client_MainServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="11" lean-forward="true" selection-start-line="4" selection-start-column="11" selection-end-line="5" selection-end-column="13" />
+            <state relative-caret-position="629">
+              <caret line="40" selection-start-line="40" selection-end-line="40" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MainPanel.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ClientMain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1190">
-              <caret line="70" selection-start-line="70" selection-end-line="70" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/files_panel.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="36" selection-start-line="36" selection-end-line="36" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/search_control.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="65" selection-start-line="5" selection-start-column="65" selection-end-line="5" selection-end-column="65" />
+            <state relative-caret-position="312">
+              <caret line="43" selection-start-line="43" selection-end-line="43" />
+              <folding>
+                <element signature="e#0#22#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -91,7 +59,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>handle_new_file_lst</find>
       <find>create_new_pane</find>
       <find>tearDown</find>
       <find>MainPanel</find>
@@ -121,6 +88,7 @@
       <find>call</find>
       <find>send_m</find>
       <find>pub</find>
+      <find>hash_password</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -141,7 +109,6 @@
         <option value="$PROJECT_DIR$/myfiledroptarget.py" />
         <option value="$PROJECT_DIR$/Files_Panel.py" />
         <option value="$PROJECT_DIR$/my_file_drop_target.py" />
-        <option value="$PROJECT_DIR$/ClientMain.py" />
         <option value="$PROJECT_DIR$/search_control.py" />
         <option value="$PROJECT_DIR$/my_popup_menu.py" />
         <option value="$PROJECT_DIR$/SignDialog.py" />
@@ -150,13 +117,14 @@
         <option value="$PROJECT_DIR$/files_panel.py" />
         <option value="$PROJECT_DIR$/gzip_try.py" />
         <option value="$PROJECT_DIR$/Client_MainServer_Protocol.py" />
+        <option value="$PROJECT_DIR$/ClientMain.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-12" />
-    <option name="width" value="1938" />
-    <option name="height" value="996" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-11" />
+    <option name="width" value="1046" />
+    <option name="height" value="1031" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -164,6 +132,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -175,13 +144,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../university/Seminar/Day1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
   </component>
   <component name="RecentsManager">
@@ -360,7 +328,8 @@
       <workItem from="1557220678249" duration="4000" />
       <workItem from="1557302422129" duration="1167000" />
       <workItem from="1557325215070" duration="6000" />
-      <workItem from="1557328842147" duration="3300000" />
+      <workItem from="1557328842147" duration="6194000" />
+      <workItem from="1557393442129" duration="200000" />
     </task>
     <task id="LOCAL-00001" summary="sign up - do not have sql part\checking legal username\password">
       <created>1555864126602</created>
@@ -418,17 +387,24 @@
       <option name="project" value="LOCAL" />
       <updated>1556999324582</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="add file compress + decomress - not checked">
+      <created>1557339466121</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1557339466121</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="152762000" />
+    <option name="totallyTimeSpent" value="155856000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
+    <frame x="-7" y="0" width="697" height="687" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.3468068" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.7466443" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -505,7 +481,8 @@
     <MESSAGE value="GUI - client, need to organize the screen" />
     <MESSAGE value="add mac checking&#10;fix bags&#10;fix GUI-client placement - with out file naming fix" />
     <MESSAGE value="file types logos" />
-    <option name="LAST_COMMIT_MESSAGE" value="file types logos" />
+    <MESSAGE value="add file compress + decomress - not checked" />
+    <option name="LAST_COMMIT_MESSAGE" value="add file compress + decomress - not checked" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/RaidClient$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1556998820064" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -620,13 +597,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="61" column="13" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Client_MainServer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="40" selection-start-line="40" selection-end-line="40" />
         </state>
       </provider>
     </entry>
@@ -746,22 +716,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ClientMain.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-646">
-          <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/try.txt.gz">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fi.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/try.txt.gz" />
+    <entry file="file://$PROJECT_DIR$/fi.txt" />
     <entry file="file://$PROJECT_DIR$/gzip_try.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -769,12 +725,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Client_MainServer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Client_MainServer_Protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        <state relative-caret-position="323">
+          <caret line="214" column="11" lean-forward="true" selection-start-line="214" selection-start-column="11" selection-end-line="214" selection-end-column="11" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClientMain.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="43" selection-start-line="43" selection-end-line="43" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
           </folding>
         </state>
       </provider>

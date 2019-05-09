@@ -3,6 +3,7 @@ from Crypto import Random
 from AESCipher import AESCipher
 import gzip
 import shutil
+import hashlib
 
 class Client_MainServer_Protocol():
     def __init__(self, my_socket, saving_path):
@@ -192,13 +193,22 @@ class Client_MainServer_Protocol():
         """
         return msg_parameters[0]
 
+    def hash_password(self, password):
+        """
+        :param password: string
+        :return: str of length 64 - the hash
+        """
+        return password
+        # return hashlib.sha256(password).hexdigest()
+
     def build_1_sign_up(self, msg_parameters):
         """
         :param msg_parameters: [username, password (after hash)]
         :return: the msg to send
         """
-        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(msg_parameters[1])) + "$" + \
-              msg_parameters[1]
+        hash_password = self.hash_password(msg_parameters[1])
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(hash_password )) + "$" + \
+              hash_password
         return msg
 
     def build_2_sign_in(self, msg_parameters):
@@ -206,8 +216,9 @@ class Client_MainServer_Protocol():
         :param msg_parameters: [username, password (after hash)]
         :return: the msg to send
         """
-        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(msg_parameters[1])) + "$" + \
-              msg_parameters[1]
+        hash_password = self.hash_password(msg_parameters[1])
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(hash_password)) + "$" + \
+              hash_password[1]
         return msg
 
     def compress_file(self, file_name, file_path):
