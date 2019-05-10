@@ -25,7 +25,7 @@ class AlgorithmRetrieve():
             num_of_parts)]  # [set(xor parts that have connection to this part) for part i, 1<=i<= num_of_parts]
 
         self.valid_data_server = valid_data_server
-        #self.optional_data_server = optional_data_server
+        # self.optional_data_server = optional_data_server
         self.data_server_command = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
         self.command_result_data_server = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
         self.data_server_communication = MainServer_DataServer(self.data_server_command,
@@ -34,7 +34,7 @@ class AlgorithmRetrieve():
                                                                saving_path, port)
         self.data_server_communication_thread_id = thread.start_new_thread(self.data_server_communication.main, (True,))
 
-    def retrieve_file_part_generate_path(self, file_path1, file_path2):
+    def retrieve_file_part_generatea_path(self, file_path1, file_path2):
         end_of_filename1, [file_part1_index1, file_part1_index2] = get_file_info(file_path1)
         end_of_filename2, [file_part2_index1, file_part2_index2] = get_file_info(file_path2)
         if file_part1_index2 == -1:
@@ -106,10 +106,8 @@ class AlgorithmRetrieve():
                 fw.write(data)
         return file_path
 
-
     def disconnect_data_server(self, current_socket):
         self.data_server_communication.stop_thread = True
-
 
     def main(self):
         while not self.stop_thread:

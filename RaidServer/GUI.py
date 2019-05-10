@@ -1,57 +1,34 @@
 import wx
 import os
 import sys
-from SignDialog import SignDialog
 # from MainServer import MainServer
-from MainPanel import MainPanel
 from files_panel import FilePanel
 import thread
+from instructionpanel import InstructionPanel
 
-INSTRUCTION_TEXT = "bleblable\nbery boring text"
 
 
 class GUI(wx.Frame):
-
-    def __init__(self, parent, id, title, server, app):
-        # , init_files
-        # First retrieve the screen size of the device
+    def __init__(self, parent, id, main_server, title, app):
         self.app = app
+        self.main_server = main_server
+
         screen_size = wx.DisplaySize()
         self.screenWidth = screen_size[0] * 0.9
         self.screenHeight = screen_size[1] * 0.8
 
-        self.color = wx.Colour(117, 194, 229, 255)
+        wx.Frame.__init__(self, parent, id=id, title=title, size=(self.screenWidth, self.screenHeight),
+                          style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
 
-        self.server = server
-
-        self.currentDirectory = os.getcwd()
-
-        # Create a frame
-        wx.Frame.__init__(self, parent, id, title, size=(self.screenWidth, self.screenHeight),
-                          style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER, pos=(0, 0))
-
-        self.nb = wx.Notebook(self, - 1, style=wx.BK_DEFAULT)
-
-
-
-        # self.files = self.client.get_file_list()
-        self.files = [r"try.jpg", r"another1.docs", r"fda.txt", r"anereother1.docs", r"fd545a.txt",
-                      r"anothe3434r1.png", r"fda.tdf", r"fda.txt", r"fda.py", r"fda.txt", r"fda.ppt", r"fda.xlx",
-                      r"fda.txt"]
-        for i in range(20):
-            self.files.append("num" + str(i) + ".txt")
-
-        self.main_panel = MainPanel(self)
-
-        self.file_panel = FilePanel(self)
-
-        self.file_panel.show_files()
-
-
-    def add_instruction_page(self):
-        instruction = wx.Panel(self, -1)
-        wx.StaticText(self, INSTRUCTION_TEXT, -1, style=wx.ALIGN_CENTER)
-        self.nb.addPage(instruction, "instructions")
+        # Here we create a panel and a notebook on the panel
+        self.nb = wx.Notebook(self,size=(self.screenWidth, self.screenHeight))
+        a = InstructionPanel(self.nb)
+        self.nb.AddPage(a, "Instructions")
+        # finally, put the notebook in a sizer for the panel to manage
+        # the layout
+        sizer = wx.BoxSizer()
+        sizer.Add(self.nb, 1, wx.EXPAND)
+        self.SetSizer(sizer)
 
     def scale_bitmap(self, bitmap, width, height):
         image = wx.ImageFromBitmap(bitmap)
@@ -76,7 +53,7 @@ if __name__ == "__main__":
     # server = MainServer()
     # thread.start_new_thread(server.main, ())
     server = ""
-    frame = GUI(parent=None, id=-1, title="Test", server=server, app=app)
+    frame = GUI(parent=None, id=-1, title="Test", main_server=server, app=app)
     frame.Show()
 
     app.MainLoop()

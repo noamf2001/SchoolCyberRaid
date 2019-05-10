@@ -21,8 +21,6 @@ class FilePanel(wx.lib.scrolledpanel.ScrolledPanel):
     PIC_SIZE = 75
 
     def __init__(self, parent):
-        """Constructor"""
-
         wx.lib.scrolledpanel.ScrolledPanel.__init__(self, parent, -1,
                                                     size=(parent.screenWidth, parent.screenHeight * 0.9),
                                                     pos=(0, parent.screenHeight * 0.11),
@@ -35,7 +33,7 @@ class FilePanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.SetBackgroundColour(wx.Colour(117, 194, 229, 255))
         self.Refresh()
 
-        self.set_ending_bmp()
+        #self.set_ending_bmp()
 
     def set_ending_bmp(self):
         self.word_bmp = wx.Bitmap(self.parent.currentDirectory + "\\word.jpg")

@@ -2,7 +2,7 @@ import wx
 import os
 import sys
 from SignDialog import SignDialog
-#from ClientMain import ClientMain
+# from ClientMain import ClientMain
 from MainPanel import MainPanel
 from files_panel import FilePanel
 
@@ -17,8 +17,6 @@ class GUI(wx.Frame):
         self.screenWidth = screen_size[0] * 0.9
         self.screenHeight = screen_size[1] * 0.8
 
-
-
         self.color = wx.Colour(117, 194, 229, 255)
 
         self.client = client
@@ -27,7 +25,7 @@ class GUI(wx.Frame):
 
         # Create a frame
         wx.Frame.__init__(self, parent, id, title, size=(self.screenWidth, self.screenHeight),
-                          style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER, pos=(0, 0))
+                          style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
 
         # self.files = self.client.get_file_list()
         self.files = [r"try.jpg", r"another1.docs", r"fda.txt", r"anereother1.docs", r"fd545a.txt",

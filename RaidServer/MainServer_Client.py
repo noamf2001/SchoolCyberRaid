@@ -42,6 +42,7 @@ class MainServer_Client():
     def send_waiting_messages(self, wlist):
         for current_socket in wlist:
             if current_socket in self.msg_to_send.keys():
+                #  and len(self.msg_to_send[current_socket]) > 0 and current_socket in self.sent_AES_key:
                 connection_fail = self.send_msg(current_socket, self.msg_to_send[current_socket])
                 if connection_fail:
                     continue

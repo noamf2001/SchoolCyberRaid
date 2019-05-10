@@ -26,7 +26,6 @@ class MainServer_DataServer():
         self.main_server_data_server_protocol = MainServer_DataServer_Protocol(saving_path)
         self.data_server_command = data_server_command  # queue: [socket, [msg_type, msg_parameters]]
         self.command_result_data_server = command_result_data_server  # queue: [socket, [msg_type, msg_parameters]]
-        self.try_sock = {}
 
     def disconnect(self, current_socket):
         self.open_data_server_sockets.remove(current_socket)
@@ -78,7 +77,6 @@ class MainServer_DataServer():
                             self.valid_data_server[self.optional_data_server[address[0]]] = new_socket
                             self.command_result_data_server.put([new_socket, [1, []]])
                         self.msg_to_send[new_socket] = []
-                        self.try_sock[new_socket] = 1
                     else:
                         new_socket.close()
                 else:
