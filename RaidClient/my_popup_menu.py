@@ -22,10 +22,8 @@ class MyPopupMenu(wx.Menu):
 
 
     def delete_file(self, event):
-        print "delete file press"
         # delete file
         file_name = self.WinName
-        print "file name: " + file_name
         self.parent.parent.delete_file(file_name)
 
 
@@ -47,8 +45,5 @@ class MyPopupMenu(wx.Menu):
         )
         if dlg.ShowModal() == wx.ID_OK:
             new_dir = str(dlg.GetPath())
-            self.parent.parent.download_file(filename, new_dir)
-            # send message to server
-            #####mes2send = protocol.to_download_file(str(filename), new_dir)
-            #####self.parent.parent.ccom.proc_send_message(mes2send)
+            self.parent.parent.get_file(filename, new_dir)
         dlg.Destroy()

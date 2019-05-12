@@ -32,7 +32,6 @@ class Client_MainServer_Protocol():
         return self.RSA_key.publickey().exportKey()
 
     def create_AES_key(self, password):
-        print "create AESCipher"
         self.AES_cipher = AESCipher(password)
 
     def recv_msg(self, first=False):
@@ -88,8 +87,6 @@ class Client_MainServer_Protocol():
             msg = self.AES_cipher.decrypt(msg)
         msg_type, msg = self.get_msg_type(msg)
         msg_parameters = self.msg_type_disassemble[msg_type](msg)
-        if msg_type == 4:
-            print "???"
         return msg_type, msg_parameters
 
     def disassemble_0_key_exchange(self, msg):
@@ -104,6 +101,7 @@ class Client_MainServer_Protocol():
         :param msg: the msg parameters - boolean: 0 - False, 1 - True
         :return: msg parameters - in array []
         """
+        print "dissassemble sign up"
         return [bool(int(msg))]
 
     def disassemble_2_sign_in(self, msg):
@@ -115,10 +113,13 @@ class Client_MainServer_Protocol():
 
     def disassemble_3_upload_file(self, msg):
         """
-        :param msg: the msg parameters - boolean: 0 - False, 1 - True
+        :param msg: the msg parameters: name + boolean: 0 - False, 1 - True
         :return: msg parameters - in array []
         """
-        return [bool(int(msg))]
+        name_len = int(msg[:msg.find("$")])
+        name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
+        success = bool(int(msg[-1]))
+        return [name, success]
 
     def decompress_file(self, file_path):
         file_path_new = file_path[:file_path.rfind("_")] + "." + file_path[
@@ -131,7 +132,7 @@ class Client_MainServer_Protocol():
     def disassemble_4_get_file(self, msg):
         """
         :param msg: the msg parameters - file part name and data
-        :return: msg parameters - in array [file part path (after creating)]
+        :return: msg parameters - in array [file_name,file part path (after creating)]
         """
         print "disassemble 4 get file???!!!!"
         name_len = int(msg[:msg.find("$")])
@@ -149,10 +150,9 @@ class Client_MainServer_Protocol():
                 f.write(data)
         else:
             file_path = ""
-            print "data is \"\""
-        if file_path != "":
-            file_path = self.decompress_file(file_path)
-        return [file_path]
+        #if file_path != "":
+        #    file_path = self.decompress_file(file_path)
+        return [name,file_path]
 
     def disassemble_6_get_file_list(self, msg):
         """
@@ -164,7 +164,6 @@ class Client_MainServer_Protocol():
         result_file = []
 
         while current_index < len(msg):
-            print current_index
             name_len = int(msg[current_index:msg.find(r"$", current_index)])
             name = msg[msg.find(r"$", current_index) + 1: msg.find(r"$", current_index) + 1 + name_len]
             result_file.append(name)
@@ -206,6 +205,7 @@ class Client_MainServer_Protocol():
         :param msg_parameters: [username, password (after hash)]
         :return: the msg to send
         """
+        print "build_1_sign_up"
         hash_password = self.hash_password(msg_parameters[1])
         msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(hash_password )) + "$" + \
               hash_password
@@ -235,8 +235,10 @@ class Client_MainServer_Protocol():
         :param msg_parameters: [file name, file path]
         :return: the msg to send
         """
-        file_name = self.compress_file(msg_parameters[0], msg_parameters[1])
-        with open(file_name, "rb") as f:
+        #file_name = self.compress_file(msg_parameters[0], msg_parameters[1])
+        file_name = msg_parameters[0]
+        file_path = msg_parameters[1]
+        with open(file_path, "rb") as f:
             file_data = f.read()
         msg = str(len(file_name)) + "$" + file_name + str(len(file_data)) + "$" + file_data
         return msg

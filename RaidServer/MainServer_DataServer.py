@@ -27,6 +27,7 @@ class MainServer_DataServer():
         self.data_server_command = data_server_command  # queue: [socket, [msg_type, msg_parameters]]
         self.command_result_data_server = command_result_data_server  # queue: [socket, [msg_type, msg_parameters]]
 
+
     def disconnect(self, current_socket):
         self.open_data_server_sockets.remove(current_socket)
         if current_socket in self.msg_to_send.keys():

@@ -124,17 +124,23 @@ class MainServer_Client_Protocol():
         :param msg: the msg parameters
         :return: msg parameters - in array [path]
         """
+        print "disassemble_3_upload_file"
         name_len = int(msg[:msg.find("$")])
         name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
         msg = msg[msg.find("$") + 1 + name_len:]
         data_len = int(msg[:msg.find("$")])
         data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
         file_part_path = self.saving_path + "\\" + name
+        print "files part path:" + file_part_path
+        print data_len
         # while os.path.isfile(file_part_path):
         #    file_part_path = file_part_path[:file_part_path.rfind(".")] + str(random.randint(0, 100)) + file_part_path[
         #                                                                                                file_part_path.rfind("."):]
-        if os.path.isfile(file_part_path):
-            os.remove(file_part_path)
+        #if os.path.isfile(file_part_path):
+        #    os.remove(file_part_path)
+        if data_len == 0:
+            f = open(file_part_path,"wb")
+            f.close()
         with open(file_part_path, "wb") as f:
             f.write(data)
         return [file_part_path]
@@ -202,17 +208,19 @@ class MainServer_Client_Protocol():
 
     def build_3_upload_file(self, msg_parameters):
         """
-        :param msg_parameters: [boolean]
-        :return: 1 if True, 0 if False
+        :param msg_parameters: [file_name,boolean]
+        :return: file name + 1 if True, 0 if False
         """
-        return str(int(msg_parameters[0]))
+        file_name = msg_parameters[0][msg_parameters[0].rfind("$") + 1:]
+        msg = str(len(file_name)) + "$" + file_name + str(int(msg_parameters[1]))
+        return msg
 
     def build_4_get_file(self, msg_parameters):
         """
         :param msg_parameters: [file_name,file_path]
         :return: file name and file data
         """
-        file_name = msg_parameters[0][msg_parameters[0].find("$") + 1:]
+        file_name = msg_parameters[0][msg_parameters[0].rfind("$") + 1:]
         if msg_parameters[1] != "":
             with open(msg_parameters[1], "rb") as f:
                 file_data = f.read()

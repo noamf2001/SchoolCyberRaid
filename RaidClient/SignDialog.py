@@ -63,8 +63,6 @@ class SignDialog(wx.Dialog):
 
         main_sizer.Add(main_sizer1, 0, wx.ALL | wx.CENTER, 5)
 
-        # pub.subscribe(self.signResult, "RESULT")
-
         self.SetSizer(main_sizer)
         self.sign_result = ""
 
@@ -76,11 +74,7 @@ class SignDialog(wx.Dialog):
         """
         password = self.password_ctrl.GetValue()
         username = self.username_ctrl.GetValue()
-        #if not self.client.sign_in(username, password)[0]:
-        if False:
-            self.show_message("wrong username/password", (100, 200))
-        else:
-            self.Destroy()
+        self.client.sign_in(username, password)
 
     def onSignUp(self, event):
         """
@@ -91,17 +85,12 @@ class SignDialog(wx.Dialog):
         print "sign up:"
         print "username: " + username
         print "password: " + password
-        #if not self.client.check_legal_useraname(username):
-        if True:
+        if not self.client.check_legal_username(username):
             self.show_message("username is not legal", (100, 200))
-        #elif not self.client.check_legal_password(password):
-        elif False:
+        elif not self.client.check_legal_password(password):
             self.show_message("password is not legal", (100, 200))
-        #elif not self.client.sign_up(username, password)[0]:
-        elif False:
-            self.show_message("username is taken", (100, 200))
-        else:
-            self.Destroy()
+        self.client.sign_up(username, password)
+
 
     def show_message(self, message, pos):
         if self.sign_result != "":
@@ -113,4 +102,5 @@ class SignDialog(wx.Dialog):
 
 
     def _when_closed(self, event):
+        print "_when_closed"
         sys.exit()

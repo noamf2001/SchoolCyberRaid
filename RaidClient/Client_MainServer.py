@@ -4,7 +4,7 @@ from Client_MainServer_Protocol import Client_MainServer_Protocol
 import Queue
 
 PORT = 1234
-SERVER_IP = "192.168.1.13"
+SERVER_IP = "127.0.0.1"
 
 
 class Client_MainServer():
@@ -36,8 +36,6 @@ class Client_MainServer():
                 if self.client_main_server_protocol.AES_cipher is None:
                     self.client_main_server_protocol.create_AES_key(msg_parameters[0])
                 else:
-                    if msg_type == 4:
-                        print "!!!!"
                     self.command_result.put([msg_type, msg_parameters])
 
     def send_waiting_messages(self, wlist):

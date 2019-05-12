@@ -109,7 +109,7 @@ class SQL_connection():
 
     def delete_data_server(self, mac_address):
         self.c.execute('DELETE FROM ' + self.data_server_table + ' WHERE MAC = (?)', (mac_address,))
-        self.c.execute('DELETE FROM ' + self.data_server_files_table + 'WHERE MAX = (?)', (mac_address,))
+        self.c.execute('DELETE FROM ' + self.data_server_files_table + 'WHERE MAC = (?)', (mac_address,))
         self.conn.commit()
 
     def get_all_data_server(self):
@@ -119,6 +119,11 @@ class SQL_connection():
 
     def close_sql(self):
         self.conn.close()
+
+    def get_data_server_files(self, data_server_mac):
+        self.c.execute('SELECT * FROM ' + self.data_server_files_table + ' WHERE MAX = (?)', (data_server_mac,))
+        result = self.c.fetchall()
+        return result
 
 
 """
