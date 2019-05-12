@@ -95,11 +95,12 @@ client - main server protocol:
 
 	upload file:
         	client to server: file name (with username at start), file data
-        	server to client: boolean if success
+        	server to client: file name, boolean if success
 	msg parameters:
         	client to server:
             		len of file + $ + file name + len of file data + $ + file data
 		server to client:
+			len  of file name + $ + file name
         		0 - False
          		1 - True
 			
@@ -107,12 +108,12 @@ client - main server protocol:
 
 	get file:
 		client to server: file name(with username at start)
-		server to client: file data ("" if could not retrieve)
+		server to client: file name, file data ("" if could not retrieve)
 	msg parameters:
 		client to server:
 			len of file name + $ + file name
 		server to client:
-			len of file data (could be 0) + $ + file data
+			len of file + $ + file name + len of file data (could be 0) + $ + file data
 
 5:
 
