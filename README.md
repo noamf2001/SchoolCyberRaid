@@ -70,7 +70,7 @@ client - main server protocol:
         
 1:
 
-	sign in:
+	sign un:
 		client to server: username, password(after hash)
         	server to client: boolean if success
 	msg parameters:
