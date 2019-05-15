@@ -30,7 +30,7 @@ class ClientMain():
 
     def check_legal_username(self, username):
         return True
-        #return len(username) >= 4 and len(username) <= 100
+        #return len(username) >= 4 and len(username) <= 20
 
     def check_legal_password(self, password):
         return True
@@ -40,6 +40,7 @@ class ClientMain():
         print "sign_up client main"
         self.username = username
         if not self.check_legal_username(username) or not self.check_legal_password(password):
+            print "not legal"
             return False
         self.client_command.put([1, [username, password]])
 
@@ -72,6 +73,7 @@ class ClientMain():
                 result = self.command_result.get()
                 msg_type = result[0]
                 msg_parameters = result[1]
+                print "got msg: " + str(msg_type) + "\t\t"+str(msg_parameters)
                 self.action_call_after_show[msg_type](msg_parameters)
 
 

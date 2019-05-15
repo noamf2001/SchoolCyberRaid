@@ -43,16 +43,15 @@ def create_parity_file_part(file_path1, file_path2):
 def create_parity_files(file_path):
     """
     :param file_path: the path of the file to save
-    :return [parts_num, file_len,[file_part - 1 - path,....]
+    :return [parts_num (non parity), file_len,[file_part #1 - path,....]
     """
-    print "file path: " + file_path
     file_len = os.path.getsize(file_path)
     parts = split_file(file_path)
     file_part_path = []
     for i in range(len(parts) - 1):
         file_part_path.append(parts[i])
         file_part_path.append(create_parity_file_part(parts[i], parts[i + 1]))
-    print "parts: " + str(parts)
+    file_part_path.append(create_parity_file_part(parts[0], parts[-1]))
     file_part_path.append(parts[len(parts) - 1])
     return len(parts), file_len, file_part_path
 
@@ -67,7 +66,6 @@ def split_file(file_path):
     """
     parts = []
     parts_num = os.path.getsize(file_path) / PART_FILE_LENGTH
-
     if os.path.getsize(file_path) % PART_FILE_LENGTH != 0:
         parts_num += 1
     with open(file_path, "rb") as file:

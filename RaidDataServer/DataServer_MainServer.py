@@ -12,6 +12,8 @@ class DataServer_MainServer():
         """
         self.my_socket = socket.socket()
         self.port = PORT
+
+        print "ry to connect" + str((SERVER_IP, PORT))
         self.my_socket.connect((SERVER_IP, PORT))
         print "connected with port: " + str(PORT)
         self.FAIL = False

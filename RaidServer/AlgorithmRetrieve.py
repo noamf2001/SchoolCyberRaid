@@ -34,7 +34,12 @@ class AlgorithmRetrieve():
                                                                saving_path, port)
         self.data_server_communication_thread_id = thread.start_new_thread(self.data_server_communication.main, (True,))
 
-    def retrieve_file_part_generatea_path(self, file_path1, file_path2):
+    def retrieve_file_part_generate_path(self, file_path1, file_path2):
+        """
+        :param file_path1: path of file part - can be regular part or parity part, can not be ""
+        :param file_path2: path of file part - can be regular part or parity part, can not be ""
+        :return: the file path that we an create
+        """
         end_of_filename1, [file_part1_index1, file_part1_index2] = get_file_info(file_path1)
         end_of_filename2, [file_part2_index1, file_part2_index2] = get_file_info(file_path2)
         if file_part1_index2 == -1:
@@ -46,6 +51,13 @@ class AlgorithmRetrieve():
         return file_path, file_index
 
     def retrieve_file_part(self, file_path1, file_path2):
+        """
+        :param file_path1: path of file part - can be regular part or parity part, can be ""
+        :param file_path2: path of file part - can be regular part or parity part, can be ""
+        one of those are parity, and the other is not, that means that if none of them is empty string, then it is possible to create file part (may be we already got it)
+        :return: None, create file part if needed
+        creating parity file is not needed (create parity <=> we have the both file parts that it can generate -> it is useless)
+        """
         if file_path1 == "" or file_path2 == "":
             return
         file_path, file_index = self.retrieve_file_part_generate_path(file_path1, file_path2)
@@ -64,6 +76,9 @@ class AlgorithmRetrieve():
         self.part_file[file_index] = file_path
 
     def add_file_path(self, file_path):
+        """
+        :param file_path: a path of file part to add
+        """
         end_of_filename, [file_part_index1, file_part_index2] = get_file_info(file_path)
         if file_part_index2 == -1:
             self.part_file[file_part_index1] = file_path
@@ -98,6 +113,7 @@ class AlgorithmRetrieve():
         for file_part_path in self.part_file:
             with open(file_part_path, "rb") as fr:
                 data = fr.read()
+            os.remove(file_part_path)
             if current_len + len(data) > self.file_len:
                 data = data[:self.file_len - current_len]
             else:

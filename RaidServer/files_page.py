@@ -1,15 +1,18 @@
 from files_panel import FilesPanel
 import wx
-
+import wx.lib.dialogs
 
 class FilesPage():
-    def __init__(self, parent, nb, files):
+    def __init__(self, parent, nb, files, users_files):
         self.parent = parent
+        self.users_files = users_files
         self.files = files
-        self.PIC_SIZE = self.parent.screenWidth / 11
-        self.files_panel = FilesPanel(nb, self.set_ending_bmp, self.get_icon,self.get_files,
-                                      self.parent.screenWidth, self.parent.screenHeight, False, self.OnButton_Press)
+        self.PIC_SIZE = self.parent.screenWidth / 9.5
+        self.files_panel = FilesPanel(nb, self.set_ending_bmp, self.get_icon,
+                                      self.parent.screenWidth, self.parent.screenHeight, False, self.OnButton_Press,self.files)
         self.files_panel.show_files()
+
+
 
     def set_ending_bmp(self):
         self.word_bmp = wx.Bitmap(self.parent.currentDirectory + "\\word.jpg")
@@ -52,12 +55,13 @@ class FilesPage():
         elif ending == ".mp3":
             return self.mp3_bmp
         else:
-            return self.mp3_bmp
-
-    def get_files(self):
-        return self.files
+            return self.qm_bmp
 
     def OnButton_Press(self, event):
         print "press files"
         btn = event.GetEventObject()
         file_name = btn.GetLabelText()
+        dlg = wx.MessageDialog(self.files_panel, "the user that have this file is: " + self.users_files[file_name], "file: " + file_name,wx.OK | wx.ICON_INFORMATION
+                                                   )
+        dlg.ShowModal()
+        dlg.Destroy()

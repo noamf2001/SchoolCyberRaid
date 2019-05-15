@@ -54,6 +54,7 @@ class MainPanel(wx.Panel):
 
 
     def on_button_upload_file(self, evt):
+        print "on_button_upload_file"
         dlg = wx.FileDialog(
             self, message="Choose a file",
             defaultDir=os.getcwd(),

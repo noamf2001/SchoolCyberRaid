@@ -5,6 +5,7 @@ import os
 
 class SQL_connection():
     def __init__(self, file_name):
+        print "create"
         sqlite_file = file_name
         self.conn = sqlite3.connect(sqlite_file)
         self.conn.create_function("REGEXP", 2, self.regexp)
@@ -109,7 +110,7 @@ class SQL_connection():
 
     def delete_data_server(self, mac_address):
         self.c.execute('DELETE FROM ' + self.data_server_table + ' WHERE MAC = (?)', (mac_address,))
-        self.c.execute('DELETE FROM ' + self.data_server_files_table + 'WHERE MAC = (?)', (mac_address,))
+        self.c.execute('DELETE FROM ' + self.data_server_files_table + ' WHERE MAC = (?)', (mac_address,))
         self.conn.commit()
 
     def get_all_data_server(self):
@@ -121,22 +122,31 @@ class SQL_connection():
         self.conn.close()
 
     def get_data_server_files(self, data_server_mac):
-        self.c.execute('SELECT * FROM ' + self.data_server_files_table + ' WHERE MAX = (?)', (data_server_mac,))
+        print "in sql connection"
+        self.c.execute('SELECT * FROM ' + self.data_server_files_table + ' WHERE MAC = (?)', (data_server_mac,))
         result = self.c.fetchall()
+        print result
         return result
 
 
-"""
+
 if __name__ == '__main__':
-    a = SQL_connection()
-    a.add_data_server("hi everyone")
-    a.add_data_server("hi again!")
-    a.save_user_file("noam", "somename2", 5, 10)
-    print a.get_user_file_info("noam", 'somename2')
-    print a.get_user_file_info("noam", "otherfilename")
+    sql_file_name = "sirst_db.sqlite"
+    os.remove(sql_file_name)
+    a = SQL_connection(sql_file_name)
+    a.add_data_server("02-00-4C-4F-4F-50")
+    print a.get_all_data_server()
+    print type(a.get_all_data_server())
+
+    a.create_new_username("noam","pass")
+    a.save_user_file("noam", "noam$somename2_34_4.txt", 5, 10)
+    a.save_user_file("noam", "noam$someother_2_-1.txt", 5, 10)
+
+    a.add_data_server_file_part("02-00-4C-4F-4F-50","noam$somename2_34_4.txt")
+    a.add_data_server_file_part("02-00-4C-4F-4F-50", "noam$somename2_2_-1.txt")
+
+    print a.get_data_server_files("02-00-4C-4F-4F-50")
+    print type(a.get_data_server_files("02-00-4C-4F-4F-50"))
+
     print a.get_user_file_list("noam")
-    print a.get_user_file_list("noam1")
-    a.add_data_server_file_part("some address", "noam$task_4_-1.txt")
-    # a.delete_user_file("noam", "task.txt")
-    print a.get_user_file_list("noam")
-    print a.get_all_data_server()"""
+    print type(a.get_user_file_list("noam"))

@@ -34,13 +34,14 @@ class GUI(wx.Frame):
         wx.Frame.__init__(self, parent, id, title, size=(self.screenWidth, self.screenHeight),
                           style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
 
+
+
         # self.files = self.client.get_file_list()
-        # self.files = [r"asdfddffghtry.jpg", r"er1.docs", r"45fda.txt", r"ghjie.docs", r"hjiess.txt",
-        #              r"anothe3434r1.png", r"fda.tdf", r"fda.txt", r"fda.py", r"fda.txt", r"fda.ppt", r"fda.xlx",
-        #              r"fda.txt"]
+        self.files = [r"dog.jpg", r"word.docs", r"notes.txt", r"homework.docs", r"passwords.txt",
+                      r"passport.png"]
         # for i in range(20):
         #    self.files.append("num" + str(i) + ".txt")
-        self.files = []
+        #self.files = []
 
         self.username = ""
 
@@ -50,10 +51,9 @@ class GUI(wx.Frame):
 
         pub.subscribe(self.sign_up_show_result, "sign_up")
 
-        pub.subscribe(self.get_file_call_after, "get_file")
+        pub.subscribe(self.get_file_show_result, "get_file")
 
-        pub.subscribe(self.get_file_list_call_after, "get_file_list")
-
+        pub.subscribe(self.get_files_list_show_result, "get_file_list")
         self.sign()
 
     def scale_bitmap(self, bitmap, width, height):

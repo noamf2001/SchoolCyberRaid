@@ -27,10 +27,9 @@ PORT_CLIENT = 1234
 
 
 class MainServer:
-    def __init__(self, sql_file_name, saving_path=os.getcwd()):
-        os.remove(sql_file_name)
-        self.files = []
-
+    def __init__(self, sql_file_name, action_call_after_show,saving_path=os.getcwd()):
+#        os.remove(sql_file_name)
+        self.action_call_after_show = action_call_after_show
         self.sql_file_name = sql_file_name
         self.saving_path = saving_path
         self.ports_taken = set()
@@ -42,7 +41,8 @@ class MainServer:
         self.command_result_client = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
         self.client_communication = MainServer_Client(self.client_command, self.command_result_client, self.saving_path,
                                                       PORT_CLIENT)
-        thread.start_new_thread(self.client_communication.main, ())
+        id_thread = thread.start_new_thread(self.client_communication.main, ())
+        print "thread.start_new_thread(self.client_communication: " + str(id_thread)
         self.client_command_def = {
             -1: self.disconnect_client,
             1: self.sign_up_client,
@@ -60,13 +60,13 @@ class MainServer:
         self.data_server_communication = MainServer_DataServer(self.data_server_command,
                                                                self.command_result_data_server, self.valid_data_server,
                                                                self.optional_data_server, PORT_DATA_SERVER)
-        thread.start_new_thread(self.data_server_communication.main, ())
+        id_thread = thread.start_new_thread(self.data_server_communication.main, ())
+        print "thread.start_new_thread(self.data_server_communication: " + str(id_thread)
         self.command_result_data_server_def = {
             -1: self.disconnect_data_server,
             1: self.sign_up_data_server, }  # msg_type : method that take care of it, take as parameter: current
         # socket, msg_parameter
-
-        self.sql_connection = SQL_connection(sql_file_name)
+        self.sql_file_name = sql_file_name
 
     def get_data_server(self):
         return self.valid_data_server.values()
@@ -79,7 +79,9 @@ class MainServer:
     def disconnect_data_server(self, current_socket, msg_parameter):
         if current_socket in self.socket_username.keys():
             del self.socket_username[current_socket]
-        self.sql_connection.delete_data_server(get_key_by_value(self.valid_data_server, current_socket))
+        mac_address = get_key_by_value(self.valid_data_server, current_socket)
+        self.sql_connection.delete_data_server(mac_address)
+        self.action_call_after_show[-1](mac_address)
         return None
 
     def sign_up_client(self, current_socket, msg_parameter):
@@ -95,8 +97,9 @@ class MainServer:
         return [True]
 
     def sign_up_data_server(self, current_socket, msg_parameter):
-        self.sql_connection.add_data_server(get_key_by_value(self.valid_data_server, current_socket))
-
+        mac_address = get_key_by_value(self.valid_data_server, current_socket)
+        self.sql_connection.add_data_server(mac_address)
+        self.action_call_after_show[1](mac_address)
         return None
 
     def sign_in(self, current_socket, msg_parameter):
@@ -115,7 +118,7 @@ class MainServer:
         :param msg_parameters: [file path]
         :return [boolean]
         """
-        self.files.append(msg_parameters[0][msg_parameters[0].rfind("\\") + 1:])
+
 
         print "start upload file in main server"
         sql_connection_upload_file = SQL_connection(self.sql_file_name)
@@ -128,7 +131,7 @@ class MainServer:
         data_servers = sql_connection_upload_file.get_all_data_server()
         sql_connection_upload_file.close_sql()
         if len(data_servers) == 0:
-            self.command_result_client.put([current_socket, [3, [file_name, False]]])
+            self.command_result_client.put([current_socket, [3, [file_path, False]]])
         division_part_data_server = AlgorithmMain.divide_parts_to_data_server(files_part_path, data_servers)
         print "next: " + str(self.valid_data_server)
         print "division_part_data_server : " + str(division_part_data_server)
@@ -138,6 +141,9 @@ class MainServer:
                                               [3, [division_part_data_server[i][1][j]]]])
         #sql_connection_upload_file.get_data_server_files()
         self.command_result_client.put([current_socket, [3, [file_path,True]]])
+
+        #GUI
+        self.action_call_after_show[3](file_path[file_path.rfind("\\") + 1:])
 
     def generate_port(self):
         port = random.randint(1000, 65535)
@@ -178,6 +184,7 @@ class MainServer:
         else:
             file_path = ""
         self.command_result_client.put([current_socket, [4, [msg_parameters[0], file_path]]])
+
         return None
 
     def delete_file(self, current_socket, msg_parameters):
@@ -186,12 +193,11 @@ class MainServer:
         :param msg_parameters: [file name]
         :return None
         """
-        self.files.remove(msg_parameters[0][msg_parameters[0].rfind("\\") + 1:])
-
-
         self.sql_connection.delete_user_file(self.socket_username[current_socket], msg_parameters[0])
         for data_server_current_socket in self.data_server_communication.open_data_server_sockets:
             self.data_server_command.put([data_server_current_socket, [5, [msg_parameters[0]]]])
+
+        self.action_call_after_show[5](msg_parameters[0])
         return None
 
     def get_file_list(self, current_socket, msg_parameters):
@@ -207,6 +213,7 @@ class MainServer:
         return result
 
     def main(self):
+        self.sql_connection = SQL_connection(self.sql_file_name)  # create it here so it will not be created by GUI thread
         while True:
             if not self.client_command.empty():
                 command_client = self.client_command.get()
