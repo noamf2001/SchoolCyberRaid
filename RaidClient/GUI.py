@@ -34,14 +34,7 @@ class GUI(wx.Frame):
         wx.Frame.__init__(self, parent, id, title, size=(self.screenWidth, self.screenHeight),
                           style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
 
-
-
-        # self.files = self.client.get_file_list()
-        self.files = [r"dog.jpg", r"word.docs", r"notes.txt", r"homework.docs", r"passwords.txt",
-                      r"passport.png"]
-        # for i in range(20):
-        #    self.files.append("num" + str(i) + ".txt")
-        #self.files = []
+        self.files = []
 
         self.username = ""
 
@@ -86,6 +79,7 @@ class GUI(wx.Frame):
         print "in: sign_in_show_result: " + str(result)
         if result[0]:
             self.dlg.Destroy()
+            self.client.get_file()
             self.start_main_screen()
         else:
             self.dialog_msg("FAIL", "could not sign in")

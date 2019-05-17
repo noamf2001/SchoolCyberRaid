@@ -118,8 +118,6 @@ class MainServer:
         :param msg_parameters: [file path]
         :return [boolean]
         """
-
-
         print "start upload file in main server"
         sql_connection_upload_file = SQL_connection(self.sql_file_name)
         file_path = msg_parameters[0]
@@ -141,7 +139,7 @@ class MainServer:
                                               [3, [division_part_data_server[i][1][j]]]])
         #sql_connection_upload_file.get_data_server_files()
         self.command_result_client.put([current_socket, [3, [file_path,True]]])
-
+        print "finish division of files in main server"
         #GUI
         self.action_call_after_show[3](file_path[file_path.rfind("\\") + 1:])
 
@@ -217,7 +215,10 @@ class MainServer:
         while True:
             if not self.client_command.empty():
                 command_client = self.client_command.get()
-                if command_client[1][0] == 3 or command_client[1][0] == 4:
+                #if sign up\in did not success
+                if command_client[0] not in self.socket_username.keys() and command_client[1][0] > 2:
+                    continue
+                if command_client[1][0] == 3 or command_client[1][0] == 4 :
                     thread.start_new_thread(self.client_command_def[command_client[1][0]],
                                             (command_client[0], command_client[1][1]))
                 else:

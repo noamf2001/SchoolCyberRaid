@@ -105,12 +105,14 @@ class GUI(wx.Frame):
         wx.CallAfter(pub.sendMessage, "disconnect_data_server", result=result)
 
     def upload_file_show_result(self, result):
+        print "upload_file_show_result: " + result
         username = result[:result.rfind("$")]
         file_name = result[result.rfind("$") + 1:]
         self.files_page_users_files[file_name] = username
         self.files_page_files.append(file_name)
 
     def upload_file_call_after(self, result):
+        print "upload_file_call_after"
         wx.CallAfter(pub.sendMessage, "upload_file", result=result)
 
     def delete_file_show_result(self, result):

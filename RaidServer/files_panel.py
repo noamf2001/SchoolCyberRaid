@@ -85,7 +85,7 @@ class FilesPanel(wx.lib.scrolledpanel.ScrolledPanel):
             bSizer.Add(cSizer, 0, wx.CENTER, 0)
             ind += 1
 
-            if ind == 8:
+            if ind == 7:
                 dSizer.Add(bSizer, 0, wx.CENTER, 0)
                 ind = 0
                 bSizer = wx.BoxSizer(wx.HORIZONTAL)
