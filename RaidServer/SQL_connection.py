@@ -92,6 +92,7 @@ class SQL_connection():
         self.conn.commit()
 
     def add_data_server_file_part(self, mac_address, file_part_name):
+        print "add_data_server_file_part: " + mac_address + "  :  " + file_part_name
         self.c.execute('INSERT INTO ' + self.data_server_files_table + ' VALUES (?,?)', (mac_address, file_part_name))
         self.conn.commit()
 

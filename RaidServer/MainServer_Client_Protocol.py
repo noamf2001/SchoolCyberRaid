@@ -117,6 +117,7 @@ class MainServer_Client_Protocol():
         :param msg: the msg parameters
         :return: the msg parameters in array [username, password]
         """
+        print "disassemble_2_sign_in: " + str(self.disassemble_username_password(msg))
         return self.disassemble_username_password(msg)
 
     def disassemble_3_upload_file(self, msg):

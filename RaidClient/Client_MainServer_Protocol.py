@@ -5,6 +5,7 @@ import gzip
 import shutil
 import hashlib
 
+
 class Client_MainServer_Protocol():
     def __init__(self, my_socket, saving_path):
         self.saving_path = saving_path
@@ -150,9 +151,9 @@ class Client_MainServer_Protocol():
                 f.write(data)
         else:
             file_path = ""
-        #if file_path != "":
+        # if file_path != "":
         #    file_path = self.decompress_file(file_path)
-        return [name,file_path]
+        return [name, file_path]
 
     def disassemble_6_get_file_list(self, msg):
         """
@@ -207,7 +208,7 @@ class Client_MainServer_Protocol():
         """
         print "build_1_sign_up"
         hash_password = self.hash_password(msg_parameters[1])
-        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(hash_password )) + "$" + \
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(hash_password)) + "$" + \
               hash_password
         return msg
 
@@ -216,9 +217,10 @@ class Client_MainServer_Protocol():
         :param msg_parameters: [username, password (after hash)]
         :return: the msg to send
         """
+        print "start build_2_sign_in: " + str(msg_parameters)
         hash_password = self.hash_password(msg_parameters[1])
-        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(hash_password)) + "$" + \
-              hash_password[1]
+        msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(hash_password)) + "$" + hash_password
+        print "build_2_sign_in: " + msg
         return msg
 
     def compress_file(self, file_name, file_path):
@@ -235,7 +237,7 @@ class Client_MainServer_Protocol():
         :param msg_parameters: [file name, file path]
         :return: the msg to send
         """
-        #file_name = self.compress_file(msg_parameters[0], msg_parameters[1])
+        # file_name = self.compress_file(msg_parameters[0], msg_parameters[1])
         file_name = msg_parameters[0]
         file_path = msg_parameters[1]
         with open(file_path, "rb") as f:

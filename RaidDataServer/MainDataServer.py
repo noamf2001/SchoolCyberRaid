@@ -69,11 +69,12 @@ class DataServer():
                 pass
 
     def delete_file(self, msg_parameters):
+        print "start delete file"
         file_part_path = self.saving_path + "\\" + msg_parameters[0]
-        os.remove(file_part_path)
-        reg = self.get_regex_file_name(msg_parameters[0])
+        reg = self.get_regex_file_name(file_part_path)
         for file_part in self.files.keys():
             if reg.search(file_part) is not None:
+                os.remove(self.files[file_part])
                 del self.files[file_part]
 
     def main(self):

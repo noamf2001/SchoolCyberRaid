@@ -45,6 +45,7 @@ class ClientMain():
         self.client_command.put([1, [username, password]])
 
     def sign_in(self, username, password):
+        print "sign_in ClientMain: " + username + "  :  " + password
         self.username = username
         self.client_command.put([2, [username, password]])
 
@@ -68,7 +69,7 @@ class ClientMain():
         self.client_command.put([6, []])
 
     def main_recv(self):
-        while True:
+        while not self.client_communication.FAIL:
             if not self.command_result.empty():
                 result = self.command_result.get()
                 msg_type = result[0]

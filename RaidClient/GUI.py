@@ -14,7 +14,8 @@ class GUI(wx.Frame):
     def __init__(self, parent, id, title, app):
 
         action_call_after_show = {1: self.sign_up_call_after, 2: self.sign_in_call_after,
-                                  3: self.upload_file_call_after, 4: self.get_file_call_after,6: self.get_file_list_call_after}
+                                  3: self.upload_file_call_after, 4: self.get_file_call_after,
+                                  6: self.get_file_list_call_after}
 
         self.client = ClientMain(action_call_after_show)
         thread.start_new_thread(self.client.main_recv, ())
@@ -47,6 +48,7 @@ class GUI(wx.Frame):
         pub.subscribe(self.get_file_show_result, "get_file")
 
         pub.subscribe(self.get_files_list_show_result, "get_file_list")
+        pub.subscribe(self.get_files_list_show_result, "disconnect")
         self.sign()
 
     def scale_bitmap(self, bitmap, width, height):
@@ -79,7 +81,7 @@ class GUI(wx.Frame):
         print "in: sign_in_show_result: " + str(result)
         if result[0]:
             self.dlg.Destroy()
-            self.client.get_file()
+            self.client.get_file_list()
             self.start_main_screen()
         else:
             self.dialog_msg("FAIL", "could not sign in")
@@ -128,7 +130,6 @@ class GUI(wx.Frame):
     def delete_file(self, file_name):
         print "delete file: " + str(file_name)
         self.files.remove(file_name)
-
         self.file_panel.show_files()
         self.client.delete_file(file_name)
 
@@ -136,8 +137,9 @@ class GUI(wx.Frame):
         print "get_file_show_result: " + str(result[0])
         if result[1] == "":
             self.dialog_msg("FAIL", 'could not retrieve file: ' + result[0])
-            # self.client.delete_file(file_name)
-            self.files.remove(result[0])
+            self.delete_file(result[0])
+        else:
+            self.dialog_msg("SUCCESS", 'the file: ' + result[0] + " is saved")
         self.file_panel.show_files()
 
     def get_file_call_after(self, result):

@@ -4,7 +4,7 @@ from Client_MainServer_Protocol import Client_MainServer_Protocol
 import Queue
 
 PORT = 1234
-SERVER_IP = "10.100.102.15"
+SERVER_IP = "127.0.0.1"
 
 
 class Client_MainServer():
@@ -13,6 +13,7 @@ class Client_MainServer():
         :param client_command: empty queue
         :param command_result: empty queue
         """
+        print "start try connect"
         self.my_socket = socket.socket()
         self.my_socket.connect((SERVER_IP, PORT))
         print "connected"

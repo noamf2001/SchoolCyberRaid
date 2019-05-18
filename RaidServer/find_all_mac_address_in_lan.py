@@ -35,3 +35,4 @@ def get_mac_ip():
     # build a dictionary mac:ip
     return mac_and_ip
 
+print get_mac_ip().keys()

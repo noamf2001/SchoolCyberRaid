@@ -110,6 +110,7 @@ class GUI(wx.Frame):
         file_name = result[result.rfind("$") + 1:]
         self.files_page_users_files[file_name] = username
         self.files_page_files.append(file_name)
+        self.files_page.files_panel.show_files()
 
     def upload_file_call_after(self, result):
         print "upload_file_call_after"

@@ -95,8 +95,9 @@ class MainServer_DataServer_Protocol():
         data_len = int(msg[:msg.find("$")])
         data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
         file_part_path = self.saving_path + "\\" + name
-        with open(file_part_path, "wb") as f:
-            f.write(data)
+        if not os.path.isfile(file_part_path):
+            with open(file_part_path, "wb") as f:
+                f.write(data)
         return [file_part_path]
 
     def build(self, msg_type, msg_parameter, RSA_key=None):
@@ -130,6 +131,7 @@ class MainServer_DataServer_Protocol():
         with open(msg_parameters[0], "rb") as f:
             file_data = f.read()
         os.remove(msg_parameters[0])
+        print "remove file: " + msg_parameters[0]
         msg = str(len(name)) + "$" + name + str(len(file_data)) + "$" + file_data
         return msg
 

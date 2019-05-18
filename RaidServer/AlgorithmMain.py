@@ -5,7 +5,7 @@ part file name:
 filename_part number_if it is a parity file - the other part number, else -1
 """
 
-PART_FILE_LENGTH = 5
+PART_FILE_LENGTH = 10
 
 
 def create_parity_file_part_path(file_path1, file_path2):

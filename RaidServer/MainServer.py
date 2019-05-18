@@ -27,8 +27,8 @@ PORT_CLIENT = 1234
 
 
 class MainServer:
-    def __init__(self, sql_file_name, action_call_after_show,saving_path=os.getcwd()):
-#        os.remove(sql_file_name)
+    def __init__(self, sql_file_name, action_call_after_show, saving_path=os.getcwd()):
+        #        os.remove(sql_file_name)
         self.action_call_after_show = action_call_after_show
         self.sql_file_name = sql_file_name
         self.saving_path = saving_path
@@ -54,7 +54,7 @@ class MainServer:
 
         self.valid_data_server = {}  # mac address : data server socket
         self.optional_data_server = get_mac_ip()  # ip : mac address of all the legal ones - the ones that are in this lan network
-        self.optional_data_server["127.0.0.1"] ="02-00-4C-4F-4F-50"
+        self.optional_data_server["127.0.0.1"] = "02-00-4C-4F-4F-50"
         self.data_server_command = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
         self.command_result_data_server = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
         self.data_server_communication = MainServer_DataServer(self.data_server_command,
@@ -103,8 +103,9 @@ class MainServer:
         return None
 
     def sign_in(self, current_socket, msg_parameter):
-        print "sign in - client  - server"
-        username, password = msg_parameter
+        print "sign in - client  - server: " + str(msg_parameter)
+        username = msg_parameter[0]
+        password = msg_parameter[1]
         if not self.sql_connection.check_user_legal(username, password):
             return [False]
         if username in self.socket_username.values():
@@ -122,25 +123,28 @@ class MainServer:
         sql_connection_upload_file = SQL_connection(self.sql_file_name)
         file_path = msg_parameters[0]
         username = file_path[file_path.rfind("\\") + 1:file_path.find("$", file_path.rfind("\\"))]
+        data_servers = sql_connection_upload_file.get_all_data_server()
+        if len(data_servers) == 0:
+            self.command_result_client.put([current_socket, [3, [file_path, False]]])
+            return None
         parts_num, file_len, files_part_path = AlgorithmMain.create_parity_files(file_path)
         sql_connection_upload_file.save_user_file(username, file_path[file_path.find("$", file_path.rfind("\\")) + 1:],
                                                   parts_num, file_len)
-
-        data_servers = sql_connection_upload_file.get_all_data_server()
-        sql_connection_upload_file.close_sql()
-        if len(data_servers) == 0:
-            self.command_result_client.put([current_socket, [3, [file_path, False]]])
         division_part_data_server = AlgorithmMain.divide_parts_to_data_server(files_part_path, data_servers)
         print "next: " + str(self.valid_data_server)
         print "division_part_data_server : " + str(division_part_data_server)
         for i in range(len(division_part_data_server)):
             for j in range(len(division_part_data_server[i][1])):
-                self.data_server_command.put([self.valid_data_server[division_part_data_server[i][0]],
-                                              [3, [division_part_data_server[i][1][j]]]])
-        #sql_connection_upload_file.get_data_server_files()
-        self.command_result_client.put([current_socket, [3, [file_path,True]]])
+                file_part_path = division_part_data_server[i][1][j]
+                self.data_server_command.put(
+                    [self.valid_data_server[division_part_data_server[i][0]], [3, [file_part_path]]])
+                sql_connection_upload_file.add_data_server_file_part(division_part_data_server[i][0],
+                                                                     file_part_path[file_part_path.rfind("\\") + 1:])
+
+        sql_connection_upload_file.close_sql()
+        self.command_result_client.put([current_socket, [3, [file_path, True]]])
         print "finish division of files in main server"
-        #GUI
+        # GUI
         self.action_call_after_show[3](file_path[file_path.rfind("\\") + 1:])
 
     def generate_port(self):
@@ -181,6 +185,7 @@ class MainServer:
             file_path = retrieve_file.connect_file()
         else:
             file_path = ""
+        retrieve_file.stop_thread = True
         self.command_result_client.put([current_socket, [4, [msg_parameters[0], file_path]]])
 
         return None
@@ -211,14 +216,15 @@ class MainServer:
         return result
 
     def main(self):
-        self.sql_connection = SQL_connection(self.sql_file_name)  # create it here so it will not be created by GUI thread
+        self.sql_connection = SQL_connection(
+            self.sql_file_name)  # create it here so it will not be created by GUI thread
         while True:
             if not self.client_command.empty():
                 command_client = self.client_command.get()
-                #if sign up\in did not success
+                # if sign up\in did not success
                 if command_client[0] not in self.socket_username.keys() and command_client[1][0] > 2:
                     continue
-                if command_client[1][0] == 3 or command_client[1][0] == 4 :
+                if command_client[1][0] == 3 or command_client[1][0] == 4:
                     thread.start_new_thread(self.client_command_def[command_client[1][0]],
                                             (command_client[0], command_client[1][1]))
                 else:

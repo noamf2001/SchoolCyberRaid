@@ -63,7 +63,6 @@ class AlgorithmRetrieve():
         file_path, file_index = self.retrieve_file_part_generate_path(file_path1, file_path2)
         if self.part_file[file_index] != "":
             return
-        self.part_file[file_index] = file_path
         with open(file_path1, "rb") as f1:
             file1_data = bytearray(f1.read())
         with open(file_path2, "rb") as f2:
