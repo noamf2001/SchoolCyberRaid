@@ -76,6 +76,7 @@ class ClientMain():
                 msg_parameters = result[1]
                 print "got msg: " + str(msg_type) + "\t\t"+str(msg_parameters)
                 self.action_call_after_show[msg_type](msg_parameters)
+        self.action_call_after_show[-1]()
 
 
 if __name__ == '__main__':

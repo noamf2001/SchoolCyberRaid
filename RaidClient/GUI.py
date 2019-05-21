@@ -1,6 +1,5 @@
 import wx
 import os
-import sys
 from SignDialog import SignDialog
 from ClientMain import ClientMain
 from MainPanel import MainPanel
@@ -12,10 +11,10 @@ import thread
 class GUI(wx.Frame):
 
     def __init__(self, parent, id, title, app):
-
         action_call_after_show = {1: self.sign_up_call_after, 2: self.sign_in_call_after,
                                   3: self.upload_file_call_after, 4: self.get_file_call_after,
-                                  6: self.get_file_list_call_after}
+                                  6: self.get_file_list_call_after,
+                                  -1: self.disconnect_call_after}
 
         self.client = ClientMain(action_call_after_show)
         thread.start_new_thread(self.client.main_recv, ())
@@ -150,6 +149,15 @@ class GUI(wx.Frame):
         self.client.set_saving_path(path_to_save)
         self.client.get_file(file_name)
 
+    def disconnect_show_result(self):
+        print "start disconnect"
+        self.dialog_msg("disconnect", 'the server is disconnect\n'
+                                      'or\n'
+                                      'this computer has a problem with his internet connection')
+        exit()
+
+    def disconnect_call_after(self):
+        wx.CallAfter(pub.sendMessage, "disconnect")
 
 
 if __name__ == "__main__":
