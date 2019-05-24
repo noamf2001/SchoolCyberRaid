@@ -3,10 +3,20 @@
   <component name="ChangeListManager">
     <list default="true" id="36932483-8d83-44d3-b101-5c8f8ad7940a" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidClient/AESCipher.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/AESCipher.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidClient/ClientMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/ClientMain.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidClient/Client_MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/Client_MainServer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidClient/Files_Panel.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/Files_Panel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidClient/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/GUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidClient/MainPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/MainPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidClient/SignDialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/SignDialog.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidClient/my_file_drop_target.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/my_file_drop_target.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidClient/my_popup_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/my_popup_menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidClient/search_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/search_control.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AESCipher.py" beforeDir="false" afterPath="$PROJECT_DIR$/AESCipher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataServer_MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataServer_MainServer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainDataServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainDataServer.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,8 +29,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MainDataServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="76" column="48" selection-start-line="76" selection-start-column="48" selection-end-line="76" selection-end-column="48" />
+            <state relative-caret-position="559">
+              <caret line="77" column="48" selection-start-line="77" selection-start-column="48" selection-end-line="77" selection-end-column="48" />
             </state>
           </provider>
         </entry>
@@ -28,8 +38,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DataServer_MainServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="53" selection-start-line="15" selection-start-column="53" selection-end-line="15" selection-end-column="53" />
+            <state relative-caret-position="204">
+              <caret line="15" column="54" selection-start-line="15" selection-start-column="54" selection-end-line="15" selection-end-column="54" />
             </state>
           </provider>
         </entry>
@@ -37,7 +47,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DataServer_MainServer_Protocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
+            <state relative-caret-position="221">
               <caret line="15" column="43" selection-start-line="15" selection-start-column="43" selection-end-line="15" selection-end-column="43" />
             </state>
           </provider>
@@ -90,6 +100,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -101,13 +112,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../RaidClient" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
   </component>
   <component name="RecentsManager">
@@ -185,18 +195,18 @@
       <workItem from="1558170201799" duration="4419000" />
       <workItem from="1558178815644" duration="601000" />
       <workItem from="1558455712820" duration="7000" />
-      <workItem from="1558458078131" duration="1628000" />
+      <workItem from="1558458078131" duration="2227000" />
+      <workItem from="1558688772833" duration="423000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80534000" />
+    <option name="totallyTimeSpent" value="81556000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22958772" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23362975" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -246,21 +256,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MainDataServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="76" column="48" selection-start-line="76" selection-start-column="48" selection-end-line="76" selection-end-column="48" />
+        <state relative-caret-position="559">
+          <caret line="77" column="48" selection-start-line="77" selection-start-column="48" selection-end-line="77" selection-end-column="48" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DataServer_MainServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="53" selection-start-line="15" selection-start-column="53" selection-end-line="15" selection-end-column="53" />
+        <state relative-caret-position="204">
+          <caret line="15" column="54" selection-start-line="15" selection-start-column="54" selection-end-line="15" selection-end-column="54" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DataServer_MainServer_Protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
+        <state relative-caret-position="221">
           <caret line="15" column="43" selection-start-line="15" selection-start-column="43" selection-end-line="15" selection-end-column="43" />
         </state>
       </provider>

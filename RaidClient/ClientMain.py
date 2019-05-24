@@ -29,12 +29,10 @@ class ClientMain():
         return result
 
     def check_legal_username(self, username):
-        return True
-        #return len(username) >= 4 and len(username) <= 20
+        return len(username) >= 4 and len(username) <= 20
 
     def check_legal_password(self, password):
-        return True
-        #return len(password) >= 4
+        return len(password) >= 4
 
     def sign_up(self, username, password):
         print "sign_up client main"
@@ -52,10 +50,6 @@ class ClientMain():
     def upload_file(self, file_path):
         file_name = self.username + "$" + file_path[file_path.rfind("\\") + 1:]
         self.client_command.put([3, [file_name, file_path]])
-        # while self.command_result.empty():
-        #    pass
-        # result = self.command_result.get()
-        # return result
 
     def get_file(self, file_name):
         file_name = self.username + "$" + file_name
@@ -69,14 +63,13 @@ class ClientMain():
         self.client_command.put([6, []])
 
     def main_recv(self):
-        while not self.client_communication.FAIL:
+        while True:
             if not self.command_result.empty():
                 result = self.command_result.get()
                 msg_type = result[0]
                 msg_parameters = result[1]
                 print "got msg: " + str(msg_type) + "\t\t"+str(msg_parameters)
                 self.action_call_after_show[msg_type](msg_parameters)
-        self.action_call_after_show[-1]()
 
 
 if __name__ == '__main__':

@@ -25,8 +25,9 @@ class GUI(wx.Frame):
                                   3: self.upload_file_call_after,
                                   5: self.delete_file_call_after}
         self.app = app
-        self.db_name ="debug1_db.sqlite"
-        self.main_server = MainServer(self.db_name, action_call_after_show)
+        self.db_name ="db.sqlite"
+        os.remove(self.db_name)
+        self.main_server = MainServer(self.db_name, action_call_after_show, saving_path=r"C:\Users\User\Documents\save")
         thread.start_new_thread(self.main_server.main, ())
         screen_size = wx.DisplaySize()
         self.screenWidth = screen_size[0] * 0.9
@@ -41,32 +42,31 @@ class GUI(wx.Frame):
 
         pub.subscribe(self.upload_file_show_result, "upload_file")
 
-        pub.subscribe(self.upload_file_show_result, "delete_file")
+        pub.subscribe(self.delete_file_show_result, "delete_file")
 
-        pub.subscribe(self.upload_file_show_result, "disconnect_data_server")
+        pub.subscribe(self.disconnect_data_server_show_result, "disconnect_data_server")
 
         self.nb = wx.Notebook(self, size=(self.screenWidth, self.screenHeight))
-        a = InstructionPanel(self.nb)
-        self.nb.AddPage(a, "Instructions")
+        inst = InstructionPanel(self.nb)
 
         self.files_page_files = []
         self.files_page_users_files = {}
         self.files_page = FilesPage(self, self.nb, self.files_page_files,
                                     self.files_page_users_files)  # self.main_server.files)
-        self.nb.AddPage(self.files_page.files_panel, "files")
 
         self.data_servers_settings_page = DataServerSettingsPage(self, self.nb,
                                                 self.main_server.optional_data_server.values())  # self.main_server.get_data_server()
-        self.nb.AddPage(self.data_servers_settings_page.files_panel, "data servers settings")
+
 
         self.data_servers_page_files = []
         self.data_servers_page = DataServerPage(self, self.nb,
                                                 self.data_servers_page_files)  # self.main_server.get_data_server()
+
         self.nb.AddPage(self.data_servers_page.files_panel, "data servers")
+        self.nb.AddPage(self.files_page.files_panel, "files")
+        self.nb.AddPage(self.data_servers_settings_page.files_panel, "data servers settings")
+        self.nb.AddPage(inst, "About")
 
-
-
-        print self.main_server.optional_data_server.values()
 
 
         # finally, put the notebook in a sizer for the panel to manage
@@ -121,6 +121,7 @@ class GUI(wx.Frame):
         file_name = result[result.rfind("$") + 1:]
         del self.files_page_users_files[file_name]
         self.files_page_files.remove(file_name)
+        self.files_page.files_panel.show_files()
 
     def delete_file_call_after(self, result):
         wx.CallAfter(pub.sendMessage, "delete_file", result=result)

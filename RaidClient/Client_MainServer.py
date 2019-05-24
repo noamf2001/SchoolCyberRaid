@@ -4,7 +4,7 @@ from Client_MainServer_Protocol import Client_MainServer_Protocol
 import Queue
 
 PORT = 1234
-SERVER_IP = "127.0.0.1"
+SERVER_IP = "192.168.0.207"
 
 
 class Client_MainServer():
@@ -56,7 +56,8 @@ class Client_MainServer():
             rlist, wlist, xlist = select.select([self.my_socket], [self.my_socket], [])
             self.recv_msg(rlist)
             self.send_waiting_messages(wlist)
-        print "FAIL!!!!!"
+        print "put disconnect"
+        self.command_result.put([-1,""])
 
 
 if __name__ == '__main__':

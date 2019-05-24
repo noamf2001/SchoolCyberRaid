@@ -3,7 +3,7 @@ import os
 from SignDialog import SignDialog
 from ClientMain import ClientMain
 from MainPanel import MainPanel
-from files_panel import FilePanel
+from Files_Panel import FilePanel
 from wx.lib.pubsub import pub
 import thread
 
@@ -47,7 +47,7 @@ class GUI(wx.Frame):
         pub.subscribe(self.get_file_show_result, "get_file")
 
         pub.subscribe(self.get_files_list_show_result, "get_file_list")
-        pub.subscribe(self.get_files_list_show_result, "disconnect")
+        pub.subscribe(self.disconnect_show_result, "disconnect")
         self.sign()
 
     def scale_bitmap(self, bitmap, width, height):
@@ -149,15 +149,16 @@ class GUI(wx.Frame):
         self.client.set_saving_path(path_to_save)
         self.client.get_file(file_name)
 
-    def disconnect_show_result(self):
+    def disconnect_show_result(self, result):
         print "start disconnect"
         self.dialog_msg("disconnect", 'the server is disconnect\n'
                                       'or\n'
                                       'this computer has a problem with his internet connection')
         exit()
 
-    def disconnect_call_after(self):
-        wx.CallAfter(pub.sendMessage, "disconnect")
+    def disconnect_call_after(self, result):
+        print "disconnect_call_after"
+        wx.CallAfter(pub.sendMessage, "disconnect", result = result)
 
 
 if __name__ == "__main__":

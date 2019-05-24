@@ -199,7 +199,6 @@ class MainServer:
         self.sql_connection.delete_user_file(self.socket_username[current_socket], msg_parameters[0])
         for data_server_current_socket in self.data_server_communication.open_data_server_sockets:
             self.data_server_command.put([data_server_current_socket, [5, [msg_parameters[0]]]])
-
         self.action_call_after_show[5](msg_parameters[0])
         return None
 

@@ -12,7 +12,7 @@ def get_key_by_value(dict, search_value):
             return key
 
 
-SERVER_IP = "127.0.0.1"
+SERVER_IP = "192.168.0.207"
 PORT = 1345
 
 
@@ -69,13 +69,16 @@ class DataServer():
                 pass
 
     def delete_file(self, msg_parameters):
-        print "start delete file"
-        file_part_path = self.saving_path + "\\" + msg_parameters[0]
-        reg = self.get_regex_file_name(file_part_path)
+        print "start delete file: " + str(msg_parameters)
+        reg = self.get_regex_file_name(msg_parameters[0])
+        print self.files.keys()
         for file_part in self.files.keys():
             if reg.search(file_part) is not None:
+                print "del: " + str(self.files[file_part])
                 os.remove(self.files[file_part])
                 del self.files[file_part]
+            else:
+                print "fail: " + file_part
 
     def main(self):
         while not self.main_server_communication.FAIL:
@@ -90,5 +93,5 @@ class DataServer():
 
 
 if __name__ == "__main__":
-    a = DataServer()
+    a = DataServer(saving_path=r"C:\Users\User\Documents\save")
     a.main()
