@@ -27,7 +27,7 @@ class GUI(wx.Frame):
         self.app = app
         self.db_name ="db.sqlite"
         os.remove(self.db_name)
-        self.main_server = MainServer(self.db_name, action_call_after_show, saving_path=r"C:\Users\User\Documents\save")
+        self.main_server = MainServer(self.db_name, action_call_after_show, saving_path=r"C:\Users\Sharon\Documents\save_server")
         thread.start_new_thread(self.main_server.main, ())
         screen_size = wx.DisplaySize()
         self.screenWidth = screen_size[0] * 0.9
@@ -82,7 +82,7 @@ class GUI(wx.Frame):
 
     def remove_data_server(self, mac_address):
         if mac_address in self.main_server.valid_data_server.keys():
-            self.main_server.disconnect_data_server(self.main_server.valid_data_server[mac_address],[])
+            self.main_server.command_result_data_server.put([self.main_server.valid_data_server[mac_address],[-1,[]]])
         dict_delete_by_value(self.main_server.optional_data_server,mac_address)
         self.data_server_settings_show_result()
 
