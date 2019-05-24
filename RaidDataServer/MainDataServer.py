@@ -12,7 +12,7 @@ def get_key_by_value(dict, search_value):
             return key
 
 
-SERVER_IP = "192.168.0.207"
+SERVER_IP = "127.0.0.1"
 PORT = 1345
 
 
@@ -93,5 +93,5 @@ class DataServer():
 
 
 if __name__ == "__main__":
-    a = DataServer(saving_path=r"C:\Users\User\Documents\save")
+    a = DataServer(saving_path=r"C:\Users\Sharon\Documents\save_data_server")
     a.main()

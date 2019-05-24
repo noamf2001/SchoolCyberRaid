@@ -4,7 +4,6 @@ from base64 import b64encode
 from Crypto import Random
 from Crypto.Cipher import AES
 
-
 # Padding for the input string --not
 # related to encryption itself.
 BLOCK_SIZE = 16  # Bytes
@@ -12,15 +11,13 @@ pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * \
                 chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
 unpad = lambda s: s[:-ord(s[len(s) - 1:])]
 
+"""
+c = AESCipher('password').encrypt('message')
+m = AESCipher('password').decrypt(c)
+"""
 
-class AESCipher():
-    """
-    Usage:
-        c = AESCipher('password').encrypt('message')
-        m = AESCipher('password').decrypt(c)
-    Tested under Python 3 and PyCrypto 2.6.1.
-    """
 
+class AESCipher:
     def __init__(self, key):
         self.key = md5(key.encode('utf8')).hexdigest()
 

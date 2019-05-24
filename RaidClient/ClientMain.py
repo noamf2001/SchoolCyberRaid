@@ -1,7 +1,7 @@
 import multiprocessing
 import socket
 import hashlib
-from Client_MainServer import Client_MainServer
+from Client_MainServer import ClientMainServer
 import Queue
 import thread
 import os
@@ -11,7 +11,7 @@ class ClientMain():
     def __init__(self, action_call_after_show, saving_path=os.getcwd()):
         self.client_command = Queue.Queue()  # queue: [msg_type, msg_parameters]
         self.command_result = Queue.Queue()  # queue: [msg_type, msg_parameters]
-        self.client_communication = Client_MainServer(self.client_command, self.command_result, saving_path)
+        self.client_communication = ClientMainServer(self.client_command, self.command_result, saving_path)
         thread.start_new_thread(self.client_communication.main, ())
         self.username = None
         self.action_call_after_show = action_call_after_show

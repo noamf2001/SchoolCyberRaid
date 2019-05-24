@@ -4,7 +4,7 @@ from AESCipher import AESCipher
 import gzip
 import shutil
 import hashlib
-
+import base64
 
 class Client_MainServer_Protocol():
     def __init__(self, my_socket, saving_path):
@@ -144,9 +144,6 @@ class Client_MainServer_Protocol():
             data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
             file_path = self.saving_path + "\\" + name
             print "save in file part path: " + file_path
-            # while os.path.isfile(file_part_path):
-            #    file_part_path = file_part_path[:file_part_path.rfind(".")] + str(random.randint(0, 100)) + file_part_path[
-            #                                                                                                file_part_path.rfind("."):]
             with open(file_path, "wb") as f:
                 f.write(data)
         else:
@@ -237,7 +234,6 @@ class Client_MainServer_Protocol():
         :param msg_parameters: [file name, file path]
         :return: the msg to send
         """
-        # file_name = self.compress_file(msg_parameters[0], msg_parameters[1])
         file_name = msg_parameters[0]
         file_path = msg_parameters[1]
         with open(file_path, "rb") as f:

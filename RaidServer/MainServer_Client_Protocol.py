@@ -79,6 +79,7 @@ class MainServer_Client_Protocol():
         :param msg: the raw full msg - string (without the len of the msg) (len > 0) (encrypted)
         :return: msg type - int, msg parameters - array []
         """
+        print "disassemble: " + msg
         if not first:
             msg = self.AES_cipher.decrypt(msg)
         msg_type, msg = self.get_msg_type(msg)

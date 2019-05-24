@@ -4,19 +4,17 @@ from Client_MainServer_Protocol import Client_MainServer_Protocol
 import Queue
 
 PORT = 1234
-SERVER_IP = "192.168.0.207"
+SERVER_IP = "127.0.0.1"
 
 
-class Client_MainServer():
+class ClientMainServer:
     def __init__(self, client_command, command_result, saving_path):
         """
         :param client_command: empty queue
         :param command_result: empty queue
         """
-        print "start try connect"
         self.my_socket = socket.socket()
         self.my_socket.connect((SERVER_IP, PORT))
-        print "connected"
         self.FAIL = False
         self.client_main_server_protocol = Client_MainServer_Protocol(self.my_socket, saving_path)
         self.client_command = client_command  # queue: [msg_type, msg_parameters]
@@ -25,17 +23,23 @@ class Client_MainServer():
         self.send_first_msg = False
 
     def recv_msg(self, rlist):
+        """
+        :param rlist: all the sockets that can recv a msg - the only option is the client socket
+
+        """
         if self.my_socket in rlist:
             if self.client_main_server_protocol.AES_cipher is None:
+                # recv first msg from server - the AES key
                 msg_type, msg_parameters, connection_fail = self.client_main_server_protocol.recv_msg(True)
             else:
+                #
                 msg_type, msg_parameters, connection_fail = self.client_main_server_protocol.recv_msg()
             if connection_fail:
-                print "connection fail"
                 self.FAIL = True
             else:
                 if self.client_main_server_protocol.AES_cipher is None:
                     self.client_main_server_protocol.create_AES_key(msg_parameters[0])
+
                 else:
                     self.command_result.put([msg_type, msg_parameters])
 
@@ -59,9 +63,3 @@ class Client_MainServer():
         print "put disconnect"
         self.command_result.put([-1,""])
 
-
-if __name__ == '__main__':
-    client_command = Queue.Queue()
-    command_result = Queue.Queue()
-    a = Client_MainServer(client_command, command_result)
-    a.main()

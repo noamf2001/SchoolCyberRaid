@@ -6,17 +6,12 @@
       <change beforePath="$PROJECT_DIR$/../RaidClient/AESCipher.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/AESCipher.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidClient/ClientMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/ClientMain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidClient/Client_MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/Client_MainServer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidClient/Files_Panel.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/Files_Panel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidClient/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/GUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidClient/MainPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/MainPanel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidClient/SignDialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/SignDialog.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidClient/my_file_drop_target.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/my_file_drop_target.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidClient/my_popup_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/my_popup_menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidClient/search_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/search_control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidClient/Client_MainServer_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/Client_MainServer_Protocol.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AESCipher.py" beforeDir="false" afterPath="$PROJECT_DIR$/AESCipher.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataServer_MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataServer_MainServer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainDataServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainDataServer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidServer/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/GUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RaidServer/MainServer_Client_Protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidServer/MainServer_Client_Protocol.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MainDataServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="559">
-              <caret line="77" column="48" selection-start-line="77" selection-start-column="48" selection-end-line="77" selection-end-column="48" />
+            <state relative-caret-position="111">
+              <caret line="80" column="40" selection-start-line="80" selection-start-column="40" selection-end-line="80" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -47,8 +42,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DataServer_MainServer_Protocol.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="15" column="43" selection-start-line="15" selection-start-column="43" selection-end-line="15" selection-end-column="43" />
+            <state relative-caret-position="241">
+              <caret line="101" selection-start-line="101" selection-end-line="101" />
             </state>
           </provider>
         </entry>
@@ -90,9 +85,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="948" />
-    <option name="width" value="981" />
-    <option name="height" value="522" />
+    <option name="x" value="-11" />
+    <option name="width" value="1007" />
+    <option name="height" value="1031" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -117,7 +112,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../RaidServer" />
     <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
   </component>
   <component name="RecentsManager">
@@ -196,12 +191,12 @@
       <workItem from="1558178815644" duration="601000" />
       <workItem from="1558455712820" duration="7000" />
       <workItem from="1558458078131" duration="2227000" />
-      <workItem from="1558688772833" duration="423000" />
+      <workItem from="1558688772833" duration="8063000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="81556000" />
+    <option name="totallyTimeSpent" value="89196000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -211,7 +206,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4995958" visible="true" weight="0.42730495" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4995958" weight="0.42730495" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -234,7 +229,7 @@
     <option name="version" value="1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/RaidDataServer$MainDataServer.coverage" NAME="MainDataServer Coverage Results" MODIFIED="1558175125469" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/RaidDataServer$MainDataServer.coverage" NAME="MainDataServer Coverage Results" MODIFIED="1558719419779" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/AESCipher.py">
@@ -254,13 +249,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MainDataServer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="559">
-          <caret line="77" column="48" selection-start-line="77" selection-start-column="48" selection-end-line="77" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DataServer_MainServer.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -270,8 +258,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DataServer_MainServer_Protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="15" column="43" selection-start-line="15" selection-start-column="43" selection-end-line="15" selection-end-column="43" />
+        <state relative-caret-position="241">
+          <caret line="101" selection-start-line="101" selection-end-line="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MainDataServer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="80" column="40" selection-start-line="80" selection-start-column="40" selection-end-line="80" selection-end-column="40" />
         </state>
       </provider>
     </entry>
