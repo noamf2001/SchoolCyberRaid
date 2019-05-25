@@ -7,7 +7,7 @@ import thread
 import os
 
 
-class ClientMain():
+class ClientMain:
     def __init__(self, action_call_after_show, saving_path=os.getcwd()):
         self.client_command = Queue.Queue()  # queue: [msg_type, msg_parameters]
         self.command_result = Queue.Queue()  # queue: [msg_type, msg_parameters]
@@ -17,11 +17,16 @@ class ClientMain():
         self.action_call_after_show = action_call_after_show
 
     def set_saving_path(self, saving_path):
+        """
+        :param saving_path: the path to save files
+        set it as the path to save the files got from server
+        """
         self.client_communication.client_main_server_protocol.saving_path = saving_path
 
     def get_command_result(self):
         """
         :return: [[msg_type,msg parameters],....]
+        extract the commands from the queue
         """
         result = []
         while not self.command_result.empty():
@@ -29,9 +34,17 @@ class ClientMain():
         return result
 
     def check_legal_username(self, username):
+        """
+        :param username: the optional username
+        :return: if the username is secure enough
+        """
         return len(username) >= 4 and len(username) <= 20
 
     def check_legal_password(self, password):
+        """
+        :param password: the optional password vreated by the user
+        :return:
+        """
         return len(password) >= 4
 
     def sign_up(self, username, password):

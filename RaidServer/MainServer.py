@@ -41,8 +41,7 @@ class MainServer:
         self.command_result_client = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
         self.client_communication = MainServer_Client(self.client_command, self.command_result_client, self.saving_path,
                                                       PORT_CLIENT)
-        id_thread = thread.start_new_thread(self.client_communication.main, ())
-        print "thread.start_new_thread(self.client_communication: " + str(id_thread)
+        thread.start_new_thread(self.client_communication.main, ())
         self.client_command_def = {
             -1: self.disconnect_client,
             1: self.sign_up_client,

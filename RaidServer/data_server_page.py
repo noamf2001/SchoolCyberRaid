@@ -4,7 +4,7 @@ from SQL_connection import SQL_connection
 import wx.lib.dialogs
 
 
-class DataServerPage():
+class DataServerPage:
     def __init__(self, parent, nb, files):
         self.parent = parent
         self.files = files

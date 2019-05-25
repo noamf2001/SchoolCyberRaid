@@ -8,7 +8,10 @@ import wx.lib.scrolledpanel
 from search_control import SearchControl
 import wx.lib.dialogs
 
-INSTRUCTION = "this is the instruction for Raid:\nblablabla\nthis is thhe end"
+INSTRUCTION = "This is the instruction for Network Raid:\n" \
+              "to save files please drop them on the screen or choose using the upload button\n" \
+              "to download/delete a file, press it, and choose the action\n\n\n\n" \
+              "made by Noam Fluss"
 
 
 class MainPanel(wx.Panel):

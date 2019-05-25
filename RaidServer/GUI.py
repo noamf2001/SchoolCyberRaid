@@ -47,7 +47,7 @@ class GUI(wx.Frame):
         pub.subscribe(self.disconnect_data_server_show_result, "disconnect_data_server")
 
         self.nb = wx.Notebook(self, size=(self.screenWidth, self.screenHeight))
-        inst = InstructionPanel(self.nb)
+        inst = InstructionPanel(self.nb, self.screenWidth, self.screenHeight)
 
         self.files_page_files = []
         self.files_page_users_files = {}
