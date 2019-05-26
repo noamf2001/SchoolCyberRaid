@@ -1,28 +1,14 @@
 from my_file_drop_target import MyFileDropTarget
 import wx
-import os
-import sys
 import wx.lib.agw.gradientbutton as GB
-import wx.lib.agw.genericmessagedialog as GMD
 import wx.lib.scrolledpanel
 from my_popup_menu import MyPopupMenu
-
-
-def find_loc(pos):
-    if pos % 4 == 0:
-        return 4
-    elif pos % 3 == 0:
-        return 3
-    elif pos % 2 == 0:
-        return 2
-    return 1
 
 
 class FilePanel(wx.lib.scrolledpanel.ScrolledPanel):
 
     def __init__(self, parent):
         """Constructor"""
-
         wx.lib.scrolledpanel.ScrolledPanel.__init__(self, parent, -1,
                                                     size=(parent.screenWidth, parent.screenHeight * 0.9),
                                                     pos=(0, parent.screenHeight * 0.11),
@@ -39,6 +25,9 @@ class FilePanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.set_ending_bmp()
 
     def set_ending_bmp(self):
+        """
+        set the icons credential
+        """
         self.word_bmp = wx.Bitmap(self.parent.currentDirectory + "\\word.jpg")
         self.word_bmp = self.parent.scale_bitmap(self.word_bmp, self.PIC_SIZE, self.PIC_SIZE)
 
@@ -64,6 +53,10 @@ class FilePanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.qm_bmp = self.parent.scale_bitmap(self.qm_bmp, self.PIC_SIZE, self.PIC_SIZE)
 
     def show_files(self, search=None):
+        """
+        :param search: if want to show only part of them
+        show the files that the user currently have on the screen
+        """
         self.DestroyChildren()
         bSizer = wx.BoxSizer(wx.HORIZONTAL)
         dSizer = wx.BoxSizer(wx.VERTICAL)
@@ -72,7 +65,6 @@ class FilePanel(wx.lib.scrolledpanel.ScrolledPanel):
             file_show = [x for x in self.parent.files if search in x]
         else:
             file_show = self.parent.files
-        print "files show: " + str(file_show)
         font = wx.Font(10, wx.MODERN, wx.NORMAL, wx.BOLD)
         ind = 0
         for file_name in file_show:
@@ -96,13 +88,14 @@ class FilePanel(wx.lib.scrolledpanel.ScrolledPanel):
                                      size=(self.PIC_SIZE, 20),
                                      label=file_name)
             text.SetFont(font)
-
-            cSizer.Add(button_file, 0, wx.ALL, self.PIC_SIZE/9)
+            # add icon to row
+            cSizer.Add(button_file, 0, wx.ALL, self.PIC_SIZE / 9)
             cSizer.Add(text, 0, wx.CENTER, 10)
             bSizer.Add(cSizer, 0, wx.CENTER, 0)
             ind += 1
 
             if ind == 8:
+                # go one row down
                 dSizer.Add(bSizer, 0, wx.CENTER, 0)
                 ind = 0
                 bSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -116,6 +109,10 @@ class FilePanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.SetupScrolling()
 
     def get_icon(self, ending):
+        """
+        :param ending: file ending
+        :return: the correct icon
+        """
         if ending == ".docx" or ending == ".doc":
             return self.word_bmp
         elif ending == ".xlsx" or ending == ".xls" or ending == ".pub":
@@ -134,6 +131,10 @@ class FilePanel(wx.lib.scrolledpanel.ScrolledPanel):
             return self.mp3_bmp
 
     def OnButton_Press(self, event):
+        """
+        :param event: the event of the press
+        open the menu after pressing on one of the icons
+        """
         btn = event.GetEventObject()
         pos = btn.GetPosition()
         menu = MyPopupMenu(btn.GetLabelText(), self)

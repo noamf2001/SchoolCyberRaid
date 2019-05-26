@@ -3,15 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6db5d218-9187-4a7b-ba13-2f90a3e659ff" name="Default" comment="fix all disconnect data server">
       <change beforePath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidClient/ClientMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/ClientMain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidClient/Client_MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/Client_MainServer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RaidClient/MainPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidClient/MainPanel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../RaidDataServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RaidDataServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainServer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_server_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_server_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instruction_panel.py" beforeDir="false" afterPath="$PROJECT_DIR$/instruction_panel.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,7 +33,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MainServer.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="85">
@@ -50,10 +42,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/instruction_panel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
+            <state relative-caret-position="323">
               <caret line="19" column="105" selection-start-line="19" selection-start-column="105" selection-end-line="19" selection-end-column="105" />
             </state>
           </provider>
@@ -418,7 +410,7 @@
       <workItem from="1558127209506" duration="1237000" />
       <workItem from="1558170189755" duration="5402000" />
       <workItem from="1558690533668" duration="9074000" />
-      <workItem from="1558776319908" duration="2620000" />
+      <workItem from="1558776319908" duration="3202000" />
     </task>
     <task id="LOCAL-00001" summary="sign in">
       <created>1555866971564</created>
@@ -557,7 +549,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="208126000" />
+    <option name="totallyTimeSpent" value="208708000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -568,7 +560,7 @@
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32983023" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3280142" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4995958" visible="true" weight="0.35638297" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4995958" weight="0.35638297" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39893618" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -915,13 +907,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MainServer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data_server_page.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -955,8 +940,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/instruction_panel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
+        <state relative-caret-position="323">
           <caret line="19" column="105" selection-start-line="19" selection-start-column="105" selection-end-line="19" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MainServer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
     </entry>

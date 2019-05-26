@@ -43,57 +43,63 @@ class ClientMain:
     def check_legal_password(self, password):
         """
         :param password: the optional password vreated by the user
-        :return:
+        :return: if the password is legal
         """
         return len(password) >= 4
 
     def sign_up(self, username, password):
-        print "sign_up client main"
+        """
+        :param username: the username
+        :param password: the password
+        if the username/password is not legal - put it the result queue
+        """
         self.username = username
         if not self.check_legal_username(username) or not self.check_legal_password(password):
-            print "not legal"
-            return False
+            self.command_result.put([1,[False]])
         self.client_command.put([1, [username, password]])
 
     def sign_in(self, username, password):
-        print "sign_in ClientMain: " + username + "  :  " + password
+        """
+        :param username:
+        :param password:
+        """
         self.username = username
         self.client_command.put([2, [username, password]])
 
     def upload_file(self, file_path):
-        file_name = self.username + "$" + file_path[file_path.rfind("\\") + 1:]
+        """
+        :param file_path: the path of the file to send
+        """
+        file_name = self.username + "$" + file_path[file_path.rfind("\\") + 1:]  # build the file name to send
         self.client_command.put([3, [file_name, file_path]])
 
     def get_file(self, file_name):
-        file_name = self.username + "$" + file_name
+        """
+        :param file_name: the file name to get
+        """
+        file_name = self.username + "$" + file_name  # build the file name as specified
         self.client_command.put([4, [file_name]])
 
     def delete_file(self, file_name):
-        file_name = self.username + "$" + file_name
+        """
+        :param file_name: the file name to delete
+        """
+        file_name = self.username + "$" + file_name  # build the file name as specified
         self.client_command.put([5, [file_name]])
 
     def get_file_list(self):
+        """
+        just send to the server the request
+        """
         self.client_command.put([6, []])
 
     def main_recv(self):
         while True:
+            # if there is a result from server
             if not self.command_result.empty():
                 result = self.command_result.get()
                 msg_type = result[0]
                 msg_parameters = result[1]
-                print "got msg: " + str(msg_type) + "\t\t"+str(msg_parameters)
+                # call the GUI to show the result
                 self.action_call_after_show[msg_type](msg_parameters)
 
-
-if __name__ == '__main__':
-    a = ClientMain()
-    print a.sign_up("noam6", "hinoam")
-    # print a.upload_file(r"C:\Users\User\Documents\file get\file_noam.txt")
-    # print a.get_file_list()
-    print "finish"
-    print a.upload_file(r"C:\Users\Sharon\Documents\temp\file_try.txt")
-    # print a.get_file(r"hahaha.txt")
-    # print a.delete_file(r"hahaha.txt")
-    print "finish second"
-    while not a.client_communication.FAIL:
-        pass

@@ -30,15 +30,25 @@ class Client_MainServer_Protocol():
             6: self.build_6_get_file_list}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_RSA_public_key(self):
+        """
+        :return: return the public rsa as key
+        """
         return self.RSA_key.publickey().exportKey()
 
     def create_AES_key(self, password):
+        """
+        :param password: the AES key
+        create AES class base on that key
+        """
         self.AES_cipher = AESCipher(password)
 
     def recv_msg(self, first=False):
+        """
+        :param first: check if it is the first msg -> if it is encrypted, and how
+        :return: (msg type, msg parameters - [], if the connection fails - boolean)
+        """
         connection_fail = False
         # recv the msg length
-        msg_len = ""
         try:
             msg_len = self.my_socket.recv(1)
         except:
@@ -49,16 +59,18 @@ class Client_MainServer_Protocol():
             except:
                 return -1, [], True
         msg_len = int(msg_len[:-1])
-        msg = ""
         try:
             msg = self.my_socket.recv(msg_len)
         except:
             return -1, [], True
-
         msg_type, msg_parameters = self.disassemble(msg, first)
         return msg_type, msg_parameters, connection_fail
 
     def send_msg(self, msg):
+        """
+        :param msg: the raw msg to send
+        :return: if the sending is a success
+        """
         connection_fail = False
         try:
             self.my_socket.send(msg)
@@ -102,7 +114,6 @@ class Client_MainServer_Protocol():
         :param msg: the msg parameters - boolean: 0 - False, 1 - True
         :return: msg parameters - in array []
         """
-        print "dissassemble sign up"
         return [bool(int(msg))]
 
     def disassemble_2_sign_in(self, msg):
@@ -135,7 +146,6 @@ class Client_MainServer_Protocol():
         :param msg: the msg parameters - file part name and data
         :return: msg parameters - in array [file_name,file part path (after creating)]
         """
-        print "disassemble 4 get file???!!!!"
         name_len = int(msg[:msg.find("$")])
         name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
         msg = msg[msg.find("$") + 1 + name_len:]
@@ -143,7 +153,6 @@ class Client_MainServer_Protocol():
         if data_len != 0:
             data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
             file_path = self.saving_path + "\\" + name
-            print "save in file part path: " + file_path
             with open(file_path, "wb") as f:
                 f.write(data)
         else:
@@ -157,7 +166,6 @@ class Client_MainServer_Protocol():
         :param msg: the msg parameters all the files
         :return: msg parameters - in array [file 1 name,....,]
         """
-        print "disassemble_6_get_file_list: " + msg
         current_index = 0
         result_file = []
 
@@ -174,7 +182,6 @@ class Client_MainServer_Protocol():
         :param msg_parameter: array of the parameters
         :return: a string that will be send by the socket to the client
         """
-        print "build the msg with msg type: " + str(msg_type)
         msg = str(msg_type) + "$" + self.msg_type_build[msg_type](msg_parameter)
         if msg_type != 0:
             encrypted_msg = self.AES_cipher.encrypt(msg)
@@ -203,7 +210,6 @@ class Client_MainServer_Protocol():
         :param msg_parameters: [username, password (after hash)]
         :return: the msg to send
         """
-        print "build_1_sign_up"
         hash_password = self.hash_password(msg_parameters[1])
         msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(hash_password)) + "$" + \
               hash_password
@@ -214,10 +220,8 @@ class Client_MainServer_Protocol():
         :param msg_parameters: [username, password (after hash)]
         :return: the msg to send
         """
-        print "start build_2_sign_in: " + str(msg_parameters)
         hash_password = self.hash_password(msg_parameters[1])
         msg = str(len(msg_parameters[0])) + "$" + msg_parameters[0] + str(len(hash_password)) + "$" + hash_password
-        print "build_2_sign_in: " + msg
         return msg
 
     def compress_file(self, file_name, file_path):
@@ -264,9 +268,3 @@ class Client_MainServer_Protocol():
         """
         return ""
 
-
-if __name__ == '__main__':
-    a = Client_MainServer_Protocol("sock")
-    b = a.build(0, ["noamfluss"])
-    print b
-    print a.disassemble(b[b.find("$") + 1:])

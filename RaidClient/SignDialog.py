@@ -7,10 +7,8 @@ class SignDialog(wx.Dialog):
     Class to define login dialog
     """
 
-    # ----------------------------------------------------------------------
     def __init__(self, parent):
         """Constructor"""
-        # pub.subscribe(self.myListener, "result")
         screenSize = wx.DisplaySize()
         self.screenWidth = screenSize[0] * 0.6
         self.screenHeight = (screenSize[1]) * 0.6
@@ -66,8 +64,6 @@ class SignDialog(wx.Dialog):
         self.SetSizer(main_sizer)
         self.sign_result = ""
 
-    # ----------------------------------------------------------------------
-
     def onSignIn(self, event):
         """
         Check credentials and login
@@ -82,17 +78,18 @@ class SignDialog(wx.Dialog):
         """
         password = self.password_ctrl.GetValue()
         username = self.username_ctrl.GetValue()
-        print "sign up:"
-        print "username: " + username
-        print "password: " + password
         if not self.client.check_legal_username(username):
             self.show_message("username is not legal", (100, 200))
         elif not self.client.check_legal_password(password):
             self.show_message("password is not legal", (100, 200))
         self.client.sign_up(username, password)
 
-
     def show_message(self, message, pos):
+        """
+        show message to user after finish press
+        :param message: the message to show the user - the result of the try to sign
+        :param pos
+        """
         if self.sign_result != "":
             self.sign_result.Destroy()
         font = wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
@@ -100,7 +97,5 @@ class SignDialog(wx.Dialog):
         self.sign_result.SetForegroundColour(wx.BLACK)
         self.sign_result.SetFont(font)
 
-
     def _when_closed(self, event):
-        print "_when_closed"
         sys.exit()
