@@ -8,6 +8,12 @@ INSTRUCTION_TEXT = "this is the server GUI for admin\n" \
 
 class InstructionPanel(wx.Panel):
     def __init__(self, parent, screenWidth, screenHeight):
+        """
+        constructor of instruction panel
+        :param parent:
+        :param screenWidth:
+        :param screenHeight:
+        """
         wx.Panel.__init__(self,  parent)
         self.SetBackgroundColour(wx.Colour(117, 194, 229, 255))
         wx.StaticText(

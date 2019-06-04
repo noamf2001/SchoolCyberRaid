@@ -61,7 +61,6 @@ class MainServer_Client():
                 if current_socket is self.server_socket:
                     (new_socket, address) = self.server_socket.accept()
                     self.open_client_sockets.append(new_socket)
-                    print "client socket: " + str(new_socket) + "  with address: " + str(address[0])
                 else:
                     if current_socket not in self.sent_AES_key:
                         self.sent_AES_key.add(current_socket)

@@ -13,7 +13,7 @@ pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * \
 unpad = lambda s: s[:-ord(s[len(s) - 1:])]
 
 
-class AESCipher():
+class AESCipher:
     """
     Usage:
         c = AESCipher('password').encrypt('message')

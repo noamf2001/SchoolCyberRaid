@@ -118,7 +118,6 @@ class MainServer_Client_Protocol():
         :param msg: the msg parameters
         :return: the msg parameters in array [username, password]
         """
-        print "disassemble_2_sign_in: " + str(self.disassemble_username_password(msg))
         return self.disassemble_username_password(msg)
 
     def disassemble_3_upload_file(self, msg):
@@ -126,15 +125,12 @@ class MainServer_Client_Protocol():
         :param msg: the msg parameters
         :return: msg parameters - in array [path]
         """
-        print "disassemble_3_upload_file"
         name_len = int(msg[:msg.find("$")])
         name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
         msg = msg[msg.find("$") + 1 + name_len:]
         data_len = int(msg[:msg.find("$")])
         data = msg[msg.find("$") + 1: msg.find("$") + 1 + data_len]
         file_part_path = self.saving_path + "\\" + name
-        print "files part path:" + file_part_path
-        print data_len
         # while os.path.isfile(file_part_path):
         #    file_part_path = file_part_path[:file_part_path.rfind(".")] + str(random.randint(0, 100)) + file_part_path[
         #                                                                                                file_part_path.rfind("."):]
@@ -242,9 +238,3 @@ class MainServer_Client_Protocol():
             msg += str(len(file_name)) + "$" + file_name
         return msg
 
-
-if __name__ == '__main__':
-    a = MainServer_Client_Protocol()
-    b = a.build(0, ["noamfluss"])
-    print b
-    print a.disassemble(b[b.find("$") + 1:])

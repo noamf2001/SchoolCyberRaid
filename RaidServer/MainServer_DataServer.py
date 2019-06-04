@@ -8,15 +8,14 @@ PORT = 1345
 
 
 class MainServer_DataServer():
-    def __init__(self, data_server_command, command_result_data_server, valid_data_server, optional_data_server,
+    def __init__(self, data_server_command, command_result_data_server, connected_data_server, optional_data_server,
                  saving_path, port=PORT):
         """
         :param data_server_command: empty queue: server -> data server
         :param command_result_data_server: empty queue: data server -> client
         """
-        print "start main data server"
         self.stop_thread = False
-        self.valid_data_server = valid_data_server
+        self.connected_data_server = connected_data_server
         self.optional_data_server = optional_data_server
         self.server_socket = socket.socket()
         self.server_socket.bind(('0.0.0.0', port))
@@ -66,19 +65,16 @@ class MainServer_DataServer():
                 self.main_server_data_server_protocol.build(msg_info[1][0], msg_info[1][1]))
 
     def main(self, get_file=False):
-        print "start main data server"
         while not self.stop_thread:
             rlist, wlist, xlist = select.select([self.server_socket] + self.open_data_server_sockets,
                                                 self.open_data_server_sockets, [])
             for current_socket in rlist:
                 if current_socket is self.server_socket:
                     (new_socket, address) = self.server_socket.accept()
-                    print "trying to connect: " + str(address)
                     if address[0] in self.optional_data_server.keys():
-                        print "socket: " + str(new_socket) + "  with: " + str(address[0]) + "  mac:  " + str(self.optional_data_server[address[0]])
                         self.open_data_server_sockets.append(new_socket)
                         if not get_file:
-                            self.valid_data_server[self.optional_data_server[address[0]]] = new_socket
+                            self.connected_data_server[self.optional_data_server[address[0]]] = new_socket
                             self.command_result_data_server.put([new_socket, [1, []]])
                         self.msg_to_send[new_socket] = []
                     else:

@@ -2,19 +2,29 @@ from files_panel import FilesPanel
 import wx
 import wx.lib.dialogs
 
-class FilesPage():
+
+class FilesPage:
     def __init__(self, parent, nb, files, users_files):
+        """
+        constructor
+        :param parent:
+        :param nb: notebook
+        :param files: the files that the server is currently saving
+        :param users_files: dict of the user: files
+        """
         self.parent = parent
         self.users_files = users_files
         self.files = files
         self.PIC_SIZE = self.parent.screenWidth / 9.5
         self.files_panel = FilesPanel(nb, self.set_ending_bmp, self.get_icon,
-                                      self.parent.screenWidth, self.parent.screenHeight, False, self.OnButton_Press,self.files)
+                                      self.parent.screenWidth, self.parent.screenHeight, False, self.OnButton_Press,
+                                      self.files)
         self.files_panel.show_files()
 
-
-
     def set_ending_bmp(self):
+        """
+        set the icon to different files types - knowby ending
+        """
         self.word_bmp = wx.Bitmap(self.parent.currentDirectory + "\\word.jpg")
         self.word_bmp = self.parent.scale_bitmap(self.word_bmp, self.PIC_SIZE, self.PIC_SIZE)
 
@@ -40,6 +50,10 @@ class FilesPage():
         self.qm_bmp = self.parent.scale_bitmap(self.qm_bmp, self.PIC_SIZE, self.PIC_SIZE)
 
     def get_icon(self, ending):
+        """
+        :param ending: ending of current file
+        :return: the correct icon
+        """
         if ending == ".docx" or ending == ".doc":
             return self.word_bmp
         elif ending == ".xlsx" or ending == ".xls" or ending == ".pub":
@@ -58,10 +72,14 @@ class FilesPage():
             return self.qm_bmp
 
     def OnButton_Press(self, event):
-        print "press files"
+        """
+        :param event: event of press
+        open the info about this file in a dialog msg
+        """
         btn = event.GetEventObject()
         file_name = btn.GetLabelText()
-        dlg = wx.MessageDialog(self.files_panel, "the user that have this file is: " + self.users_files[file_name], "file: " + file_name,wx.OK | wx.ICON_INFORMATION
-                                                   )
+        dlg = wx.MessageDialog(self.files_panel, "the user that have this file is: " + self.users_files[file_name],
+                               "file: " + file_name, wx.OK | wx.ICON_INFORMATION
+                               )
         dlg.ShowModal()
         dlg.Destroy()

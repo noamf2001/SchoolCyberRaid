@@ -5,7 +5,6 @@ import os
 
 class SQL_connection():
     def __init__(self, file_name):
-        print "create"
         sqlite_file = file_name
         self.conn = sqlite3.connect(sqlite_file)
         self.conn.create_function("REGEXP", 2, self.regexp)
@@ -56,12 +55,10 @@ class SQL_connection():
         :param filename:
         :return: (parts num, file len) if exists, otherwise: None
         """
-        print "get user file info: " + username + " file name: " + filename
         self.c.execute(
             'SELECT PARTS_NUM,FILE_LEN FROM ' + self.user_files_table + ' WHERE USERNAME = (?) AND FILENAME = (?)',
             (username, filename,))
         result = self.c.fetchone()
-        print "and the result is: " + str(result)
         return result
 
     def get_user_file_list(self, username):
@@ -78,18 +75,14 @@ class SQL_connection():
         self.conn.commit()
 
     def add_data_server_file_part(self, mac_address, file_part_name):
-        print "add_data_server_file_part: " + mac_address + "  :  " + file_part_name
         self.c.execute('INSERT INTO ' + self.data_server_files_table + ' VALUES (?,?)', (mac_address, file_part_name))
         self.conn.commit()
 
     def regexp(self, expr, item):
         reg = re.compile(expr)
-        print "item: " + item
-        print reg.search(item) is not None
         return reg.search(item) is not None
 
     def delete_user_file(self, username, filename):
-        print "delete: " + username + "  :  " + filename
         filename = filename[filename.rfind("$") + 1:]
         self.c.execute('DELETE FROM ' + self.user_files_table + ' WHERE USERNAME = (?) AND FILENAME = (?)',
                        (username, filename))
@@ -99,7 +92,6 @@ class SQL_connection():
         self.c.execute('DELETE FROM ' + self.data_server_files_table + ' WHERE FILE_PART_NAME REGEXP ?', [reg])
 
         self.conn.commit()
-        print "result: " + str(self.get_user_file_list(username))
 
     def delete_data_server(self, mac_address):
         self.c.execute('DELETE FROM ' + self.data_server_table + ' WHERE MAC = (?)', (mac_address,))
@@ -115,10 +107,8 @@ class SQL_connection():
         self.conn.close()
 
     def get_data_server_files(self, data_server_mac):
-        print "in sql connection"
         self.c.execute('SELECT * FROM ' + self.data_server_files_table + ' WHERE MAC = (?)', (data_server_mac,))
         result = self.c.fetchall()
-        print result
         return result
 
 

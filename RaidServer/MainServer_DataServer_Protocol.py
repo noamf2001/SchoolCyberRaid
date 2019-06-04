@@ -131,7 +131,6 @@ class MainServer_DataServer_Protocol():
         with open(msg_parameters[0], "rb") as f:
             file_data = f.read()
         os.remove(msg_parameters[0])
-        print "remove file: " + msg_parameters[0]
         msg = str(len(name)) + "$" + name + str(len(file_data)) + "$" + file_data
         return msg
 
@@ -152,8 +151,3 @@ class MainServer_DataServer_Protocol():
         return msg
 
 
-if __name__ == '__main__':
-    a = MainServer_DataServer_Protocol()
-    b = a.build(0, ["noamfluss"])
-    print b
-    print a.disassemble(b[b.find("$") + 1:])

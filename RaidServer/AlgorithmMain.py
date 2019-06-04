@@ -9,6 +9,11 @@ PART_FILE_LENGTH = 10
 
 
 def create_parity_file_part_path(file_path1, file_path2):
+    """
+    :param file_path1: the path of one of the file parts
+    :param file_path2: the path of one of the file parts
+    :return:
+    """
     end_of_filename1, [file_part1_index1, file_part1_index2] = get_file_info(file_path1)
     end_of_filename2, [file_part2_index1, file_part2_index2] = get_file_info(file_path2)
     parity_file_path = file_path1[:end_of_filename1 + 1] + str(min(file_part1_index1, file_part2_index1)) + "_" + str(
@@ -106,8 +111,3 @@ def get_file_info(file_path):
     file_part_index2 = int(file_path[file_path.find("_", end_of_filename + 1) + 1: file_path.rfind(".")])
     return end_of_filename, [file_part_index1, file_part_index2]
 
-
-if __name__ == '__main__':
-    split_file(r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename.txt")
-    create_parity_file_part(r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename_2_-1.txt",
-                            r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename_1_-1.txt")

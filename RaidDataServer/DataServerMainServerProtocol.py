@@ -3,8 +3,13 @@ from Crypto import Random
 from AESCipher import AESCipher
 
 
-class DataServer_MainServer_Protocol():
+class DataServerMainServerProtocol:
     def __init__(self, my_socket, saving_path):
+        """
+        constructor
+        :param my_socket: the socket that connects with server
+        :param saving_path: the path to save file parts
+        """
         self.saving_path = saving_path
         random_generator = Random.new().read
         self.RSA_key = RSA.generate(1024, random_generator)  # generate pub and priv key
@@ -20,15 +25,25 @@ class DataServer_MainServer_Protocol():
             4: self.build_4_get_file}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_RSA_public_key(self):
+        """
+        :return: return the public rsa as key
+        """
         return self.RSA_key.publickey().exportKey()
 
     def create_AES_key(self, password):
+        """
+        :param password: the AES key
+        create AES class base on that key
+        """
         self.AES_cipher = AESCipher(password)
 
     def recv_msg(self, first=False):
+        """
+        :param first: check if it is the first msg -> if it is encrypted, and how
+        :return: (msg type, msg parameters - [], if the connection fails - boolean)
+        """
         connection_fail = False
         # recv the msg length
-        msg_len = ""
         try:
             msg_len = self.my_socket.recv(1)
         except:
@@ -49,6 +64,10 @@ class DataServer_MainServer_Protocol():
         return msg_type, msg_parameters, connection_fail
 
     def send_msg(self, msg):
+        """
+        :param msg: the raw msg to send
+        :return: if the sending is a success
+        """
         connection_fail = False
         try:
             self.my_socket.send(msg)
@@ -158,9 +177,3 @@ class DataServer_MainServer_Protocol():
         msg = str(len(file_name)) + "$" + file_name + str(len(file_data)) + "$" + file_data
         return msg
 
-
-if __name__ == '__main__':
-    a = DataServer_MainServer_Protocol("sock")
-    b = a.build(0, ["noamfluss"])
-    print b
-    print a.disassemble(b[b.find("$") + 1:])

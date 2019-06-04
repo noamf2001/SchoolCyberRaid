@@ -13,5 +13,4 @@ class SearchControl(wx.SearchCtrl):
         self.Show()
 
     def SearchHandler(self, event):
-        #self.parent.parent.file_panel.DestroyChildren()
         self.parent.parent.file_panel.show_files(event.GetString())

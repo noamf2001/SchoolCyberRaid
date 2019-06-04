@@ -15,8 +15,17 @@ namg_2_4
 """
 
 
-class AlgorithmRetrieve():
-    def __init__(self, port, num_of_parts, file_len, valid_data_server, optional_data_server, saving_path):
+class AlgorithmRetrieve:
+    def __init__(self, port, num_of_parts, file_len, connected_data_server, optional_data_server, saving_path):
+        """
+        constructor
+        :param port: port to create the socket to recv parts
+        :param num_of_parts: num of parts of the file expected - not parity parts
+        :param file_len: the total file length
+        :param connected_data_server:  mac address : data server socket
+        :param optional_data_server:ip : mac address of all the legal ones - the ones that are in this lan network/admin add
+        :param saving_path: the path to save the parts - only temp
+        """
         self.stop_thread = False
         self.file_len = file_len
         self.open_client_sockets = []
@@ -24,12 +33,13 @@ class AlgorithmRetrieve():
         self.parity_parts = [set() for i in range(
             num_of_parts)]  # [set(xor parts that have connection to this part) for part i, 1<=i<= num_of_parts]
 
-        self.valid_data_server = valid_data_server
+        self.connected_data_server = connected_data_server
         # self.optional_data_server = optional_data_server
         self.data_server_command = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
         self.command_result_data_server = Queue.Queue()  # queue: [current_socket, [msg_type, msg_parameters]]
         self.data_server_communication = MainServer_DataServer(self.data_server_command,
-                                                               self.command_result_data_server, self.valid_data_server,
+                                                               self.command_result_data_server,
+                                                               self.connected_data_server,
                                                                optional_data_server,
                                                                saving_path, port)
         self.data_server_communication_thread_id = thread.start_new_thread(self.data_server_communication.main, (True,))
@@ -92,6 +102,10 @@ class AlgorithmRetrieve():
                 self.parity_parts[file_part_index2].add(file_path)
 
     def is_finish(self):
+        """
+        check if all the parts was created/recv
+        :return: boolean
+        """
         for part in self.part_file:
             if part == "":
                 return False
@@ -122,9 +136,16 @@ class AlgorithmRetrieve():
         return file_path
 
     def disconnect_data_server(self, current_socket):
+        """
+        stop the thread
+        :param current_socket: not needed
+        """
         self.data_server_communication.stop_thread = True
 
     def main(self):
+        """
+        the main loop that handle getting new files
+        """
         while not self.stop_thread:
             if not self.command_result_data_server.empty():
                 result_data_server = self.command_result_data_server.get()
@@ -132,17 +153,3 @@ class AlgorithmRetrieve():
                     self.disconnect_data_server(result_data_server[0])
                 else:
                     self.add_file_path(result_data_server[1][1][0])
-
-
-if __name__ == '__main__':
-    a = AlgorithmRetrieve(3, 3, 300)
-    a.add_file_path(r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename_1_2.txt")
-    print a.part_file
-    print a.parity_parts
-    a.add_file_path(r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename_0_1.txt")
-    print a.part_file
-    print a.parity_parts
-    a.add_file_path(r"C:\Users\Sharon\Documents\school\cyber\Project\try\somename_1_-1.txt")
-    print a.part_file
-    print a.parity_parts
-    a.connect_file()

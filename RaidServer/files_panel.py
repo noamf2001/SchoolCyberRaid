@@ -6,20 +6,25 @@ import wx.lib.agw.genericmessagedialog as GMD
 import wx.lib.scrolledpanel
 
 
-def find_loc(pos):
-    if pos % 4 == 0:
-        return 4
-    elif pos % 3 == 0:
-        return 3
-    elif pos % 2 == 0:
-        return 2
-    return 1
-
 
 class FilesPanel(wx.lib.scrolledpanel.ScrolledPanel):
 
-    def __init__(self, parent, set_ending_bmp, get_icon, screenWidth, screenHeight, is_data_server, OnButton_Press,
+    def __init__(self, parent, set_ending_bmp, get_icon, screenWidth, screenHeight, is_data_server,
+                 OnButton_Press,
                  files, pos_h=0, right_click_press=None):
+        """
+        constructor
+        :param parent
+        :param set_ending_bmp: function to build icon
+        :param get_icon:function to determine the icon per fi.e
+        :param screenWidth:
+        :param screenHeight:
+        :param is_data_server: if data server - there is no ending
+        :param OnButton_Press: what to do if there is a press
+        :param files: list of the files to show
+        :param pos_h:start of the panel = default is 0
+        :param right_click_press: what to do if there is a right click - call this function - default None
+        """
         self.files = files
         self.screenWidth = screenWidth
         self.screenHeight = screenHeight
@@ -41,8 +46,11 @@ class FilesPanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.right_click_press = right_click_press
         self.Bind(wx.EVT_CONTEXT_MENU, self.right_click_press)
 
-
     def show_files(self, search=None):
+        """
+        :param search: if want to show only part of them
+        show the files that the user currently have on the screen
+        """
         self.DestroyChildren()
         bSizer = wx.BoxSizer(wx.HORIZONTAL)
         dSizer = wx.BoxSizer(wx.VERTICAL)

@@ -1,10 +1,9 @@
 import socket
 import select
-from DataServer_MainServer_Protocol import DataServer_MainServer_Protocol
-import Queue
+from DataServerMainServerProtocol import DataServerMainServerProtocol
 
 
-class DataServer_MainServer():
+class DataServerMainServer:
     def __init__(self, data_server_command, command_result, saving_path, SERVER_IP, PORT):
         """
         :param data_server_command: empty queue
@@ -12,12 +11,9 @@ class DataServer_MainServer():
         """
         self.my_socket = socket.socket()
         self.port = PORT
-
-        print "try to connect" + str((SERVER_IP, PORT))
         self.my_socket.connect((SERVER_IP, PORT))
-        print "connected with port: " + str(PORT)
         self.FAIL = False
-        self.data_server_main_server_protocol = DataServer_MainServer_Protocol(self.my_socket, saving_path)
+        self.data_server_main_server_protocol = DataServerMainServerProtocol(self.my_socket, saving_path)
         self.data_server_command = data_server_command  # queue: [msg_type, msg_parameters]
         self.command_result = command_result  # queue: [msg_type, msg_parameters]
         self.command_result.put([0, [self.data_server_main_server_protocol.export_RSA_public_key()]])
@@ -30,7 +26,6 @@ class DataServer_MainServer():
             else:
                 msg_type, msg_parameters, connection_fail = self.data_server_main_server_protocol.recv_msg()
             if connection_fail:
-                print "connection fail"
                 self.FAIL = True
             else:
                 if self.data_server_main_server_protocol.AES_cipher is None:
@@ -45,21 +40,18 @@ class DataServer_MainServer():
                 if not self.send_first_msg:
                     self.send_first_msg = True
                 msg_info = self.command_result.get()
-                print "send in port: " + str(self.port) + "  as msg info: " + str(msg_info)
                 msg_build = self.data_server_main_server_protocol.build(msg_info[0], msg_info[1])
                 connection_fail = self.data_server_main_server_protocol.send_msg(msg_build)
                 if connection_fail:
                     self.FAIL = True
 
     def main(self):
+        """
+        the main loop that recv and send msg
+        """
         while not self.FAIL:
             rlist, wlist, xlist = select.select([self.my_socket], [self.my_socket], [])
             self.recv_msg(rlist)
             self.send_waiting_messages(wlist)
+        self.data_server_command.put([-1,[]])
 
-
-if __name__ == '__main__':
-    data_server_command = Queue.Queue()
-    command_result = Queue.Queue()
-    a = DataServer_MainServer(data_server_command, command_result, "C")
-    a.main()
