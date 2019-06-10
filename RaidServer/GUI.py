@@ -37,7 +37,7 @@ class GUI(wx.Frame):
                                   5: self.delete_file_call_after}
         self.app = app
         self.db_name = "db.sqlite"
-        os.remove(self.db_name)
+        #os.remove(self.db_name)
         self.main_server = MainServer(self.db_name, action_call_after_show,
                                       saving_path=r"C:\Users\Sharon\Documents\save_server")
         thread.start_new_thread(self.main_server.main, ())

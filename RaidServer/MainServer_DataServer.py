@@ -7,7 +7,7 @@ from binascii import hexlify
 PORT = 1345
 
 
-class MainServer_DataServer():
+class MainServer_DataServer:
     def __init__(self, data_server_command, command_result_data_server, connected_data_server, optional_data_server,
                  saving_path, port=PORT):
         """
@@ -27,15 +27,20 @@ class MainServer_DataServer():
         self.data_server_command = data_server_command  # queue: [socket, [msg_type, msg_parameters]]
         self.command_result_data_server = command_result_data_server  # queue: [socket, [msg_type, msg_parameters]]
 
-
     def disconnect(self, current_socket):
+        """
+        if data server was disconenct
+        :param current_socket:
+        """
         self.open_data_server_sockets.remove(current_socket)
         if current_socket in self.msg_to_send.keys():
             del self.msg_to_send[current_socket]
         self.command_result_data_server.put([current_socket, [-1, []]])
 
-
     def recv_msg(self, current_socket, first=False):
+        """
+        :param rlist: all the sockets that can recv a msg - the only option is the data server ocket
+        """
         msg_type, msg_parameters, connection_fail = self.main_server_data_server_protocol.recv_msg(current_socket,
                                                                                                    first)
         if connection_fail:
@@ -43,12 +48,22 @@ class MainServer_DataServer():
         return msg_type, msg_parameters, connection_fail
 
     def send_msg(self, current_socket, msg):
+        """
+        send a specific msg to the socket
+        :param current_socket: the socket to send to
+        :param msg: the raw msg t send
+        :return: boolean if the conenction fails
+        """
         connection_fail = self.main_server_data_server_protocol.send_msg(current_socket, msg)
         if connection_fail:
             self.disconnect(current_socket)
         return connection_fail
 
     def send_waiting_messages(self, wlist):
+        """
+        send the msg needed
+        :param wlist: all the socket that can send a msg
+        """
         for current_socket in wlist:
             if current_socket in self.msg_to_send.keys() and len(
                     self.msg_to_send[current_socket]) > 0 and current_socket in self.sent_AES_key:
@@ -59,12 +74,19 @@ class MainServer_DataServer():
                 self.msg_to_send[current_socket] = self.msg_to_send[current_socket][1:]
 
     def get_msg_to_send(self):
+        """
+        get from queue msg, and build it, and put it in dict
+        """
         while not self.data_server_command.empty():
             msg_info = self.data_server_command.get()
             self.msg_to_send[msg_info[0]].append(
                 self.main_server_data_server_protocol.build(msg_info[1][0], msg_info[1][1]))
 
     def main(self, get_file=False):
+        """
+        main loop to get msg from data server
+        :param get_file: if this is to gather file parts
+        """
         while not self.stop_thread:
             rlist, wlist, xlist = select.select([self.server_socket] + self.open_data_server_sockets,
                                                 self.open_data_server_sockets, [])
@@ -95,9 +117,3 @@ class MainServer_DataServer():
             self.get_msg_to_send()
             self.send_waiting_messages(wlist)
         self.server_socket.close()
-
-if __name__ == '__main__':
-    data_server_command1 = Queue.Queue()
-    command_result1 = Queue.Queue()
-    a = MainServer_DataServer(data_server_command1, command_result1)
-    a.main()

@@ -1,16 +1,16 @@
-from Crypto.Cipher import AES
-import hashlib
 from Crypto.PublicKey import RSA
-from Crypto import Random
 from AESCipher import AESCipher
 import string
 import random
 import os
 
 
-
-class MainServer_Client_Protocol():
+class MainServer_Client_Protocol:
     def __init__(self, saving_path):
+        """
+        the constructor
+        :param saving_path: the path to save the temp files
+        """
         self.AES_key = ''.join(random.choice(string.digits + string.letters) for _ in range(32))
         self.saving_path = saving_path
         self.AES_cipher = AESCipher(self.AES_key)
@@ -31,12 +31,26 @@ class MainServer_Client_Protocol():
             6: self.build_6_get_file_list}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_AES_key(self):
+        """
+        create from the AES key the string to send to cluent
+        :return:
+        """
         return self.AES_key
 
     def create_RSA_public_key(self, key):
+        """
+        create from the RSA string the RSA instance to encode msg
+        :param key:
+        :return:
+        """
         return RSA.importKey(key)
 
     def recv_msg(self, current_socket, first):
+        """
+        :param current_socket: the socket to recv from
+        :param first: check if it is the first msg -> if it is encrypted, and how
+        :return: (msg type, msg parameters - [], if the connection fails - boolean)
+        """
         # recv the msg length
         try:
             msg_len = current_socket.recv(1)
@@ -56,6 +70,10 @@ class MainServer_Client_Protocol():
         return msg_type, msg_parameters, False
 
     def send_msg(self, current_socket, msg):
+        """
+        :param msg: the raw msg to send
+        :return: if the sending is a success
+        """
         connection_fail = False
         try:
             current_socket.send(msg)
@@ -79,7 +97,6 @@ class MainServer_Client_Protocol():
         :param msg: the raw full msg - string (without the len of the msg) (len > 0) (encrypted)
         :return: msg type - int, msg parameters - array []
         """
-        print "disassemble: " + msg
         if not first:
             msg = self.AES_cipher.decrypt(msg)
         msg_type, msg = self.get_msg_type(msg)
@@ -134,10 +151,10 @@ class MainServer_Client_Protocol():
         # while os.path.isfile(file_part_path):
         #    file_part_path = file_part_path[:file_part_path.rfind(".")] + str(random.randint(0, 100)) + file_part_path[
         #                                                                                                file_part_path.rfind("."):]
-        #if os.path.isfile(file_part_path):
+        # if os.path.isfile(file_part_path):
         #    os.remove(file_part_path)
         if data_len == 0:
-            f = open(file_part_path,"wb")
+            f = open(file_part_path, "wb")
             f.close()
         with open(file_part_path, "wb") as f:
             f.write(data)
@@ -228,7 +245,7 @@ class MainServer_Client_Protocol():
         msg = str(len(file_name)) + "$" + file_name + str(len(file_data)) + "$" + file_data
         return msg
 
-    def build_6_get_file_list(self,msg_parameters):
+    def build_6_get_file_list(self, msg_parameters):
         """
         :param msg_parameters: [file 1 name, file 2 name,...]
         :return: the msg combiend it lie always
@@ -237,4 +254,3 @@ class MainServer_Client_Protocol():
         for file_name in msg_parameters:
             msg += str(len(file_name)) + "$" + file_name
         return msg
-

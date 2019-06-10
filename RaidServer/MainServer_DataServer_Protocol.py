@@ -1,15 +1,16 @@
-from Crypto.Cipher import AES
-import hashlib
 from Crypto.PublicKey import RSA
-from Crypto import Random
 from AESCipher import AESCipher
 import string
 import random
 import os
 
 
-class MainServer_DataServer_Protocol():
+class MainServer_DataServer_Protocol:
     def __init__(self, saving_path):
+        """
+        constructor
+        :param saving_path: to save temp files
+        """
         self.saving_path = saving_path
         self.AES_key = ''.join(random.choice(string.digits + string.letters) for _ in range(32))
         self.AES_cipher = AESCipher(self.AES_key)
@@ -23,12 +24,26 @@ class MainServer_DataServer_Protocol():
             5: self.build_5_delete_file}  # msg type (int) : method that build the msg to send, the msg parameters part
 
     def export_AES_key(self):
+        """
+        :return: AES key as string
+        """
         return self.AES_key
 
     def create_RSA_public_key(self, key):
+        """
+        get RSA key as RSA instance from the key
+        :param key:
+        :return: RSA instance
+        """
         return RSA.importKey(key)
 
     def recv_msg(self, current_socket, first):
+        """
+        recv the msg from socket and decrypt it
+        :param current_socket: the socket to recv from
+        :param first: if it is the first msg-> this is the RSA key
+        :return: [msg type - by protocol, msg parameters - [...], connection fails - boolean]
+        """
         # recv the msg length
         try:
             msg_len = current_socket.recv(1)
@@ -48,6 +63,12 @@ class MainServer_DataServer_Protocol():
         return msg_type, msg_parameters, False
 
     def send_msg(self, current_socket, msg):
+        """
+        send specific msg to specific socket
+        :param current_socket:
+        :param msg:
+        :return: connection fails boolean
+        """
         connection_fail = False
         try:
             current_socket.send(msg)
@@ -149,5 +170,3 @@ class MainServer_DataServer_Protocol():
         """
         msg = msg_parameters[0]
         return msg
-
-

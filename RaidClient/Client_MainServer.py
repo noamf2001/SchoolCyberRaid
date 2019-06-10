@@ -20,15 +20,16 @@ class ClientMainServer:
         self.client_command = client_command  # queue: [msg_type, msg_parameters]
         self.command_result = command_result  # queue: [msg_type, msg_parameters]
         self.client_command.put([0, [self.client_main_server_protocol.export_RSA_public_key()]])
+        self.first_msg = True
 
     def recv_msg(self, rlist):
         """
         :param rlist: all the sockets that can recv a msg - the only option is the client socket
-
         """
         if self.my_socket in rlist:
             # recv msg - check if this is the first msg - there is not AES key
-            msg_type, msg_parameters, connection_fail = self.client_main_server_protocol.recv_msg(self.client_main_server_protocol.AES_cipher is None)
+            msg_type, msg_parameters, connection_fail = self.client_main_server_protocol.recv_msg(
+                self.client_main_server_protocol.AES_cipher is None)
             if connection_fail:
                 self.FAIL = True
             else:
@@ -45,7 +46,10 @@ class ClientMainServer:
         """
         if self.my_socket in wlist:
             # send msg if there is a msg in the command queue and connection and key exchanged was finished
-            if not self.client_command.empty() and self.client_main_server_protocol.AES_cipher is not None:
+            if not self.client_command.empty() and (
+                    self.first_msg or self.client_main_server_protocol.AES_cipher is not None):
+                if self.first_msg:
+                    self.first_msg = False
                 msg_info = self.client_command.get()
                 msg_build = self.client_main_server_protocol.build(msg_info[0], msg_info[1])
                 connection_fail = self.client_main_server_protocol.send_msg(msg_build)
@@ -61,5 +65,4 @@ class ClientMainServer:
             self.recv_msg(rlist)
             self.send_waiting_messages(wlist)
         # disconnect from server
-        self.command_result.put([-1,""])
-
+        self.command_result.put([-1, ""])

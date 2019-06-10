@@ -53,10 +53,12 @@ class ClientMain:
         :param password: the password
         if the username/password is not legal - put it the result queue
         """
+
         self.username = username
         if not self.check_legal_username(username) or not self.check_legal_password(password):
-            self.command_result.put([1,[False]])
-        self.client_command.put([1, [username, password]])
+            self.command_result.put([1, [False]])
+        else:
+            self.client_command.put([1, [username, password]])
 
     def sign_in(self, username, password):
         """
@@ -102,4 +104,3 @@ class ClientMain:
                 msg_parameters = result[1]
                 # call the GUI to show the result
                 self.action_call_after_show[msg_type](msg_parameters)
-

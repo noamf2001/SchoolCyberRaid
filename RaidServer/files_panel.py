@@ -1,10 +1,6 @@
 import wx
-import os
-import sys
 import wx.lib.agw.gradientbutton as GB
-import wx.lib.agw.genericmessagedialog as GMD
 import wx.lib.scrolledpanel
-
 
 
 class FilesPanel(wx.lib.scrolledpanel.ScrolledPanel):
