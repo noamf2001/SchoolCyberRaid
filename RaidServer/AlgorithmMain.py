@@ -42,6 +42,7 @@ def create_parity_file_part(file_path1, file_path2):
         parity_file_data[i] = file_data1[i] ^ file_data2[i]
     with open(parity_file_path, "wb") as parity_file:
         parity_file.write(parity_file_data)
+
     return parity_file_path
 
 
@@ -56,7 +57,8 @@ def create_parity_files(file_path):
     for i in range(len(parts) - 1):
         file_part_path.append(parts[i])
         file_part_path.append(create_parity_file_part(parts[i], parts[i + 1]))
-    file_part_path.append(create_parity_file_part(parts[0], parts[-1]))
+    if len(file_part_path) > 2:
+        file_part_path.append(create_parity_file_part(parts[0], parts[-1]))
     file_part_path.append(parts[len(parts) - 1])
     return len(parts), file_len, file_part_path
 
@@ -110,4 +112,3 @@ def get_file_info(file_path):
     file_part_index1 = int(file_path[end_of_filename + 1: file_path.find("_", end_of_filename + 1)])
     file_part_index2 = int(file_path[file_path.find("_", end_of_filename + 1) + 1: file_path.rfind(".")])
     return end_of_filename, [file_part_index1, file_part_index2]
-

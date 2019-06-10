@@ -169,6 +169,7 @@ class MainServer:
         # GUI
         self.action_call_after_show[3](file_path[file_path.rfind("\\") + 1:])
 
+
     def generate_port(self):
         """
         create a port number in the range: (1000,65535) so it will not be the same as a one that is used by the know

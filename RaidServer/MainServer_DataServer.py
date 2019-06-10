@@ -1,8 +1,6 @@
 import socket
 import select
 from MainServer_DataServer_Protocol import MainServer_DataServer_Protocol
-import Queue
-from binascii import hexlify
 
 PORT = 1345
 

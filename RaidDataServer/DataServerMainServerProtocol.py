@@ -111,7 +111,6 @@ class DataServerMainServerProtocol:
         :param msg: the msg parameters
         :return: msg parameters - in array [file part path]
         """
-        # print "last: " + msg
         name_len = int(msg[:msg.find("$")])
         name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
         msg = msg[msg.find("$") + 1 + name_len:]
@@ -127,7 +126,6 @@ class DataServerMainServerProtocol:
         :param msg: the msg parameters
         :return: msg parameters - in array [file_name, port]
         """
-        print "print disassemble get file: " + msg
         name_len = int(msg[:msg.find("$")])
         name = msg[msg.find("$") + 1: msg.find("$") + 1 + name_len]
         port = int(msg[msg.find("$") + 1 + name_len:])
@@ -138,7 +136,6 @@ class DataServerMainServerProtocol:
         :param msg: the msg parameters - just the name
         :return: msg parameters - in array [file_name]
         """
-        print "print disassemble get file: " + msg
         return [msg]
 
     def build(self, msg_type, msg_parameter):

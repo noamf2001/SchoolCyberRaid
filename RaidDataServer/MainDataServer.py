@@ -115,7 +115,7 @@ class DataServer:
             if not self.data_server_command.empty():
                 command_data_server = self.data_server_command.get()
                 if command_data_server[0] == 4:
-                    thread.start_new_thread(self.get_file, args=command_data_server[1])
+                    thread.start_new_thread(self.get_file, (command_data_server[1],))
                 else:
                     self.data_server_command_def[command_data_server[0]](command_data_server[1])
 
